@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 1: Angles and Angle Measure</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+        .canvas-container {
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        input[type="range"] {
+            accent-color: #3b82f6;
+        }
+        .control-panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .math-font {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+        }
+        .drag-hint {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
     <!-- Navigation Sidebar -->
@@ -28,16 +60,309 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-xl max-w-lg w-full text-center border-t-8 border-blue-500">
-            <div class="text-6xl mb-4">🚧</div>
-            <h1 class="text-3xl font-bold mb-2">Lesson 1: Angles and Angle Measure</h1>
-            <p class="text-slate-600 mb-8">This lesson is currently under construction. Please check back later!</p>
-            <button onclick="window.location.href='module1.html'" class="lg:hidden bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back to Module 1
-            </button>
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-6xl mx-auto relative pb-20">
+            
+            <!-- Mobile Navigation Header -->
+            <div class="lg:hidden flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="window.location.href='module1.html'" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-bold transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    Back to Module 1
+                </button>
+                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Lesson 1</span>
+            </div>
+
+            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold text-slate-800">Lesson 1: Angles and Angle Measure</h1>
+                <p class="text-slate-600 mt-2">Explore the unit circle, degrees, and radians interactively.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Controls & Stats -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="control-panel border border-slate-200">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span>📐</span> Angle Controls
+                        </h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Angle (Degrees)</label>
+                                <span id="degVal" class="text-blue-600 font-bold">45°</span>
+                            </div>
+                            <input type="range" id="angleSlider" min="0" max="360" value="45" class="w-full">
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-lg font-bold mb-4 text-blue-200">Trigonometric Values</h3>
+                        
+                        <div class="space-y-4 text-lg">
+                            <div class="flex justify-between border-b border-blue-700 pb-2">
+                                <span class="math-font">θ (Radians)</span>
+                                <span id="radVal" class="font-bold">π/4</span>
+                            </div>
+                            <div class="flex justify-between border-b border-blue-700 pb-2">
+                                <span class="math-font text-rose-300">sin(θ) [y]</span>
+                                <span id="sinVal" class="font-bold text-rose-300">0.707</span>
+                            </div>
+                            <div class="flex justify-between border-b border-blue-700 pb-2">
+                                <span class="math-font text-emerald-300">cos(θ) [x]</span>
+                                <span id="cosVal" class="font-bold text-emerald-300">0.707</span>
+                            </div>
+                            <div class="flex justify-between pb-2">
+                                <span class="math-font text-amber-300">tan(θ) [y/x]</span>
+                                <span id="tanVal" class="font-bold text-amber-300">1.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="canvas-container h-[550px] border border-slate-200 flex items-center justify-center bg-white" id="container">
+                        <canvas id="unitCircleCanvas" width="600" height="550" style="cursor: pointer;"></canvas>
+                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold text-blue-600 border border-blue-200 drag-hint shadow-md pointer-events-none">
+                            ✨ PRO TIP: Click and drag the point on the circle!
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        <script>
+            const canvas = document.getElementById('unitCircleCanvas');
+            const ctx = canvas.getContext('2d');
+            const angleSlider = document.getElementById('angleSlider');
+            const degVal = document.getElementById('degVal');
+            const radVal = document.getElementById('radVal');
+            const sinVal = document.getElementById('sinVal');
+            const cosVal = document.getElementById('cosVal');
+            const tanVal = document.getElementById('tanVal');
+
+            let angleDeg = 45;
+            let isDragging = false;
+            
+            function resize() {
+                const container = document.getElementById('container');
+                if (container && container.clientWidth > 0) {
+                    canvas.width = container.clientWidth;
+                    canvas.height = container.clientHeight;
+                    draw();
+                }
+            }
+            window.addEventListener('resize', resize);
+            
+            function toRadians(deg) {
+                return deg * Math.PI / 180;
+            }
+
+            function formatRad(deg) {
+                const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+                if (deg === 0) return "0";
+                if (deg === 180) return "π";
+                if (deg === 360) return "2π";
+                
+                let numerator = deg;
+                let denominator = 180;
+                let divisor = gcd(numerator, denominator);
+                
+                numerator /= divisor;
+                denominator /= divisor;
+                
+                if (numerator === 1) return `π/${denominator}`;
+                return `${numerator}π/${denominator}`;
+            }
+
+            function updateUI() {
+                degVal.innerText = `${angleDeg}°`;
+                angleSlider.value = angleDeg;
+                radVal.innerText = formatRad(angleDeg);
+                
+                const rad = toRadians(angleDeg);
+                const sin = Math.sin(rad);
+                const cos = Math.cos(rad);
+                const tan = Math.tan(rad);
+                
+                // Handle floating point imprecision for exactly 0
+                const cleanSin = Math.abs(sin) < 1e-10 ? 0 : sin;
+                const cleanCos = Math.abs(cos) < 1e-10 ? 0 : cos;
+                
+                sinVal.innerText = cleanSin.toFixed(3);
+                cosVal.innerText = cleanCos.toFixed(3);
+                tanVal.innerText = (Math.abs(cleanCos) < 1e-10) ? "Undefined" : (cleanSin / cleanCos).toFixed(3);
+            }
+
+            angleSlider.addEventListener('input', (e) => {
+                angleDeg = parseInt(e.target.value);
+                updateUI();
+                draw();
+            });
+
+            function getMousePos(e) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
+
+            function handleDrag(e) {
+                if (!isDragging) return;
+                const pos = getMousePos(e);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                
+                let rad = Math.atan2(cy - pos.y, pos.x - cx);
+                if (rad < 0) rad += 2 * Math.PI;
+                
+                angleDeg = Math.round(rad * 180 / Math.PI);
+                if (angleDeg === 360) angleDeg = 0;
+                
+                updateUI();
+                draw();
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                handleDrag(e);
+            });
+            window.addEventListener('mousemove', handleDrag);
+            window.addEventListener('mouseup', () => isDragging = false);
+            
+            // Mobile Touch Support
+            canvas.addEventListener('touchstart', (e) => {
+                if(e.touches.length > 0) {
+                    isDragging = true;
+                    e.clientX = e.touches[0].clientX;
+                    e.clientY = e.touches[0].clientY;
+                    handleDrag(e);
+                }
+            }, {passive: false});
+            window.addEventListener('touchmove', (e) => {
+                if(isDragging && e.touches.length > 0) {
+                    e.preventDefault(); // prevent scrolling while interacting
+                    e.clientX = e.touches[0].clientX;
+                    e.clientY = e.touches[0].clientY;
+                    handleDrag(e);
+                }
+            }, {passive: false});
+            window.addEventListener('touchend', () => isDragging = false);
+
+            function draw() {
+                if (canvas.width === 0) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const radius = Math.min(canvas.width, canvas.height) * 0.35;
+                
+                // Draw grid
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.lineWidth = 1;
+                for (let i = cx % 20; i < canvas.width; i += 20) {
+                    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+                }
+                for (let i = cy % 20; i < canvas.height; i += 20) {
+                    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+                }
+
+                // Draw Axes
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+                ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                // Draw Circle
+                ctx.beginPath();
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                const rad = toRadians(angleDeg);
+                const px = cx + radius * Math.cos(rad);
+                const py = cy - radius * Math.sin(rad);
+
+                // Draw Triangle Fill
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.1)';
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(px, py);
+                ctx.lineTo(px, cy);
+                ctx.closePath();
+                ctx.fill();
+
+                // Lines
+                ctx.lineWidth = 3;
+                
+                // Adjacent (cos) - x
+                ctx.beginPath();
+                ctx.strokeStyle = '#34d399'; // emerald-400
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(px, cy);
+                ctx.stroke();
+                
+                // Opposite (sin) - y
+                ctx.beginPath();
+                ctx.strokeStyle = '#fb7185'; // rose-400
+                ctx.moveTo(px, cy);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+                
+                // Hypotenuse (radius = 1)
+                ctx.beginPath();
+                ctx.strokeStyle = '#3b82f6'; // blue-500
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+
+                // Draw Angle Arc
+                if (angleDeg > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#3b82f6';
+                    ctx.lineWidth = 2;
+                    ctx.arc(cx, cy, 30, 0, -rad, true);
+                    ctx.stroke();
+                }
+
+                // Draw Point
+                ctx.beginPath();
+                ctx.fillStyle = '#1d4ed8'; // blue-700
+                ctx.arc(px, py, 8, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#334155';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText("x", canvas.width - 20, cy - 10);
+                ctx.fillText("y", cx + 10, 20);
+
+                // Coordinates text
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 14px sans-serif';
+                const cleanCos = Math.abs(Math.cos(rad)) < 1e-10 ? 0 : Math.cos(rad);
+                const cleanSin = Math.abs(Math.sin(rad)) < 1e-10 ? 0 : Math.sin(rad);
+                const cosValTxt = cleanCos.toFixed(2);
+                const sinValTxt = cleanSin.toFixed(2);
+                
+                // Position text so it doesn't overlap the point
+                let textX = px + 15;
+                let textY = py - 10;
+                if (angleDeg > 90 && angleDeg <= 270) textX = px - 80;
+                if (angleDeg > 180 && angleDeg < 360) textY = py + 25;
+                
+                ctx.fillText(`(${cosValTxt}, ${sinValTxt})`, textX, textY);
+            }
+
+            setTimeout(() => resize(), 100);
+            updateUI();
+        </script>
     </main>
 </body>
 </html>

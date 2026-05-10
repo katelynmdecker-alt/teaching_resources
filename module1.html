@@ -1,693 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 1: Fan Trigonometry Explorer</title>
+    <title>Module 1: Trigonometry</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             background-color: #f8fafc;
             font-family: system-ui, -apple-system, sans-serif;
-            user-select: none;
         }
-        .canvas-container {
-            position: relative;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            overflow: hidden;
-            cursor: crosshair;
-        }
-        input[type="range"] {
-            accent-color: #3b82f6;
-        }
-        .control-panel {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-        .math-font {
-            font-family: "Times New Roman", Times, serif;
-            font-style: italic;
-        }
-        .drag-hint {
-            animation: pulse 2s infinite;
-        }
-        #phaseShiftSlider {
-            accent-color: #9333ea;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .hero-bg {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
         }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.absolute{position:absolute}.relative{position:relative}.left-4{left:1rem}.top-4{top:1rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.mt-2{margin-top:0.5rem}.block{display:block}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-\[550px\]{height:550px}.min-h-screen{min-height:100vh}.w-full{width:100%}.max-w-6xl{max-width:72rem}.flex-1{flex:1 1 0%}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-blue-200{--tw-border-opacity:1;border-color:rgb(191 219 254 / var(--tw-border-opacity, 1))}.border-blue-500{--tw-border-opacity:1;border-color:rgb(59 130 246 / var(--tw-border-opacity, 1))}.border-blue-700{--tw-border-opacity:1;border-color:rgb(29 78 216 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-blue-600{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity, 1))}.bg-blue-800{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity, 1))}.bg-blue-900{--tw-bg-opacity:1;background-color:rgb(30 58 138 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.p-4{padding:1rem}.p-6{padding:1.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.pb-20{padding-bottom:5rem}.pt-2{padding-top:0.5rem}.text-center{text-align:center}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tracking-widest{letter-spacing:0.1em}.text-blue-200{--tw-text-opacity:1;color:rgb(191 219 254 / var(--tw-text-opacity, 1))}.text-blue-600{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}.text-blue-700{--tw-text-opacity:1;color:rgb(29 78 216 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.opacity-80{opacity:0.8}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-900:hover{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.hover\:text-blue-600:hover{--tw-text-opacity:1;color:rgb(37 99 235 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:block{display:block}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:p-8{padding:2rem}}@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
-<body class="p-4 md:p-8">
+@media (min-width: 1024px){.lg\:col-span-1{grid-column:span 1 / span 1}.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
+...
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col p-4 md:p-8">
+    <div class="max-w-5xl mx-auto w-full">
+        <!-- Navigation Header -->
+        <div class="flex items-center justify-between mb-8 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-bold transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                Back to Class Portal
+            </button>
+            <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Module 1</span>
+        </div>
 
-    <div class="min-h-screen pb-20">
-        <div class="max-w-6xl mx-auto relative">
+        <!-- Hero Section -->
+        <div class="hero-bg text-white rounded-3xl p-8 md:p-12 shadow-xl mb-12 relative overflow-hidden">
+            <div class="relative z-10">
+                <h1 class="text-4xl md:text-5xl font-black mb-4">Welcome to Trigonometry! 📐✨</h1>
+                <p class="text-lg md:text-xl font-medium text-blue-50 max-w-2xl">
+                    Trigonometry is the study of relationships between side lengths and angles of triangles. But it doesn't stop there! It helps us understand circles, waves, oscillations, and the periodic patterns of the universe. Get ready to explore the magic of sine, cosine, and tangent!
+                </p>
+            </div>
+            <!-- Decorative background elements -->
+            <div class="absolute -right-10 -top-10 text-white/20 text-9xl font-black rotate-12 select-none">sin(θ)</div>
+            <div class="absolute right-20 -bottom-10 text-white/20 text-8xl font-black -rotate-12 select-none">△</div>
+        </div>
+
+        <!-- Lessons Grid -->
+        <h2 class="text-2xl font-bold text-slate-800 mb-6 px-2">Module 1 Lessons</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             
-            <!-- Navigation Header -->
-            <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-                <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-bold transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
-                    Back to Class Portal
-                </button>
-                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Module 1</span>
-            </div>
+            <!-- Lesson 1 -->
+            <button onclick="window.location.href='module1_lesson1.html'" class="text-left bg-white rounded-3xl p-6 shadow-md border-b-4 border-blue-500 hover:-translate-y-1 hover:shadow-lg transition-all group">
+                <div class="bg-blue-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-blue-600 font-black text-xl">1</div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Angles and Angle Measure</h3>
+                <p class="text-slate-500 text-sm">Discover how to measure angles in degrees and radians, and explore the unit circle.</p>
+            </button>
 
-            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h1 class="text-3xl font-bold text-slate-800">Fan Trigonometry Explorer</h1>
-                <p class="text-slate-600 mt-2">Interact with the fan to see how the sine wave changes in real-time</p>
-            </header>
+            <!-- Lesson 2 -->
+            <button onclick="window.location.href='module1_lesson2.html'" class="text-left bg-white rounded-3xl p-6 shadow-md border-b-4 border-blue-500 hover:-translate-y-1 hover:shadow-lg transition-all group">
+                <div class="bg-blue-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-blue-600 font-black text-xl">2</div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Trigonometric Functions of General Angles</h3>
+                <p class="text-slate-500 text-sm">Expand your knowledge of right triangles to the entire coordinate plane.</p>
+            </button>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Controls -->
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="control-panel border border-slate-200">
-                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <span>⚙️</span> Parameters
-                        </h2>
-                        
-                        <!-- Amplitude / Blade Length -->
-                        <div class="mb-6">
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-medium text-slate-700">Blade Length (Amplitude)</label>
-                                <span id="ampVal" class="text-blue-600 font-bold">50</span>
-                            </div>
-                            <input type="range" id="amplitude" min="10" max="120" value="50" class="w-full">
-                        </div>
+            <!-- Lesson 3 -->
+            <button onclick="window.location.href='module1_lesson3.html'" class="text-left bg-white rounded-3xl p-6 shadow-md border-b-4 border-blue-500 hover:-translate-y-1 hover:shadow-lg transition-all group">
+                <div class="bg-blue-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-blue-600 font-black text-xl">3</div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Circular and Periodic Functions</h3>
+                <p class="text-slate-500 text-sm">See how trigonometry models repeating, periodic motion over time.</p>
+            </button>
 
-                        <!-- Midline / Hub Height -->
-                        <div class="mb-6">
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-medium text-slate-700">Hub Height (Midline)</label>
-                                <span id="midVal" class="text-blue-600 font-bold">250</span>
-                            </div>
-                            <input type="range" id="midline" min="150" max="450" value="250" class="w-full">
-                        </div>
+            <!-- Lesson 4 -->
+            <button onclick="window.location.href='module1_lesson4.html'" class="text-left bg-white rounded-3xl p-6 shadow-md border-b-4 border-blue-500 hover:-translate-y-1 hover:shadow-lg transition-all group">
+                <div class="bg-blue-100 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-blue-600 font-black text-xl">4</div>
+                <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">Graphing Sine and Cosine Functions</h3>
+                <p class="text-slate-500 text-sm">Learn to draw the beautiful waves that define sine and cosine functions.</p>
+            </button>
 
-                        <!-- Direction -->
-                        <div class="mb-6">
-                            <label class="text-sm font-medium text-slate-700 mb-2 block">Spin Direction</label>
-                            <div class="flex gap-2">
-                                <button id="dirCCW" class="flex-1 py-2 px-3 rounded-lg border-2 border-blue-500 bg-blue-50 text-blue-700 font-medium transition-all">
-                                    Counter-Clockwise
-                                </button>
-                                <button id="dirCW" class="flex-1 py-2 px-3 rounded-lg border-2 border-slate-200 bg-white text-slate-600 font-medium transition-all">
-                                    Clockwise
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Animation Control -->
-                        <div class="pt-2">
-                            <button id="pauseBtn" class="w-full py-3 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span id="pauseIcon">⏸️</span>
-                                <span id="pauseText">Pause Animation</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg">
-                        <h3 class="text-lg font-bold mb-2 text-blue-200">The Function</h3>
-                        <div class="text-xl math-font bg-blue-800 p-4 rounded-lg text-center mb-4 border border-blue-700">
-                            h(t) = <span id="eqDir"></span><span id="eqAmp">50</span> sin(t) + <span id="eqMid">250</span>
-                        </div>
-                        <div class="text-xs space-y-1 opacity-80 text-center">
-                            <p>Tip Height = (Direction × Length) × sin(angle) + Center Height</p>
-                        </div>
-                    </div>
+            <!-- Lesson 5 -->
+            <button onclick="window.location.href='module1_lesson5.html'" class="text-left bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl p-6 shadow-lg border-b-8 border-blue-900 group transition-all hover:-translate-y-2">
+                <div class="bg-white/20 w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white font-black text-xl">5</div>
+                <h3 class="text-xl font-bold text-white mb-2">Translations of Graphs</h3>
+                <p class="text-blue-100 font-medium text-sm mb-4">Master phase shifts, vertical shifts, and amplitude changes.</p>
+                <div class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-sm">
+                    Start Explorer 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
                 </div>
+            </button>
 
-                <!-- Visualization -->
-                <div class="lg:col-span-2 space-y-4">
-                    <div class="canvas-container h-[550px] border border-slate-200" id="container">
-                        <canvas id="mainCanvas" width="816" height="548" style="cursor: crosshair;"></canvas>
-                        <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-xs font-bold text-blue-600 border border-blue-200 drag-hint shadow-md">
-                            ✨ PRO TIP: Drag the blue handles on the graph!
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-blue-600 text-xs uppercase mb-1">Interactive Midline</h4>
-                            <p class="text-slate-600 text-sm">Drag the hub to change the <b>vertical shift</b> (C). Higher position = larger value.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                            <h4 class="font-bold text-blue-600 text-xs uppercase mb-1">Interactive Amplitude</h4>
-                            <p class="text-slate-600 text-sm">Drag the measurement handle to change the <b>blade length</b> (A).</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="my-16 border-t-2 border-slate-200">
-
-            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h2 class="text-3xl font-bold text-slate-800">Phase Shift Comparison</h2>
-                <p class="text-slate-600 mt-2">Compare the original wave to a new wave with a shifted starting blade angle.</p>
-            </header>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="control-panel border border-slate-200">
-                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <span>📐</span> Phase Controls
-                        </h2>
-                        <div class="mb-6">
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-medium text-slate-700">Starting Angle (Phase)</label>
-                                <span id="phaseShiftDisplay" class="text-purple-600 font-bold">0°</span>
-                            </div>
-                            <input type="range" id="phaseShiftSlider" min="0" max="360" value="0" class="w-full">
-                        </div>
-
-                        <!-- Phase Animation Control -->
-                        <div class="pt-2 space-y-2">
-                            <button id="phasePauseBtn" class="w-full py-3 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span id="phasePauseIcon">⏸️</span>
-                                <span id="phasePauseText">Pause Phase Animation</span>
-                            </button>
-                            <button id="phaseResetBtn" class="w-full py-3 px-4 rounded-lg bg-slate-600 hover:bg-slate-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span>🔄</span>
-                                <span>Reset Angle to 0°</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="bg-purple-900 text-white p-6 rounded-xl shadow-lg">
-                        <h3 class="text-lg font-bold mb-3 text-purple-200">The Functions</h3>
-                        <div class="text-md math-font bg-blue-800 p-3 rounded-lg text-center mb-3 border border-blue-700">
-                            h₁(t) = <span class="dirSignPhase"></span>50 sin(t) + 200
-                        </div>
-                        <div class="text-md math-font bg-purple-800 p-3 rounded-lg text-center border border-purple-700">
-                            h₂(t) = <span class="dirSignPhase"></span>50 sin(t + <span id="eqPhaseShift">0</span>°) + 200
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2 space-y-4">
-                    <div class="canvas-container h-[400px] border border-slate-200" id="phaseContainer">
-                        <canvas id="phaseCanvas" width="816" height="398"></canvas>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
-    <!-- ========================================== -->
-    <!-- APPLICATION LOGIC                          -->
-    <!-- ========================================== -->
-    <script>
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Controls
-        const ampInput = document.getElementById('amplitude');
-        const midInput = document.getElementById('midline');
-        const dirCWBtn = document.getElementById('dirCW');
-        const dirCCWBtn = document.getElementById('dirCCW');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const pauseIcon = document.getElementById('pauseIcon');
-        const pauseText = document.getElementById('pauseText');
-        
-        // Labels
-        const ampVal = document.getElementById('ampVal');
-        const midVal = document.getElementById('midVal');
-        const eqAmp = document.getElementById('eqAmp');
-        const eqMid = document.getElementById('eqMid');
-        const eqDir = document.getElementById('eqDir');
-
-        // State
-        let amplitude = 50;
-        let midline = 250; 
-        let rotation = 0;
-        let speed = 0.05;
-        let isCCW = true;
-        let isPaused = false;
-        let history = [];
-        const maxHistory = 400;
-
-        // Interaction State
-        let isDraggingMidline = false;
-        let isDraggingAmplitude = false;
-
-        // Phase Animation State & Controls
-        const phaseCanvas = document.getElementById('phaseCanvas');
-        const phaseCtx = phaseCanvas.getContext('2d');
-        const phaseSlider = document.getElementById('phaseShiftSlider');
-        const phaseDisplay = document.getElementById('phaseShiftDisplay');
-        const eqPhaseShift = document.getElementById('eqPhaseShift');
-        const phasePauseBtn = document.getElementById('phasePauseBtn');
-        const phasePauseIcon = document.getElementById('phasePauseIcon');
-        const phasePauseText = document.getElementById('phasePauseText');
-        const phaseResetBtn = document.getElementById('phaseResetBtn');
-
-        let phaseAngleDeg = 0;
-        let phaseAngleRad = 0;
-        let phaseHistoryOrig = [];
-        let phaseHistoryShifted = [];
-        let isPhasePaused = false;
-        let phaseRotation = 0;
-
-        function resize() {
-            const container = document.getElementById('container');
-            if(container && container.clientWidth > 0) {
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-            }
-            const phaseContainer = document.getElementById('phaseContainer');
-            if(phaseContainer && phaseContainer.clientWidth > 0) {
-                phaseCanvas.width = phaseContainer.clientWidth;
-                phaseCanvas.height = phaseContainer.clientHeight;
-            }
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        function getFanY() {
-            return canvas.height - midline;
-        }
-
-        function updateUI() {
-            ampVal.innerText = amplitude;
-            eqAmp.innerText = amplitude;
-            ampInput.value = amplitude;
-
-            midVal.innerText = midline;
-            eqMid.innerText = midline;
-            midInput.value = midline;
-        }
-
-        ampInput.addEventListener('input', (e) => {
-            amplitude = parseInt(e.target.value);
-            updateUI();
-        });
-
-        midInput.addEventListener('input', (e) => {
-            midline = parseInt(e.target.value);
-            updateUI();
-        });
-
-        pauseBtn.addEventListener('click', () => {
-            isPaused = !isPaused;
-            if (isPaused) {
-                pauseIcon.innerText = "▶️";
-                pauseText.innerText = "Resume Animation";
-                pauseBtn.classList.replace('bg-blue-600', 'bg-green-600');
-                pauseBtn.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
-            } else {
-                pauseIcon.innerText = "⏸️";
-                pauseText.innerText = "Pause Animation";
-                pauseBtn.classList.replace('bg-green-600', 'bg-blue-600');
-                pauseBtn.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
-            }
-        });
-
-        phasePauseBtn.addEventListener('click', () => {
-            isPhasePaused = !isPhasePaused;
-            if (isPhasePaused) {
-                phasePauseIcon.innerText = "▶️";
-                phasePauseText.innerText = "Resume Phase Animation";
-                phasePauseBtn.classList.replace('bg-purple-600', 'bg-green-600');
-                phasePauseBtn.classList.replace('hover:bg-purple-700', 'hover:bg-green-700');
-            } else {
-                phasePauseIcon.innerText = "⏸️";
-                phasePauseText.innerText = "Pause Phase Animation";
-                phasePauseBtn.classList.replace('bg-green-600', 'bg-purple-600');
-                phasePauseBtn.classList.replace('hover:bg-green-700', 'hover:bg-purple-700');
-            }
-        });
-
-        phaseResetBtn.addEventListener('click', () => {
-            phaseRotation = 0;
-            phaseHistoryOrig = [];
-            phaseHistoryShifted = [];
-        });
-
-        dirCWBtn.addEventListener('click', () => { isCCW = false; updateDirUI(); });
-        dirCCWBtn.addEventListener('click', () => { isCCW = true; updateDirUI(); });
-
-        function updateDirUI() {
-            const dirSignPhases = document.querySelectorAll('.dirSignPhase');
-            if (isCCW) {
-                dirCCWBtn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
-                dirCCWBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
-                dirCWBtn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
-                dirCWBtn.classList.add('border-slate-200', 'bg-white', 'text-slate-600');
-                eqDir.innerText = "";
-                dirSignPhases.forEach(el => el.innerText = "");
-            } else {
-                dirCWBtn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
-                dirCWBtn.classList.remove('border-slate-200', 'bg-white', 'text-slate-600');
-                dirCCWBtn.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
-                dirCCWBtn.classList.add('border-slate-200', 'bg-white', 'text-slate-600');
-                eqDir.innerText = "-";
-                dirSignPhases.forEach(el => el.innerText = "-");
-            }
-            history = [];
-            phaseHistoryOrig = [];
-            phaseHistoryShifted = [];
-        }
-
-        phaseSlider.addEventListener('input', (e) => {
-            phaseAngleDeg = parseInt(e.target.value);
-            phaseAngleRad = (phaseAngleDeg * Math.PI) / 180;
-            phaseDisplay.innerText = phaseAngleDeg + "°";
-            eqPhaseShift.innerText = phaseAngleDeg;
-        });
-
-        canvas.addEventListener('mousedown', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-            
-            const fanY = getFanY(); 
-            const ampHandleY = fanY - amplitude;
-            const ampHandleX = 100;
-
-            if (Math.abs(mouseY - fanY) < 15 && mouseX < 280) {
-                isDraggingMidline = true;
-            } 
-            else if (Math.abs(mouseY - ampHandleY) < 15 && Math.abs(mouseX - ampHandleX) < 15) {
-                isDraggingAmplitude = true;
-            }
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const mouseY = e.clientY - rect.top;
-
-            if (isDraggingMidline) {
-                midline = Math.max(150, Math.min(450, canvas.height - mouseY));
-                updateUI();
-            } else if (isDraggingAmplitude) {
-                const fanY = getFanY();
-                amplitude = Math.max(10, Math.min(120, fanY - mouseY));
-                updateUI();
-            }
-            
-            const mouseX = e.clientX - rect.left;
-            const fanY = getFanY();
-            const ampHandleY = fanY - amplitude;
-            const ampHandleX = 100;
-            
-            if (isDraggingMidline || isDraggingAmplitude) {
-                canvas.style.cursor = 'grabbing';
-            } else if ((Math.abs(mouseY - fanY) < 15 && mouseX < 280) || (Math.abs(mouseY - ampHandleY) < 15 && Math.abs(mouseX - ampHandleX) < 15)) {
-                canvas.style.cursor = 'grab';
-            } else {
-                canvas.style.cursor = 'crosshair';
-            }
-        });
-
-        window.addEventListener('mouseup', () => {
-            isDraggingMidline = false;
-            isDraggingAmplitude = false;
-        });
-
-        function draw() {
-            if(canvas.width > 0 && canvas.height > 0) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                const fanX = 180;
-                const fanY = getFanY(); 
-                const graphStartX = 320;
-
-                // Ground
-                ctx.strokeStyle = '#94a3b8';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(0, canvas.height - 2);
-                ctx.lineTo(canvas.width, canvas.height - 2);
-                ctx.stroke();
-
-                // Grid
-                ctx.setLineDash([5, 5]);
-                ctx.strokeStyle = '#f1f5f9';
-                ctx.beginPath();
-                ctx.moveTo(0, fanY - amplitude);
-                ctx.lineTo(canvas.width, fanY - amplitude);
-                ctx.moveTo(0, fanY + amplitude);
-                ctx.lineTo(canvas.width, fanY + amplitude);
-                ctx.stroke();
-                ctx.setLineDash([]);
-
-                // Midline
-                ctx.strokeStyle = isDraggingMidline ? '#2563eb' : '#94a3b8';
-                ctx.lineWidth = isDraggingMidline ? 3 : 1;
-                ctx.beginPath();
-                ctx.moveTo(0, fanY);
-                ctx.lineTo(graphStartX, fanY);
-                ctx.stroke();
-                
-                ctx.fillStyle = isDraggingMidline ? '#2563eb' : '#3b82f6';
-                ctx.beginPath();
-                ctx.arc(30, fanY, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Fan Stand
-                ctx.fillStyle = '#e2e8f0';
-                ctx.fillRect(fanX - 5, fanY, 10, canvas.height - fanY);
-                
-                const directionSign = isCCW ? -1 : 1;
-                const currentAngle = rotation * directionSign;
-                const tipX = fanX + Math.cos(currentAngle) * amplitude;
-                const tipY = fanY + Math.sin(currentAngle) * amplitude;
-
-                for(let i=0; i<3; i++) {
-                    const angle = currentAngle + (i * (Math.PI * 2 / 3));
-                    const bx = fanX + Math.cos(angle) * amplitude;
-                    const by = fanY + Math.sin(angle) * amplitude;
-                    
-                    ctx.beginPath();
-                    ctx.strokeStyle = i === 0 ? '#3b82f6' : '#cbd5e1';
-                    ctx.lineWidth = i === 0 ? 8 : 4;
-                    ctx.lineCap = 'round';
-                    ctx.moveTo(fanX, fanY);
-                    ctx.lineTo(bx, by);
-                    ctx.stroke();
-                }
-
-                ctx.beginPath();
-                ctx.fillStyle = '#1e293b';
-                ctx.arc(fanX, fanY, 6, 0, Math.PI * 2);
-                ctx.fill();
-
-                if (!isPaused) {
-                    history.unshift(tipY);
-                    if (history.length > maxHistory) history.pop();
-                }
-
-                // Wave
-                if(history.length > 0) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = '#2563eb';
-                    ctx.lineWidth = 4;
-                    ctx.lineJoin = 'round';
-                    for(let i=0; i < history.length; i++) {
-                        const x = graphStartX + i;
-                        const y = history[i];
-                        if (i === 0) ctx.moveTo(x, y);
-                        else ctx.lineTo(x, y);
-                    }
-                    ctx.stroke();
-                }
-
-                // Amplitude Measurement
-                const ampX = 100;
-                ctx.strokeStyle = isDraggingAmplitude ? '#2563eb' : '#3b82f6';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(ampX, fanY);
-                ctx.lineTo(ampX, fanY - amplitude);
-                ctx.stroke();
-                
-                ctx.beginPath();
-                ctx.moveTo(ampX - 10, fanY); ctx.lineTo(ampX + 10, fanY);
-                ctx.stroke();
-
-                ctx.fillStyle = isDraggingAmplitude ? '#2563eb' : '#3b82f6';
-                ctx.beginPath();
-                ctx.arc(ampX, fanY - amplitude, 8, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Text Labels
-                ctx.fillStyle = '#334155';
-                ctx.font = 'bold 10px sans-serif';
-                ctx.fillText('DRAG HUB (MIDLINE)', 45, fanY - 5);
-                
-                ctx.fillStyle = '#2563eb';
-                ctx.save();
-                ctx.translate(ampX - 15, fanY - amplitude/2);
-                ctx.rotate(-Math.PI/2);
-                ctx.textAlign = 'center';
-                ctx.fillText('DRAG AMPLITUDE', 0, 0);
-                ctx.restore();
-
-                // Live Function
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'italic bold 20px serif';
-                const sign = isCCW ? '' : '-';
-                const eqText = `h(t) = ${sign}${Math.round(amplitude)} sin(t) + ${Math.round(midline)}`;
-                ctx.fillText(eqText, graphStartX + 20, 40);
-
-                // Connector
-                ctx.setLineDash([3, 3]);
-                ctx.strokeStyle = '#3b82f688';
-                ctx.beginPath();
-                ctx.moveTo(tipX, tipY);
-                ctx.lineTo(graphStartX, tipY);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
-            if (!isPaused) {
-                rotation += speed;
-            }
-            drawPhaseCanvas();
-            requestAnimationFrame(draw);
-        }
-
-        function drawPhaseCanvas() {
-            if(phaseCanvas.width === 0 || phaseCanvas.height === 0) return;
-            phaseCtx.clearRect(0, 0, phaseCanvas.width, phaseCanvas.height);
-            
-            const fanX = 180;
-            const midlinePhase = 200;
-            const ampPhase = 50; 
-            const graphStartX = 320;
-
-            // Ground
-            phaseCtx.strokeStyle = '#94a3b8';
-            phaseCtx.lineWidth = 2;
-            phaseCtx.beginPath();
-            phaseCtx.moveTo(0, phaseCanvas.height - 2);
-            phaseCtx.lineTo(phaseCanvas.width, phaseCanvas.height - 2);
-            phaseCtx.stroke();
-
-            // Grid & Midline
-            phaseCtx.strokeStyle = '#94a3b8';
-            phaseCtx.lineWidth = 1;
-            phaseCtx.beginPath();
-            phaseCtx.moveTo(0, midlinePhase);
-            phaseCtx.lineTo(graphStartX, midlinePhase);
-            phaseCtx.stroke();
-
-            // Fan Stand
-            phaseCtx.fillStyle = '#e2e8f0';
-            phaseCtx.fillRect(fanX - 5, midlinePhase, 10, phaseCanvas.height - midlinePhase);
-
-            const directionSign = isCCW ? -1 : 1;
-            
-            // Angles
-            const origAngle = phaseRotation * directionSign;
-            const shiftedAngle = (phaseRotation + phaseAngleRad) * directionSign;
-
-            const origTipX = fanX + Math.cos(origAngle) * ampPhase;
-            const origTipY = midlinePhase + Math.sin(origAngle) * ampPhase;
-
-            const shiftedTipX = fanX + Math.cos(shiftedAngle) * ampPhase;
-            const shiftedTipY = midlinePhase + Math.sin(shiftedAngle) * ampPhase;
-
-            // Draw grey fan circle
-            phaseCtx.beginPath();
-            phaseCtx.strokeStyle = '#cbd5e1';
-            phaseCtx.lineWidth = 2;
-            phaseCtx.arc(fanX, midlinePhase, ampPhase, 0, Math.PI * 2);
-            phaseCtx.stroke();
-
-            // Draw original blade (blue)
-            phaseCtx.beginPath();
-            phaseCtx.strokeStyle = '#3b82f6';
-            phaseCtx.lineWidth = 6;
-            phaseCtx.lineCap = 'round';
-            phaseCtx.moveTo(fanX, midlinePhase);
-            phaseCtx.lineTo(origTipX, origTipY);
-            phaseCtx.stroke();
-
-            // Draw shifted blade (purple)
-            phaseCtx.beginPath();
-            phaseCtx.strokeStyle = '#9333ea';
-            phaseCtx.lineWidth = 6;
-            phaseCtx.lineCap = 'round';
-            phaseCtx.moveTo(fanX, midlinePhase);
-            phaseCtx.lineTo(shiftedTipX, shiftedTipY);
-            phaseCtx.stroke();
-
-            phaseCtx.beginPath();
-            phaseCtx.fillStyle = '#1e293b';
-            phaseCtx.arc(fanX, midlinePhase, 6, 0, Math.PI * 2);
-            phaseCtx.fill();
-
-            if (!isPhasePaused) {
-                phaseHistoryOrig.unshift(origTipY);
-                phaseHistoryShifted.unshift(shiftedTipY);
-                if (phaseHistoryOrig.length > maxHistory) phaseHistoryOrig.pop();
-                if (phaseHistoryShifted.length > maxHistory) phaseHistoryShifted.pop();
-                
-                phaseRotation += speed;
-            }
-
-            // Draw waves
-            // Orig (Blue)
-            if(phaseHistoryOrig.length > 0) {
-                phaseCtx.beginPath();
-                phaseCtx.strokeStyle = '#3b82f6';
-                phaseCtx.lineWidth = 3;
-                phaseCtx.lineJoin = 'round';
-                for(let i=0; i < phaseHistoryOrig.length; i++) {
-                    const x = graphStartX + i;
-                    const y = phaseHistoryOrig[i];
-                    if (i === 0) phaseCtx.moveTo(x, y);
-                    else phaseCtx.lineTo(x, y);
-                }
-                phaseCtx.stroke();
-            }
-
-            // Shifted (Purple)
-            if(phaseHistoryShifted.length > 0) {
-                phaseCtx.beginPath();
-                phaseCtx.strokeStyle = '#9333ea';
-                phaseCtx.lineWidth = 3;
-                phaseCtx.lineJoin = 'round';
-                for(let i=0; i < phaseHistoryShifted.length; i++) {
-                    const x = graphStartX + i;
-                    const y = phaseHistoryShifted[i];
-                    if (i === 0) phaseCtx.moveTo(x, y);
-                    else phaseCtx.lineTo(x, y);
-                }
-                phaseCtx.stroke();
-            }
-
-            // Connectors
-            phaseCtx.setLineDash([3, 3]);
-            phaseCtx.lineWidth = 1;
-            phaseCtx.strokeStyle = '#3b82f688';
-            phaseCtx.beginPath();
-            phaseCtx.moveTo(origTipX, origTipY);
-            phaseCtx.lineTo(graphStartX, origTipY);
-            phaseCtx.stroke();
-
-            phaseCtx.strokeStyle = '#9333ea88';
-            phaseCtx.beginPath();
-            phaseCtx.moveTo(shiftedTipX, shiftedTipY);
-            phaseCtx.lineTo(graphStartX, shiftedTipY);
-            phaseCtx.stroke();
-            phaseCtx.setLineDash([]);
-        }
-
-        window.onload = draw;
-    </script>
-
-</body></html>
+</body>
+</html>
