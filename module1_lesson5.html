@@ -186,7 +186,7 @@
                                 <label class="text-sm font-medium text-slate-700">Starting Angle (Phase)</label>
                                 <span id="phaseShiftDisplay" class="text-purple-600 font-bold">0°</span>
                             </div>
-                            <input type="range" id="phaseShiftSlider" min="0" max="360" value="0" class="w-full">
+                            <input type="range" id="phaseShiftSlider" min="-360" max="360" value="0" class="w-full">
                         </div>
                     </div>
 
@@ -196,7 +196,7 @@
                             h₁(t) = <span class="dirSignPhase"></span>50 sin(t) + 200
                         </div>
                         <div class="text-md math-font bg-purple-800 p-3 rounded-lg text-center border border-purple-700">
-                            h₂(t) = <span class="dirSignPhase"></span>50 sin(t + <span id="eqPhaseShift">0</span>°) + 200
+                            h₂(t) = <span class="dirSignPhase"></span>50 sin(t <span id="eqPhaseSign">+</span> <span id="eqPhaseShift">0</span>°) + 200
                         </div>
                     </div>
                 </div>
@@ -253,6 +253,7 @@
         const phaseSlider = document.getElementById('phaseShiftSlider');
         const phaseDisplay = document.getElementById('phaseShiftDisplay');
         const eqPhaseShift = document.getElementById('eqPhaseShift');
+        const eqPhaseSign = document.getElementById('eqPhaseSign');
 
         let phaseAngleDeg = 0;
         let phaseAngleRad = 0;
@@ -339,7 +340,10 @@
             phaseAngleDeg = parseInt(e.target.value);
             phaseAngleRad = (phaseAngleDeg * Math.PI) / 180;
             phaseDisplay.innerText = phaseAngleDeg + "°";
-            eqPhaseShift.innerText = phaseAngleDeg;
+            if (eqPhaseSign) {
+                eqPhaseSign.innerText = phaseAngleDeg < 0 ? "-" : "+";
+            }
+            eqPhaseShift.innerText = Math.abs(phaseAngleDeg);
         });
 
         canvas.addEventListener('mousedown', (e) => {
