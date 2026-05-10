@@ -188,18 +188,6 @@
                             </div>
                             <input type="range" id="phaseShiftSlider" min="0" max="360" value="0" class="w-full">
                         </div>
-
-                        <!-- Phase Animation Control -->
-                        <div class="pt-2 space-y-2">
-                            <button id="phasePauseBtn" class="w-full py-3 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span id="phasePauseIcon">⏸️</span>
-                                <span id="phasePauseText">Pause Phase Animation</span>
-                            </button>
-                            <button id="phaseResetBtn" class="w-full py-3 px-4 rounded-lg bg-slate-600 hover:bg-slate-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span>🔄</span>
-                                <span>Reset Angle to 0°</span>
-                            </button>
-                        </div>
                     </div>
 
                     <div class="bg-purple-900 text-white p-6 rounded-xl shadow-lg">
@@ -265,17 +253,9 @@
         const phaseSlider = document.getElementById('phaseShiftSlider');
         const phaseDisplay = document.getElementById('phaseShiftDisplay');
         const eqPhaseShift = document.getElementById('eqPhaseShift');
-        const phasePauseBtn = document.getElementById('phasePauseBtn');
-        const phasePauseIcon = document.getElementById('phasePauseIcon');
-        const phasePauseText = document.getElementById('phasePauseText');
-        const phaseResetBtn = document.getElementById('phaseResetBtn');
 
         let phaseAngleDeg = 0;
         let phaseAngleRad = 0;
-        let phaseHistoryOrig = [];
-        let phaseHistoryShifted = [];
-        let isPhasePaused = false;
-        let phaseRotation = 0;
 
         function resize() {
             const container = document.getElementById('container');
@@ -332,27 +312,6 @@
             }
         });
 
-        phasePauseBtn.addEventListener('click', () => {
-            isPhasePaused = !isPhasePaused;
-            if (isPhasePaused) {
-                phasePauseIcon.innerText = "▶️";
-                phasePauseText.innerText = "Resume Phase Animation";
-                phasePauseBtn.classList.replace('bg-purple-600', 'bg-green-600');
-                phasePauseBtn.classList.replace('hover:bg-purple-700', 'hover:bg-green-700');
-            } else {
-                phasePauseIcon.innerText = "⏸️";
-                phasePauseText.innerText = "Pause Phase Animation";
-                phasePauseBtn.classList.replace('bg-green-600', 'bg-purple-600');
-                phasePauseBtn.classList.replace('hover:bg-green-700', 'hover:bg-purple-700');
-            }
-        });
-
-        phaseResetBtn.addEventListener('click', () => {
-            phaseRotation = 0;
-            phaseHistoryOrig = [];
-            phaseHistoryShifted = [];
-        });
-
         dirCWBtn.addEventListener('click', () => { isCCW = false; updateDirUI(); });
         dirCCWBtn.addEventListener('click', () => { isCCW = true; updateDirUI(); });
 
@@ -374,8 +333,6 @@
                 dirSignPhases.forEach(el => el.innerText = "-");
             }
             history = [];
-            phaseHistoryOrig = [];
-            phaseHistoryShifted = [];
         }
 
         phaseSlider.addEventListener('input', (e) => {
@@ -615,8 +572,8 @@
             const directionSign = isCCW ? -1 : 1;
             
             // Angles
-            const origAngle = phaseRotation * directionSign;
-            const shiftedAngle = (phaseRotation + phaseAngleRad) * directionSign;
+            const origAngle = 0;
+            const shiftedAngle = phaseAngleRad * directionSign;
 
             const origTipX = fanX + Math.cos(origAngle) * ampPhase;
             const origTipY = midlinePhase + Math.sin(origAngle) * ampPhase;
@@ -654,45 +611,34 @@
             phaseCtx.arc(fanX, midlinePhase, 6, 0, Math.PI * 2);
             phaseCtx.fill();
 
-            if (!isPhasePaused) {
-                phaseHistoryOrig.unshift(origTipY);
-                phaseHistoryShifted.unshift(shiftedTipY);
-                if (phaseHistoryOrig.length > maxHistory) phaseHistoryOrig.pop();
-                if (phaseHistoryShifted.length > maxHistory) phaseHistoryShifted.pop();
-                
-                phaseRotation += speed;
-            }
-
-            // Draw waves
+            // Draw static waves
             // Orig (Blue)
-            if(phaseHistoryOrig.length > 0) {
-                phaseCtx.beginPath();
-                phaseCtx.strokeStyle = '#3b82f6';
-                phaseCtx.lineWidth = 3;
-                phaseCtx.lineJoin = 'round';
-                for(let i=0; i < phaseHistoryOrig.length; i++) {
-                    const x = graphStartX + i;
-                    const y = phaseHistoryOrig[i];
-                    if (i === 0) phaseCtx.moveTo(x, y);
-                    else phaseCtx.lineTo(x, y);
-                }
-                phaseCtx.stroke();
+            phaseCtx.beginPath();
+            phaseCtx.strokeStyle = '#3b82f6';
+            phaseCtx.lineWidth = 3;
+            phaseCtx.lineJoin = 'round';
+            for(let x = graphStartX; x < phaseCanvas.width; x++) {
+                const t = (x - graphStartX) * speed;
+                const angle = t * directionSign;
+                const y = midlinePhase + Math.sin(angle) * ampPhase;
+                if (x === graphStartX) phaseCtx.moveTo(x, y);
+                else phaseCtx.lineTo(x, y);
             }
+            phaseCtx.stroke();
 
             // Shifted (Purple)
-            if(phaseHistoryShifted.length > 0) {
-                phaseCtx.beginPath();
-                phaseCtx.strokeStyle = '#9333ea';
-                phaseCtx.lineWidth = 3;
-                phaseCtx.lineJoin = 'round';
-                for(let i=0; i < phaseHistoryShifted.length; i++) {
-                    const x = graphStartX + i;
-                    const y = phaseHistoryShifted[i];
-                    if (i === 0) phaseCtx.moveTo(x, y);
-                    else phaseCtx.lineTo(x, y);
-                }
-                phaseCtx.stroke();
+            phaseCtx.beginPath();
+            phaseCtx.strokeStyle = '#9333ea';
+            phaseCtx.lineWidth = 3;
+            phaseCtx.lineJoin = 'round';
+            for(let x = graphStartX; x < phaseCanvas.width; x++) {
+                const t = (x - graphStartX) * speed;
+                const angle = (t + phaseAngleRad) * directionSign;
+                const y = midlinePhase + Math.sin(angle) * ampPhase;
+                if (x === graphStartX) phaseCtx.moveTo(x, y);
+                else phaseCtx.lineTo(x, y);
             }
+            phaseCtx.stroke();
 
             // Connectors
             phaseCtx.setLineDash([3, 3]);
