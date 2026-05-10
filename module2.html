@@ -3,18 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 2: Algebra</title>
+    <title>Module 2: Projectile Motion Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        input[type="range"] {
+            accent-color: #10b981;
+        }
+        .control-panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .math-font {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-3xl shadow-xl max-w-lg w-full text-center border-t-8 border-emerald-500">
-        <div class="text-6xl mb-4">🚧</div>
-        <h1 class="text-3xl font-bold mb-2">Module 2: Algebra</h1>
-        <p class="text-slate-600 mb-8">This module is currently under construction. Please check back later!</p>
-        <button onclick="window.location.href='index.html'" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Class Portal
-        </button>
+<body class="p-4 md:p-8">
+
+    <div class="min-h-screen pb-20">
+        <div class="max-w-6xl mx-auto relative">
+            
+            <!-- Navigation Header -->
+            <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-600 hover:text-emerald-600 font-bold transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    Back to Class Portal
+                </button>
+                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Module 2</span>
+            </div>
+
+            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold text-slate-800">Projectile Motion Explorer</h1>
+                <p class="text-slate-600 mt-2">Relate the Quadratic Formula to the flight of a projectile</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Controls -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="control-panel border border-slate-200">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span>⚙️</span> Parameters
+                        </h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Initial Height (c)</label>
+                                <span id="heightVal" class="text-emerald-600 font-bold">50 ft</span>
+                            </div>
+                            <input type="range" id="initialHeight" min="0" max="200" value="50" class="w-full">
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Initial Velocity (b)</label>
+                                <span id="velVal" class="text-emerald-600 font-bold">80 ft/s</span>
+                            </div>
+                            <input type="range" id="initialVelocity" min="10" max="150" value="80" class="w-full">
+                        </div>
+
+                        <div class="pt-2">
+                            <button id="launchBtn" class="w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center justify-center gap-2">
+                                <span>🚀</span>
+                                <span>Launch Projectile</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-emerald-900 text-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-lg font-bold mb-2 text-emerald-200">Quadratic Equation</h3>
+                        <div class="text-xl math-font bg-emerald-800 p-4 rounded-lg text-center mb-4 border border-emerald-700">
+                            h(t) = -16t² + <span id="eqB">80</span>t + <span id="eqC">50</span>
+                        </div>
+                        <div class="text-sm space-y-2">
+                            <p><b>Quadratic Formula:</b></p>
+                            <p class="math-font text-center bg-emerald-800 p-2 rounded">
+                                t = (-b ± √(b² - 4ac)) / 2a
+                            </p>
+                            <p class="text-emerald-200 mt-2 text-center text-lg">Landing Time (h=0):<br><b id="landTime" class="text-white text-2xl"></b> seconds</p>
+                        </div>
+                    </div>
+
+                    <button id="downloadBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Explorer for Offline Use
+                    </button>
+                </div>
+
+                <!-- Visualization -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="canvas-container h-[550px] border border-slate-200" id="container">
+                        <canvas id="mainCanvas" width="816" height="548"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Controls
+        const heightInput = document.getElementById('initialHeight');
+        const velInput = document.getElementById('initialVelocity');
+        const launchBtn = document.getElementById('launchBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        // Labels
+        const heightVal = document.getElementById('heightVal');
+        const velVal = document.getElementById('velVal');
+        const eqB = document.getElementById('eqB');
+        const eqC = document.getElementById('eqC');
+        const landTimeLabel = document.getElementById('landTime');
+
+        // State
+        let c = 50; // initial height
+        let b = 80; // initial velocity
+        const a = -16; // gravity
+        
+        let t = 0;
+        let isAnimating = false;
+        let lastFrameTime = 0;
+
+        function resize() {
+            const container = document.getElementById('container');
+            if(container.clientWidth > 0) {
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                draw(true);
+            }
+        }
+        window.addEventListener('resize', resize);
+        
+        function calculateRoots() {
+            // -16t^2 + bt + c = 0
+            const discriminant = b*b - 4*a*c;
+            const t1 = (-b + Math.sqrt(discriminant)) / (2*a);
+            const t2 = (-b - Math.sqrt(discriminant)) / (2*a);
+            return Math.max(t1, t2); // return the positive root
+        }
+
+        function getLandingTime() {
+            return calculateRoots();
+        }
+        
+        function getMaxHeight() {
+            const t_vertex = -b / (2 * a);
+            const h_max = a * t_vertex * t_vertex + b * t_vertex + c;
+            return Math.max(h_max, c, 10);
+        }
+
+        function updateUI() {
+            heightVal.innerText = c + " ft";
+            eqC.innerText = c;
+            velVal.innerText = b + " ft/s";
+            eqB.innerText = b;
+            
+            const landingTime = getLandingTime();
+            landTimeLabel.innerText = landingTime.toFixed(2);
+        }
+
+        heightInput.addEventListener('input', (e) => {
+            c = parseInt(e.target.value);
+            updateUI();
+            draw(true);
+        });
+
+        velInput.addEventListener('input', (e) => {
+            b = parseInt(e.target.value);
+            updateUI();
+            draw(true);
+        });
+
+        launchBtn.addEventListener('click', () => {
+            t = 0;
+            isAnimating = true;
+            lastFrameTime = performance.now();
+            requestAnimationFrame(animate);
+        });
+
+        function animate(now) {
+            if (!isAnimating) return;
+            const dt = (now - lastFrameTime) / 1000;
+            lastFrameTime = now;
+            
+            // Scale time so animation is smooth but doesn't take too long
+            t += dt * 1.5; 
+            
+            const landT = getLandingTime();
+            if (t >= landT) {
+                t = landT;
+                isAnimating = false;
+            }
+            
+            draw(false);
+            
+            if (isAnimating) {
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function draw(staticView) {
+            if (canvas.width === 0) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const paddingX = 60;
+            const paddingY = 60;
+            const plotWidth = canvas.width - paddingX * 2;
+            const plotHeight = canvas.height - paddingY * 2;
+            
+            const landT = getLandingTime();
+            const hMax = getMaxHeight();
+            
+            const maxT = Math.max(landT * 1.1, 1);
+            const maxH = hMax * 1.2;
+            
+            const scaleX = plotWidth / maxT;
+            const scaleY = plotHeight / maxH;
+            
+            const originX = paddingX;
+            const originY = canvas.height - paddingY;
+            
+            // Axes
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(originX, originY + 20);
+            ctx.lineTo(originX, originY - plotHeight - 20);
+            ctx.moveTo(originX - 20, originY);
+            ctx.lineTo(originX + plotWidth + 20, originY);
+            ctx.stroke();
+            
+            // Labels
+            ctx.fillStyle = '#64748b';
+            ctx.font = '14px sans-serif';
+            ctx.fillText("Time (s)", originX + plotWidth / 2, originY + 40);
+            
+            ctx.save();
+            ctx.translate(originX - 40, originY - plotHeight / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.textAlign = 'center';
+            ctx.fillText("Height (ft)", 0, 0);
+            ctx.restore();
+            
+            // Trajectory (dashed)
+            ctx.beginPath();
+            ctx.setLineDash([5, 5]);
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 2;
+            for (let time = 0; time <= landT; time += 0.05) {
+                const height = a * time * time + b * time + c;
+                const px = originX + time * scaleX;
+                const py = originY - height * scaleY;
+                if (time === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Actual path traced
+            const currentTime = staticView ? 0 : t;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            for (let time = 0; time <= currentTime; time += 0.05) {
+                const height = a * time * time + b * time + c;
+                const px = originX + time * scaleX;
+                const py = originY - height * scaleY;
+                if (time === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            const currHeight = a * currentTime * currentTime + b * currentTime + c;
+            const currPx = originX + currentTime * scaleX;
+            const currPy = originY - currHeight * scaleY;
+            if (currentTime === 0) ctx.moveTo(currPx, currPy);
+            else ctx.lineTo(currPx, currPy);
+            ctx.stroke();
+            
+            // Projectile
+            ctx.beginPath();
+            ctx.fillStyle = '#047857';
+            ctx.arc(currPx, currPy, 8, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Info
+            ctx.fillStyle = '#1e293b';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(`t = ${currentTime.toFixed(2)} s`, currPx + 15, currPy - 15);
+            ctx.fillText(`h = ${Math.max(0, currHeight).toFixed(1)} ft`, currPx + 15, currPy + 5);
+        }
+
+        downloadBtn.onclick = function() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "Module2_Projectile_Explorer.html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
+        updateUI();
+        setTimeout(() => resize(), 100);
+    </script>
 </body>
 </html>
