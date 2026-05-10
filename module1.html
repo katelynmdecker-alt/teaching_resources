@@ -117,12 +117,6 @@
                             <p>Tip Height = (Direction × Length) × sin(angle) + Center Height</p>
                         </div>
                     </div>
-
-                    <!-- Retaining the offline download button for your students -->
-                    <button id="downloadBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download Explorer for Offline Use
-                    </button>
                 </div>
 
                 <!-- Visualization -->
@@ -164,7 +158,6 @@
         const pauseBtn = document.getElementById('pauseBtn');
         const pauseIcon = document.getElementById('pauseIcon');
         const pauseText = document.getElementById('pauseText');
-        const downloadBtn = document.getElementById('downloadBtn');
         
         // Labels
         const ampVal = document.getElementById('ampVal');
@@ -452,20 +445,6 @@
             }
             requestAnimationFrame(draw);
         }
-
-        // I kept the offline download option as requested previously, tailored to just this module
-        downloadBtn.onclick = function() {
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "Module1_Fan_Explorer.html";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        };
 
         window.onload = draw;
     </script>

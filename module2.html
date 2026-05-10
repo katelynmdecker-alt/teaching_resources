@@ -98,11 +98,6 @@
                             <p class="text-emerald-200 mt-2 text-center text-lg">Landing Time (h=0):<br><b id="landTime" class="text-white text-2xl"></b> seconds</p>
                         </div>
                     </div>
-
-                    <button id="downloadBtn" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download Explorer for Offline Use
-                    </button>
                 </div>
 
                 <!-- Visualization -->
@@ -123,7 +118,6 @@
         const heightInput = document.getElementById('initialHeight');
         const velInput = document.getElementById('initialVelocity');
         const launchBtn = document.getElementById('launchBtn');
-        const downloadBtn = document.getElementById('downloadBtn');
         
         // Labels
         const heightVal = document.getElementById('heightVal');
@@ -314,19 +308,6 @@
             ctx.fillText(`t = ${currentTime.toFixed(2)} s`, currPx + 15, currPy - 15);
             ctx.fillText(`h = ${Math.max(0, currHeight).toFixed(1)} ft`, currPx + 15, currPy + 5);
         }
-
-        downloadBtn.onclick = function() {
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "Module2_Projectile_Explorer.html";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        };
 
         updateUI();
         setTimeout(() => resize(), 100);
