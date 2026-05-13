@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: Daylight & Seasons</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        input[type="range"] {
+            accent-color: #3b82f6;
+        }
+        .control-panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .math-font {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex min-h-screen">
+
+    <!-- Navigation Sidebar -->
+    <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
+        <div class="p-6 border-b border-slate-200">
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight">Module 1</h2>
+            <p class="text-sm text-slate-500 font-medium mt-1">Trigonometry</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2">
+            <a href="module1_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700">1. Angles &amp; Measure</a>
+            <a href="module1_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700">2. Trig Functions</a>
+            <a href="module1_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700">3. Circular Functions</a>
+            <a href="module1_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700">4. Graphing Sine &amp; Cosine</a>
+            <a href="module1_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700">5. Translations of Graphs</a>
+            <a href="module1_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm bg-blue-100 text-blue-800 font-bold">6. Daylight &amp; Seasons</a>
+        </nav>
+        <div class="p-4 border-t border-slate-200 bg-slate-50">
+            <a href="module1.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 font-bold transition-all shadow-sm text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Module 1 Menu
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-6xl mx-auto relative pb-20">
+            <!-- Mobile Navigation Header -->
+            <div class="lg:hidden flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="window.location.href='module1.html'" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-bold transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    Back to Module 1
+                </button>
+                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Lesson 6</span>
+            </div>
+
+            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold text-slate-800">Lesson 6: Daylight &amp; Seasons</h1>
+                <p class="text-slate-600 mt-2">Visualize how latitude and Earth's orbit affect daylight hours.</p>
+                <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl text-left text-sm text-slate-700">
+                    <strong>Purpose:</strong> In this lesson, students will see a real-world application of sine functions. The amount of daylight varies periodically throughout the year, and the amplitude of this wave changes based on your latitude!
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Controls -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="control-panel border border-slate-200">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span>🌍</span> Settings
+                        </h2>
+                        
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Latitude</label>
+                                <span id="latVal" class="text-blue-600 font-bold">40° N</span>
+                            </div>
+                            <input type="range" id="latitudeSlider" min="-90" max="90" value="40" class="w-full">
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Day of Year</label>
+                                <span id="dateVal" class="text-blue-600 font-bold">Jun 21</span>
+                            </div>
+                            <input type="range" id="daySlider" min="1" max="365" value="172" class="w-full">
+                        </div>
+
+                        <div class="pt-2">
+                            <button id="timeBtn" class="w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center justify-center gap-2">
+                                <span id="timeIcon">⏸️</span>
+                                <span id="timeText">Pause Orbit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg">
+                        <h3 class="text-lg font-bold mb-4 text-blue-200">Data</h3>
+                        <div class="space-y-4 text-lg">
+                            <div class="flex justify-between border-b border-blue-700 pb-2">
+                                <span class="math-font">Hours of Daylight</span>
+                                <span id="daylightVal" class="font-bold text-amber-300">14.9 hrs</span>
+                            </div>
+                            <div class="flex justify-between border-b border-blue-700 pb-2">
+                                <span class="math-font">Solar Declination</span>
+                                <span id="decVal" class="font-bold">23.4°</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="canvas-container h-[550px] border border-slate-200 flex items-center justify-center bg-white" id="container">
+                        <canvas id="daylightCanvas" width="816" height="548"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const canvas = document.getElementById('daylightCanvas');
+            const ctx = canvas.getContext('2d');
+            const latSlider = document.getElementById('latitudeSlider');
+            const daySlider = document.getElementById('daySlider');
+            const latVal = document.getElementById('latVal');
+            const dateVal = document.getElementById('dateVal');
+            const daylightVal = document.getElementById('daylightVal');
+            const decVal = document.getElementById('decVal');
+            
+            const timeBtn = document.getElementById('timeBtn');
+            const timeIcon = document.getElementById('timeIcon');
+            const timeText = document.getElementById('timeText');
+
+            let latitude = 40;
+            let dayOfYear = 172;
+            let isTimePlaying = true;
+            let lastTime = 0;
+            let animationId;
+
+            function resize() {
+                const container = document.getElementById('container');
+                if (container && container.clientWidth > 0) {
+                    canvas.width = container.clientWidth;
+                    canvas.height = container.clientHeight;
+                    drawFrame();
+                }
+            }
+            window.addEventListener('resize', resize);
+
+            function getDateString(day) {
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                let d = Math.floor(day);
+                let m = 0;
+                while (d > daysInMonth[m] && m < 11) {
+                    d -= daysInMonth[m];
+                    m++;
+                }
+                return `${months[m]} ${d}`;
+            }
+
+            function getDeclination(day) {
+                return -23.44 * Math.cos((day + 10) * 2 * Math.PI / 365);
+            }
+
+            function getDaylightHours(day, lat) {
+                const latRad = lat * Math.PI / 180;
+                const decRad = getDeclination(day) * Math.PI / 180;
+                
+                const tanLat = Math.tan(latRad);
+                const tanDec = Math.tan(decRad);
+                const val = -tanLat * tanDec;
+                
+                if (val <= -1) return 24;
+                if (val >= 1) return 0;
+                
+                const omega = Math.acos(val);
+                return 24 * omega / Math.PI;
+            }
+
+            function updateUI() {
+                latVal.innerText = `${Math.abs(latitude)}° ${latitude >= 0 ? 'N' : 'S'}`;
+                dateVal.innerText = getDateString(dayOfYear);
+                
+                const dec = getDeclination(dayOfYear);
+                decVal.innerText = `${dec.toFixed(1)}°`;
+                
+                const hours = getDaylightHours(dayOfYear, latitude);
+                daylightVal.innerText = `${hours.toFixed(1)} hrs`;
+            }
+
+            function toggleAnimation() {
+                isTimePlaying = !isTimePlaying;
+                if (isTimePlaying) {
+                    timeIcon.innerText = "⏸️";
+                    timeText.innerText = "Pause Orbit";
+                    timeBtn.classList.replace('bg-slate-600', 'bg-emerald-600');
+                    timeBtn.classList.replace('hover:bg-slate-700', 'hover:bg-emerald-700');
+                    lastTime = performance.now();
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    timeIcon.innerText = "▶️";
+                    timeText.innerText = "Resume Orbit";
+                    timeBtn.classList.replace('bg-emerald-600', 'bg-slate-600');
+                    timeBtn.classList.replace('hover:bg-emerald-700', 'hover:bg-slate-700');
+                    if (animationId) {
+                        cancelAnimationFrame(animationId);
+                        animationId = null;
+                    }
+                }
+            }
+
+            if(timeBtn) timeBtn.addEventListener('click', toggleAnimation);
+
+            latSlider.addEventListener('input', (e) => {
+                latitude = parseInt(e.target.value);
+                updateUI();
+                drawFrame();
+            });
+
+            daySlider.addEventListener('input', (e) => {
+                dayOfYear = parseInt(e.target.value);
+                if (isTimePlaying) toggleAnimation();
+                updateUI();
+                drawFrame();
+            });
+
+            function animate(now) {
+                if (!lastTime) lastTime = now;
+                const dt = (now - lastTime) / 1000;
+                lastTime = now;
+                
+                dayOfYear += 30 * dt; // Advances orbit by ~30 days per second
+                if (dayOfYear > 365) dayOfYear -= 365;
+                
+                daySlider.value = Math.floor(dayOfYear);
+                updateUI();
+                drawFrame();
+                
+                if (isTimePlaying) {
+                    animationId = requestAnimationFrame(animate);
+                }
+            }
+
+            function drawFrame() {
+                if (canvas.width === 0) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                drawOrbit(0, 0, canvas.width * 0.45, canvas.height);
+                drawGraph(canvas.width * 0.45, 0, canvas.width * 0.55, canvas.height);
+            }
+
+            function drawOrbit(x, y, w, h) {
+                // Shift cx slightly to the right to leave room for the left text
+                const cx = x + w / 2 + 15;
+                const cy = y + h / 2;
+                const radius = Math.min(w, h) * 0.28;
+
+                // Orbit path
+                ctx.beginPath();
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Sun
+                ctx.beginPath();
+                ctx.fillStyle = '#fbbf24';
+                ctx.arc(cx, cy, 25, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Rays
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 3;
+                for(let i=0; i<8; i++) {
+                    const angle = i * Math.PI / 4;
+                    ctx.beginPath();
+                    ctx.moveTo(cx + Math.cos(angle)*30, cy + Math.sin(angle)*30);
+                    ctx.lineTo(cx + Math.cos(angle)*40, cy + Math.sin(angle)*40);
+                    ctx.stroke();
+                }
+
+                // Month labels
+                ctx.fillStyle = '#64748b';
+                ctx.font = 'bold 12px sans-serif';
+                
+                const isSouth = latitude < 0;
+                
+                // Right (Dec)
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText("Dec", cx + radius + 15, cy - 7);
+                ctx.fillText(isSouth ? "Summer (S)" : "Winter (N)", cx + radius + 15, cy + 7);
+
+                // Top (Mar)
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText("Mar", cx, cy - radius - 15);
+                ctx.fillText(isSouth ? "Autumn (S)" : "Spring (N)", cx, cy - radius - 1);
+
+                // Left (Jun)
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillText("Jun", cx - radius - 15, cy - 7);
+                ctx.fillText(isSouth ? "Winter (S)" : "Summer (N)", cx - radius - 15, cy + 7);
+
+                // Bottom (Sep)
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText("Sep", cx, cy + radius + 15);
+                ctx.fillText(isSouth ? "Spring (S)" : "Autumn (N)", cx, cy + radius + 29);
+
+                // Earth Orbit Angle
+                // Decreasing angle drives the counter-clockwise rotation perfectly
+                const orbitAngle = -((dayOfYear + 10) / 365) * Math.PI * 2;
+                const ex = cx + radius * Math.cos(orbitAngle);
+                const ey = cy + radius * Math.sin(orbitAngle);
+
+                ctx.beginPath();
+                ctx.fillStyle = '#3b82f6';
+                ctx.arc(ex, ey, 16, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Earth Axis tilt (constant pointing right)
+                const tiltRad = 23.44 * Math.PI / 180;
+                const axisDx = Math.sin(tiltRad) * 25;
+                const axisDy = -Math.cos(tiltRad) * 25;
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.moveTo(ex - axisDx, ey - axisDy);
+                ctx.lineTo(ex + axisDx, ey + axisDy);
+                ctx.stroke();
+
+                // Equator line
+                const eqDx = Math.cos(tiltRad) * 16;
+                const eqDy = Math.sin(tiltRad) * 16;
+                ctx.beginPath();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.moveTo(ex - eqDx, ey - eqDy);
+                ctx.lineTo(ex + eqDx, ey + eqDy);
+                ctx.stroke();
+                
+                // Latitude line
+                const latRad = latitude * Math.PI / 180;
+                const latOffset = Math.sin(latRad) * 16;
+                const latRadius = Math.cos(latRad) * 16;
+                const latCx = ex + Math.sin(tiltRad) * latOffset;
+                const latCy = ey - Math.cos(tiltRad) * latOffset;
+                
+                const latDx = Math.cos(tiltRad) * latRadius;
+                const latDy = Math.sin(tiltRad) * latRadius;
+                
+                ctx.beginPath();
+                ctx.strokeStyle = '#fbbf24';
+                ctx.lineWidth = 2;
+                ctx.moveTo(latCx - latDx, latCy - latDy);
+                ctx.lineTo(latCx + latDx, latCy + latDy);
+                ctx.stroke();
+            }
+
+            function drawGraph(x, y, w, h) {
+                const padL = 60;
+                const padR = 30;
+                const padT = 50;
+                const padB = 60;
+                
+                const graphW = w - padL - padR;
+                const graphH = h - padT - padB;
+                const gx = x + padL;
+                const gy = y + padT;
+
+                // Graph BG
+                ctx.fillStyle = '#f8fafc';
+                ctx.fillRect(gx, gy, graphW, graphH);
+
+                // Axes
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(gx, gy);
+                ctx.lineTo(gx, gy + graphH);
+                ctx.lineTo(gx + graphW, gy + graphH);
+                ctx.stroke();
+
+                // Y labels (0 to 24)
+                ctx.fillStyle = '#64748b';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                for(let i=0; i<=24; i+=6) {
+                    const py = gy + graphH - (i / 24) * graphH;
+                    ctx.fillText(i, gx - 10, py);
+                    
+                    // grid line
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#e2e8f0';
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(gx, py);
+                    ctx.lineTo(gx + graphW, py);
+                    ctx.stroke();
+                }
+
+                // Y Axis title
+                ctx.save();
+                ctx.translate(gx - 40, gy + graphH / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.textAlign = 'center';
+                ctx.fillStyle = '#334155';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText("Daylight Hours", 0, 0);
+                ctx.restore();
+
+                // X labels (Months)
+                const monthDays = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillStyle = '#64748b';
+                for(let i=0; i<12; i+=2) {
+                    const d = monthDays[i];
+                    const px = gx + (d / 365) * graphW;
+                    ctx.fillText(monthNames[i], px, gy + graphH + 10);
+                }
+
+                // X Axis title
+                ctx.fillStyle = '#334155';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText("Day of Year", gx + graphW / 2, gy + graphH + 35);
+
+                // Draw Sine Wave Area
+                ctx.beginPath();
+                ctx.moveTo(gx, gy + graphH);
+                for(let d=1; d<=365; d++) {
+                    const hours = getDaylightHours(d, latitude);
+                    const px = gx + (d / 365) * graphW;
+                    const py = gy + graphH - (hours / 24) * graphH;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(gx + graphW, gy + graphH);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(251, 191, 36, 0.2)'; 
+                ctx.fill();
+
+                // Draw Sine Wave Line
+                ctx.beginPath();
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 3;
+                ctx.lineJoin = 'round';
+                for(let d=1; d<=365; d++) {
+                    const hours = getDaylightHours(d, latitude);
+                    const px = gx + (d / 365) * graphW;
+                    const py = gy + graphH - (hours / 24) * graphH;
+                    if(d===1) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Draw 12-hour reference line
+                ctx.beginPath();
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                const midY = gy + graphH / 2;
+                ctx.moveTo(gx, midY);
+                ctx.lineTo(gx + graphW, midY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw Current Day Point
+                const currHours = getDaylightHours(dayOfYear, latitude);
+                const px = gx + (dayOfYear / 365) * graphW;
+                const py = gy + graphH - (currHours / 24) * graphH;
+
+                ctx.beginPath();
+                ctx.strokeStyle = '#64748b';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.moveTo(px, gy + graphH);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.beginPath();
+                ctx.fillStyle = '#ef4444';
+                ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            updateUI();
+            setTimeout(() => {
+                resize();
+                if (isTimePlaying) {
+                    lastTime = performance.now();
+                    animationId = requestAnimationFrame(animate);
+                }
+            }, 100);
+        </script>
+    </main>
+</body>
+</html>
