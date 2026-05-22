@@ -72,13 +72,14 @@
                 <h1 class="text-3xl font-bold text-slate-800">Lesson 6: Daylight &amp; Seasons</h1>
                 <p class="text-slate-600 mt-2">Visualize how latitude and Earth's orbit affect daylight hours.</p>
                 <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl text-left text-sm text-slate-700">
-                    <strong>Purpose:</strong> In this lesson, students will see a real-world application of sine functions. The amount of daylight varies periodically throughout the year, and the amplitude of this wave changes based on your latitude!
+                    <strong>Key Concept:</strong> The <b>Midline</b> of the graph represents the 12-hour day (Equinox). The <b>Amplitude</b> represents the maximum seasonal change. Note that at the <b>Equator</b>, the amplitude is zero because daylight is always 12 hours!
                 </div>
             </header>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Controls -->
-                <div class="lg:col-span-1 space-y-6">
+            <div class="space-y-8">
+                <!-- Top Panels: Settings and Data -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Controls -->
                     <div class="control-panel border border-slate-200">
                         <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
                             <span>🌍</span> Settings
@@ -108,7 +109,8 @@
                         </div>
                     </div>
 
-                    <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg">
+                    <!-- Data Panel -->
+                    <div class="bg-blue-900 text-white p-6 rounded-xl shadow-lg flex flex-col justify-center">
                         <h3 class="text-lg font-bold mb-4 text-blue-200">Data</h3>
                         <div class="space-y-4 text-lg">
                             <div class="flex justify-between border-b border-blue-700 pb-2">
@@ -124,7 +126,7 @@
                 </div>
 
                 <!-- Visualization -->
-                <div class="lg:col-span-2 space-y-4">
+                <div class="w-full space-y-4">
                     <div class="canvas-container h-[550px] border border-slate-200 flex items-center justify-center bg-white" id="container">
                         <canvas id="daylightCanvas" width="816" height="548"></canvas>
                     </div>
@@ -335,13 +337,13 @@
 
                 ctx.beginPath();
                 ctx.fillStyle = '#3b82f6';
-                ctx.arc(ex, ey, 16, 0, Math.PI * 2);
+                ctx.arc(ex, ey, 24, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Earth Axis tilt (constant pointing right)
                 const tiltRad = 23.44 * Math.PI / 180;
-                const axisDx = Math.sin(tiltRad) * 25;
-                const axisDy = -Math.cos(tiltRad) * 25;
+                const axisDx = Math.sin(tiltRad) * 35;
+                const axisDy = -Math.cos(tiltRad) * 35;
 
                 ctx.beginPath();
                 ctx.strokeStyle = '#ef4444';
@@ -351,8 +353,8 @@
                 ctx.stroke();
 
                 // Equator line
-                const eqDx = Math.cos(tiltRad) * 16;
-                const eqDy = Math.sin(tiltRad) * 16;
+                const eqDx = Math.cos(tiltRad) * 24;
+                const eqDy = Math.sin(tiltRad) * 24;
                 ctx.beginPath();
                 ctx.strokeStyle = '#ffffff';
                 ctx.lineWidth = 2;
@@ -360,10 +362,20 @@
                 ctx.lineTo(ex + eqDx, ey + eqDy);
                 ctx.stroke();
                 
+                // Equator Label
+                ctx.save();
+                ctx.translate(ex, ey);
+                ctx.rotate(tiltRad);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 9px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText("EQUATOR", 0, 3);
+                ctx.restore();
+
                 // Latitude line
                 const latRad = latitude * Math.PI / 180;
-                const latOffset = Math.sin(latRad) * 16;
-                const latRadius = Math.cos(latRad) * 16;
+                const latOffset = Math.sin(latRad) * 24;
+                const latRadius = Math.cos(latRad) * 24;
                 const latCx = ex + Math.sin(tiltRad) * latOffset;
                 const latCy = ey - Math.cos(tiltRad) * latOffset;
                 
@@ -486,6 +498,31 @@
                 ctx.lineTo(gx + graphW, midY);
                 ctx.stroke();
                 ctx.setLineDash([]);
+
+                // Midline Label
+                ctx.fillStyle = '#64748b';
+                ctx.font = 'bold 10px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText("MIDLINE (12-hour average)", gx + 10, midY - 5);
+
+                // Amplitude Indicator
+                const summerDay = latitude >= 0 ? 172 : 355;
+                const hoursAtPeak = getDaylightHours(summerDay, latitude);
+                const peakX = gx + (summerDay / 365) * graphW;
+                const peakY = gy + graphH - (hoursAtPeak / 24) * graphH;
+                
+                if (Math.abs(hoursAtPeak - 12) > 0.5) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#3b82f6';
+                    ctx.lineWidth = 2;
+                    ctx.moveTo(peakX, midY);
+                    ctx.lineTo(peakX, peakY);
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#1d4ed8';
+                    ctx.font = 'bold 9px sans-serif';
+                    ctx.fillText(" AMPLITUDE", peakX + 2, (midY + peakY)/2 + 3);
+                }
 
                 // Draw Current Day Point
                 const currHours = getDaylightHours(dayOfYear, latitude);

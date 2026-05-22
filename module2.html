@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 2: Projectile Motion Explorer</title>
+    <title>Module 2: Quadratics</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        body {
+                body {
             background-color: #f8fafc;
             font-family: system-ui, -apple-system, sans-serif;
-            user-select: none;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
         .canvas-container {
             position: relative;
@@ -17,300 +21,634 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             overflow: hidden;
-            cursor: crosshair;
         }
-        input[type="range"] {
-            accent-color: #10b981;
-        }
-        .control-panel {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-        .math-font {
-            font-family: "Times New Roman", Times, serif;
-            font-style: italic;
-        }
+        .tile-x2 { background: #3b82f6; border: 2px solid #1d4ed8; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-x { background: #10b981; border: 2px solid #047857; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-1 { background: #fb7185; border: 2px solid #e11d48; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 2px; }
+        input[type="range"] { accent-color: #059669; }
+        .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+        .node-card { transition: all 0.2s ease-in-out; cursor: pointer; border: 2px solid transparent; }
+        .node-card:hover { border-color: #16a34a; background-color: #f0fdf4; }
+        .roadmap-line { position: absolute; left: 39px; top: 40px; bottom: 40px; width: 4px; background: #e2e8f0; z-index: 0; }
+        .topic-view { transition: opacity 0.3s ease-in-out; }
+        .hidden { display: none; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-float { animation: float 3s ease-in-out infinite; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="bg-slate-50 text-slate-800 flex min-h-screen overflow-x-hidden">
 
-    <div class="min-h-screen pb-20">
-        <div class="max-w-6xl mx-auto relative">
+    <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
+        <div class="p-6 border-b border-slate-200">
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight text-emerald-600">Module 2</h2>
+            <p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebar-nav">
+            <button onclick="showTopic('roadmap')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-bold text-emerald-700 bg-emerald-50">Unit Roadmap</button>
+            <button onclick="showTopic('graphing')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Graphing &amp; Forms</button>
+            <button onclick="showTopic('factoring')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Solving by Factoring</button>
+            <button onclick="showTopic('complex')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Complex Numbers</button>
+            <button onclick="showTopic('completing')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Completing the Square</button>
+            <button onclick="showTopic('formula')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">The Quadratic Formula</button>
+            <button onclick="showTopic('optimization')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Optimization &amp; Systems</button>
+        </nav>
+        <div class="p-4 border-t border-slate-200 bg-slate-50">
+            <a href="index.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Class Portal
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-5xl mx-auto">
             
-            <!-- Navigation Header -->
-            <div class="flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-                <button onclick="window.location.href='index.html'" class="flex items-center gap-2 text-slate-600 hover:text-emerald-600 font-bold transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
-                    Back to Class Portal
-                </button>
-                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Module 2</span>
-            </div>
+            <!-- Roadmap Home View -->
+            <section id="topic-roadmap" class="topic-view space-y-12">
+                <div class="hero-bg text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+                    <div class="relative z-10 text-center md:text-left">
+                        <h1 class="text-4xl md:text-5xl font-black mb-4 text-white">Quadratics Roadmap 🗺️</h1>
+                        <p class="text-lg md:text-xl font-medium text-emerald-50 max-w-2xl mx-auto md:mx-0">Your journey from foundations to universal solving.</p>
+                    </div>
+                    <div class="absolute -right-10 -top-10 text-white/10 text-9xl font-black rotate-12 select-none">ax²</div>
+                </div>
 
-            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h1 class="text-3xl font-bold text-slate-800">Projectile Motion Explorer</h1>
-                <p class="text-slate-600 mt-2">Relate the Quadratic Formula to the flight of a projectile</p>
-            </header>
+                <div class="flex flex-col items-center gap-4 py-8">
+                    <!-- Topic 1 -->
+                    <button onclick="showTopic('graphing')" class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-emerald-500 hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-emerald-100 p-3 rounded-full text-emerald-600">📈</div>
+                        <div class="text-left"><h3 class="font-bold">Graphing Features</h3><p class="text-xs text-slate-500">Master the three forms.</p></div>
+                    </button>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                    
+                    <!-- Topic 2 -->
+                    <button onclick="showTopic('factoring')" class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-blue-500 hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-blue-100 p-3 rounded-full text-blue-600">🧩</div>
+                        <div class="text-left"><h3 class="font-bold">Solving by Factoring</h3><p class="text-xs text-slate-500">The "X" Method & Zero Product.</p></div>
+                    </button>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Controls -->
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="control-panel border border-slate-200">
-                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <span>⚙️</span> Parameters
-                        </h2>
-                        
-                        <div class="mb-6">
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-medium text-slate-700">Initial Height (c)</label>
-                                <span id="heightVal" class="text-emerald-600 font-bold">50 ft</span>
-                            </div>
-                            <input type="range" id="initialHeight" min="0" max="200" value="50" class="w-full">
+                    <!-- Topic 3 -->
+                    <button onclick="showTopic('complex')" class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-purple-500 hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-purple-100 p-3 rounded-full text-purple-600">👻</div>
+                        <div class="text-left"><h3 class="font-bold">Complex Numbers</h3><p class="text-xs text-slate-500">Defining "i" and arithmetic.</p></div>
+                    </button>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+
+                    <!-- Topic 4 -->
+                    <button onclick="showTopic('completing')" class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-orange-500 hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-orange-100 p-3 rounded-full text-orange-600">⏹️</div>
+                        <div class="text-left"><h3 class="font-bold">Completing the Square</h3><p class="text-xs text-slate-500">Geometric construction of solutions.</p></div>
+                    </button>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+
+                    <!-- Topic 5 -->
+                    <button onclick="showTopic('formula')" class="w-full max-w-sm p-6 bg-slate-900 text-white rounded-2xl shadow-xl hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-white/10 p-3 rounded-full text-emerald-400">⚡</div>
+                        <div class="text-left"><h3 class="font-bold">Quadratic Formula</h3><p class="text-xs text-white/50">The universal tool for all equations.</p></div>
+                    </button>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+
+                    <!-- Topic 6 -->
+                    <button onclick="showTopic('optimization')" class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-rose-500 hover:scale-105 transition-transform flex items-center gap-4">
+                        <div class="bg-rose-100 p-3 rounded-full text-rose-600">🎯</div>
+                        <div class="text-left"><h3 class="font-bold">Optimization &amp; Systems</h3><p class="text-xs text-slate-500">Real-world modeling &amp; intersections.</p></div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Graphing & Forms -->
+            <section id="topic-graphing" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Graphing &amp; Forms</h1>
+                    <p class="text-slate-600">Different perspectives for the same curve.</p>
+                </header>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 mb-8" id="form-navigation-flow">
+                    <!-- Factored Form -->
+                    <button onclick="setGraphForm('factored')" id="card-factored" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-orange-500 transition-all hover:bg-orange-50 ring-orange-200">
+                        <h4 class="font-bold text-orange-800 text-sm">Factored Form</h4>
+                        <div class="math-font text-base my-1 italic">y = a(x-p)(x-q)</div>
+                        <p class="text-[11px] text-slate-500 leading-tight">Find <b>x-intercepts</b>.</p>
+                    </button>
+
+                    <!-- Factored <-> Standard Arrows -->
+                    <div class="flex md:flex-col items-center gap-1 text-slate-400">
+                        <div class="flex flex-col items-center">
+                            <span class="text-[9px] font-black uppercase tracking-tighter">Distribute</span>
+                            <svg class="w-4 h-4 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                         </div>
-
-                        <div class="mb-6">
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-medium text-slate-700">Initial Velocity (b)</label>
-                                <span id="velVal" class="text-emerald-600 font-bold">80 ft/s</span>
-                            </div>
-                            <input type="range" id="initialVelocity" min="10" max="150" value="80" class="w-full">
+                        <div class="flex flex-col items-center">
+                            <svg class="w-4 h-4 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" style="transform: scaleX(-1);"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                            <span class="text-[9px] font-black uppercase tracking-tighter">Factor</span>
                         </div>
+                    </div>
 
-                        <div class="pt-2">
-                            <button id="launchBtn" class="w-full py-3 px-4 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-all flex items-center justify-center gap-2">
-                                <span>🚀</span>
-                                <span>Launch Projectile</span>
+                    <!-- Standard Form (Central Hub) -->
+                    <button onclick="setGraphForm('standard')" id="card-standard" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-emerald-500 transition-all hover:bg-emerald-50 ring-emerald-200 ring-4">
+                        <h4 class="font-bold text-emerald-800 text-sm">Standard Form</h4>
+                        <div class="math-font text-base my-1 italic">y = ax² + bx + c</div>
+                        <p class="text-[11px] text-slate-500 leading-tight">Find <b>y-intercept</b>.</p>
+                    </button>
+
+                    <!-- Standard <-> Vertex Arrows -->
+                    <div class="flex md:flex-col items-center gap-1 text-slate-400">
+                        <div class="flex flex-col items-center text-center">
+                            <span class="text-[9px] font-black uppercase tracking-tighter leading-none">Complete<br>Square</span>
+                            <svg class="w-4 h-4 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <svg class="w-4 h-4 rotate-90 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3" style="transform: scaleX(-1);"><path d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                            <span class="text-[9px] font-black uppercase tracking-tighter">Distribute</span>
+                        </div>
+                    </div>
+
+                    <!-- Vertex Form -->
+                    <button onclick="setGraphForm('vertex')" id="card-vertex" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-blue-500 transition-all hover:bg-blue-50 ring-blue-200">
+                        <h4 class="font-bold text-blue-800 text-sm">Vertex Form</h4>
+                        <div class="math-font text-base my-1 italic">y = a(x-h)² + k</div>
+                        <p class="text-[11px] text-slate-500 leading-tight">Find <b>vertex</b>.</p>
+                    </button>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl border border-slate-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="space-y-6 flex flex-col justify-center">
+                            <div id="controls-standard" class="graph-controls space-y-4">
+                                <h3 class="font-bold uppercase text-xs text-emerald-600 tracking-widest text-center">Standard Parameters</h3>
+                                <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="std-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">b</label><input type="range" id="std-b" min="-10" max="10" value="-4" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">c</label><input type="range" id="std-c" min="-10" max="10" value="3" class="w-full"></div>
+                            </div>
+                            <div id="controls-vertex" class="graph-controls space-y-4 hidden">
+                                <h3 class="font-bold uppercase text-xs text-blue-600 tracking-widest text-center">Vertex Parameters</h3>
+                                <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="vtx-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">h</label><input type="range" id="vtx-h" min="-10" max="10" value="2" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">k</label><input type="range" id="vtx-k" min="-10" max="10" value="-1" class="w-full"></div>
+                            </div>
+                            <div id="controls-factored" class="graph-controls space-y-4 hidden">
+                                <h3 class="font-bold uppercase text-xs text-orange-600 tracking-widest text-center">Factored Parameters</h3>
+                                <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="fac-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">p (root 1)</label><input type="range" id="fac-p" min="-10" max="10" value="1" class="w-full"></div>
+                                <div><label class="text-xs font-bold text-slate-400">q (root 2)</label><input type="range" id="fac-q" min="-10" max="10" value="3" class="w-full"></div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <div class="canvas-container h-[400px] border border-slate-200" id="graphContainer">
+                                <canvas id="identityCanvas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Solving by Factoring -->
+            <section id="topic-factoring" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Solving by Factoring</h1>
+                    <p class="text-slate-600">Finding ground-intercepts using the Zero Product Property.</p>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                        <h3 class="text-xl font-bold text-emerald-800 mb-4">The "X" Method Scaffolding</h3>
+                        <div class="relative w-48 h-48 mx-auto my-8">
+                            <svg class="absolute inset-0 w-full h-full text-emerald-200" viewBox="0 0 100 100" stroke="currentColor" stroke-width="2">
+                                <line x1="10" y1="10" x2="90" y2="90" /><line x1="90" y1="10" x2="10" y2="90" />
+                            </svg>
+                            <div class="absolute -top-4 left-0 right-0 text-center font-bold text-emerald-600 uppercase text-xs tracking-widest">Multiply to (a•c)</div>
+                            <div class="absolute -bottom-4 left-0 right-0 text-center font-bold text-emerald-600 uppercase text-xs tracking-widest">Add to (b)</div>
+                            <div class="absolute top-1/2 -left-6 -translate-y-1/2 font-bold text-slate-400">m₁</div>
+                            <div class="absolute top-1/2 -right-6 -translate-y-1/2 font-bold text-slate-400">m₂</div>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-4 leading-relaxed">The goal is to find two numbers that fit both parts of the X, allowing us to rewrite <b>ax² + bx + c = 0</b> as <b>(x + m₁)(x + m₂) = 0</b>.</p>
+                    </div>
+                    <div class="bg-blue-900 text-white p-8 rounded-3xl shadow-xl flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4 text-white">Zero Product Property</h3>
+                        <p class="text-blue-100 leading-relaxed mb-6">If two things multiply to zero, one of them <b>must</b> be zero. This is how we find the specific values for 'x'.</p>
+                        <div class="bg-blue-800 p-4 rounded-xl font-mono text-center">
+                            (x - 3)(x + 5) = 0<br>
+                            ➔ x = 3, x = -5
+                        </div>
+                    </div>
+                </div>
+                <!-- Factoring Scaffolding -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">Step-by-Step Factoring Scaffolding</h3>
+                    <ol class="text-sm text-slate-600 space-y-4 list-decimal list-inside">
+                        <li><b>Standard Check:</b> Ensure the equation is in standard form: \( ax^2 + bx + c = 0 \).</li>
+                        <li><b>Identify Target:</b> Identify your \(a, b,\) and \(c\). Note that you need two numbers that multiply to \( a \cdot c \) and add to \( b \).</li>
+                        <li><b>Fill the Organizer:</b> Place these targets into the <b>X-Organizer</b> above to find your factors \( m_1 \) and \( m_2 \).</li>
+                        <li><b>Binomial Write-up:</b> If \( a = 1 \), the factors are simply \( (x + m_1)(x + m_2) \).</li>
+                        <li><b>The ZPP:</b> Set each factor equal to zero and solve for the roots.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Complex Numbers -->
+            <section id="topic-complex" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Complex Numbers</h1>
+                    <p class="text-slate-600">Broadening our number system for roots that never touch the x-axis.</p>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-purple-900 text-white p-12 rounded-3xl shadow-xl flex flex-col justify-center items-center text-center">
+                        <div class="text-7xl font-black mb-4 text-purple-300">√-1 = i</div>
+                        <p class="text-purple-100 text-lg">Imaginary Numbers</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                        <h3 class="font-bold text-purple-700 mb-2 uppercase text-xs tracking-widest">Crucial Arithmetic Rule</h3>
+                        <div class="bg-slate-50 p-6 rounded-2xl font-mono text-3xl text-center border border-slate-200 mb-4">i² = -1</div>
+                        <p class="text-sm text-slate-500 leading-relaxed">This rule allows us to turn imaginary expressions back into real values. Whenever you see <b>i²</b>, swap it for <b>-1</b>.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Completing the Square -->
+            <section id="topic-completing" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Completing the Square</h1>
+                    <p class="text-slate-600">Visualize the geometry of adding <span class="math-font">(b/2)²</span>.</p>
+                </header>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                            <h3 class="font-bold mb-4 uppercase text-xs tracking-widest">Problem: x² + <span id="tileBVal">6</span>x</h3>
+                            <input type="range" id="inputTileB" min="2" max="8" step="2" value="6" class="w-full mb-8">
+                            <button id="startTileAnim" class="w-full py-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all shadow-lg active:scale-95">
+                                Start Construction ✨
                             </button>
                         </div>
-                    </div>
-
-                    <div class="bg-emerald-900 text-white p-6 rounded-xl shadow-lg">
-                        <h3 class="text-lg font-bold mb-2 text-emerald-200">Quadratic Equation</h3>
-                        <div class="text-xl math-font bg-emerald-800 p-4 rounded-lg text-center mb-4 border border-emerald-700">
-                            h(t) = -16t² + <span id="eqB">80</span>t + <span id="eqC">50</span>
+                        <div id="tileLog" class="bg-slate-900 text-white p-6 rounded-2xl font-mono text-sm leading-relaxed min-h-[140px] shadow-inner">
+                            <span class="text-slate-500">// Status:</span> Waiting to start...
                         </div>
-                        <div class="text-sm space-y-2">
-                            <p><b>Quadratic Formula:</b></p>
-                            <p class="math-font text-center bg-emerald-800 p-2 rounded">
-                                t = (-b ± √(b² - 4ac)) / 2a
-                            </p>
-                            <p class="text-emerald-200 mt-2 text-center text-lg">Landing Time (h=0):<br><b id="landTime" class="text-white text-2xl"></b> seconds</p>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="canvas-container h-[450px] border border-slate-200 flex items-center justify-center bg-slate-50 overflow-visible" id="tileStage">
+                            <div id="tileField" class="relative w-[300px] h-[300px]"></div>
+                        </div>
+                        <!-- CTS Scaffolding -->
+                        <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-emerald-500 mt-6">
+                            <h4 class="font-bold text-slate-800 mb-4">Algebraic Scaffolding</h4>
+                            <p class="text-sm text-slate-600 mb-2">The goal of "Completing the Square" is to find the missing constant that makes a perfect square trinomial.</p>
+                            <div class="bg-slate-50 p-4 rounded-xl text-center font-mono text-emerald-700">
+                                $$ \text{Target Constant} = \left( \frac{b}{2} \right)^2 $$
+                            </div>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Visualization -->
-                <div class="lg:col-span-2 space-y-4">
-                    <div class="canvas-container h-[550px] border border-slate-200" id="container">
-                        <canvas id="mainCanvas" width="816" height="548"></canvas>
+            <!-- Quadratic Formula -->
+            <section id="topic-formula" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">The Quadratic Formula</h1>
+                    <p class="text-slate-600">The universal solution for any quadratic equation.</p>
+                </header>
+                <div class="bg-emerald-900 text-white p-12 rounded-3xl shadow-2xl text-center relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="text-4xl md:text-6xl font-black mb-12 text-white">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                            <div class="bg-white/10 p-6 rounded-2xl">
+                                <h5 class="font-bold text-emerald-300 text-xs uppercase mb-2 tracking-widest">The Discriminant</h5>
+                                <p class="text-sm text-slate-200 leading-relaxed">The part under the vincullum of the square root \( (b^2 - 4ac) \) tells us if the solutions are real, repeated, or complex.</p>
+                            </div>
+                            <div class="bg-white/10 p-6 rounded-2xl">
+                                <h5 class="font-bold text-emerald-300 text-xs uppercase mb-2 tracking-widest">Calculator Scaffolding</h5>
+                                <p class="text-sm text-slate-200 leading-relaxed">Always evaluate the discriminant first. When typing the full formula, put the entire numerator in parentheses to maintain the vinculum's grouping.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -left-10 -bottom-10 text-white/5 text-9xl font-black select-none">±</div>
+                </div>
+            </section>
+
+            <!-- Optimization & Systems -->
+            <section id="topic-optimization" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Applications: Optimization &amp; Systems</h1>
+                    <p class="text-slate-600">Using quadratics to find the "best" solution and solving for intersections.</p>
+                </header>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Optimization: Area Problem -->
+                    <div class="bg-white p-8 rounded-3xl shadow-md border-t-8 border-rose-500 space-y-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-2xl font-bold text-slate-800">Maximizing Area</h3>
+                            <span class="px-3 py-1 bg-rose-100 text-rose-700 text-xs font-bold rounded-full">OPTIMIZATION</span>
+                        </div>
+                        <p class="text-slate-600 text-sm italic">"I have 100m of fencing to build a rectangular garden against a wall. What width (x) maximizes the area?"</p>
+                        
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col items-center justify-center min-h-[200px]">
+                             <div class="border-4 border-emerald-500 bg-emerald-100/50 transition-all duration-300 flex items-center justify-center shadow-inner" id="fence-visual">
+                                 <span class="text-emerald-700 font-bold text-xs" id="visual-area-label"></span>
+                             </div>
+                             <div class="w-full h-2 bg-slate-800 mt-0"></div> <!-- The Wall -->
+                             <div class="text-[10px] text-slate-400 uppercase font-bold mt-1 tracking-widest">Brick Wall</div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex justify-between text-xs font-bold text-slate-400 uppercase">
+                                <label>Adjust Width (x)</label>
+                                <span id="fence-dim-label" class="text-rose-600">x = 25m</span>
+                            </div>
+                            <input type="range" id="fence-slider" min="1" max="49" value="25" class="w-full accent-rose-500">
+                            <div class="bg-rose-900 text-white p-6 rounded-2xl text-center shadow-lg">
+                                <div class="text-xs opacity-60 uppercase font-bold tracking-widest mb-1">Total Garden Area</div>
+                                <div class="text-4xl font-black" id="fence-area">1250 m²</div>
+                                <div class="text-xs mt-3 math-font text-rose-200 border-t border-rose-800 pt-2">Function: A(x) = x(100 - 2x) = -2x² + 100x</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Systems of Equations -->
+                    <div class="bg-white p-8 rounded-3xl shadow-md border-t-8 border-indigo-500 space-y-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-2xl font-bold text-slate-800">Linear-Quadratic Systems</h3>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full">INTERSECTIONS</span>
+                        </div>
+                        <p class="text-slate-600 text-sm">Finding where a linear path and a quadratic path meet.</p>
+                        
+                        <div class="canvas-container h-[300px] border border-slate-200 bg-slate-50" id="systemContainer">
+                            <canvas id="systemCanvas"></canvas>
+                        </div>
+
+                        <div class="scaffold-box border-indigo-200">
+                            <h4 class="text-xs font-bold text-slate-500 uppercase mb-2 flex items-center gap-2"><span>💡</span> Algebraic Strategy</h4>
+                            <p class="text-xs leading-relaxed text-slate-600">1. Set the equations equal to each other.<br>2. Move all terms to one side to get <b>ax² + bx + c = 0</b>.<br>3. Solve for <b>x</b> using the Quadratic Formula or Factoring!</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </div>
+    </main>
 
     <script>
-        const canvas = document.getElementById('mainCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Controls
-        const heightInput = document.getElementById('initialHeight');
-        const velInput = document.getElementById('initialVelocity');
-        const launchBtn = document.getElementById('launchBtn');
-        
-        // Labels
-        const heightVal = document.getElementById('heightVal');
-        const velVal = document.getElementById('velVal');
-        const eqB = document.getElementById('eqB');
-        const eqC = document.getElementById('eqC');
-        const landTimeLabel = document.getElementById('landTime');
+        // ==========================================
+        // Topic Switching Logic (SPA)
+        // ==========================================
+        function showTopic(topicId) {
+            // Hide all views
+            document.querySelectorAll('.topic-view').forEach(v => v.classList.add('hidden'));
+            // Show selected view
+            const target = topicId === 'roadmap' ? 'topic-roadmap' : 'topic-' + topicId;
+            const el = document.getElementById(target);
+            if(el) el.classList.remove('hidden');
 
-        // State
-        let c = 50; // initial height
-        let b = 80; // initial velocity
-        const a = -16; // gravity
-        
-        let t = 0;
-        let isAnimating = false;
-        let lastFrameTime = 0;
-
-        function resize() {
-            const container = document.getElementById('container');
-            if(container.clientWidth > 0) {
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-                draw(true);
+            // Update sidebar active states
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('font-bold', 'text-emerald-700', 'bg-emerald-50');
+                btn.classList.add('font-medium', 'text-slate-600');
+            });
+            
+            // Find the button that was clicked and style it
+            const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+            const activeBtn = navButtons.find(b => b.getAttribute('onclick')?.includes(`'${topicId}'`));
+            if(activeBtn) {
+                activeBtn.classList.add('font-bold', 'text-emerald-700', 'bg-emerald-50');
+                activeBtn.classList.remove('font-medium', 'text-slate-600');
             }
-        }
-        window.addEventListener('resize', resize);
-        
-        function calculateRoots() {
-            // -16t^2 + bt + c = 0
-            const discriminant = b*b - 4*a*c;
-            const t1 = (-b + Math.sqrt(discriminant)) / (2*a);
-            const t2 = (-b - Math.sqrt(discriminant)) / (2*a);
-            return Math.max(t1, t2); // return the positive root
-        }
 
-        function getLandingTime() {
-            return calculateRoots();
-        }
-        
-        function getMaxHeight() {
-            const t_vertex = -b / (2 * a);
-            const h_max = a * t_vertex * t_vertex + b * t_vertex + c;
-            return Math.max(h_max, c, 10);
-        }
-
-        function updateUI() {
-            heightVal.innerText = c + " ft";
-            eqC.innerText = c;
-            velVal.innerText = b + " ft/s";
-            eqB.innerText = b;
-            
-            const landingTime = getLandingTime();
-            landTimeLabel.innerText = landingTime.toFixed(2);
-        }
-
-        heightInput.addEventListener('input', (e) => {
-            c = parseInt(e.target.value);
-            updateUI();
-            draw(true);
-        });
-
-        velInput.addEventListener('input', (e) => {
-            b = parseInt(e.target.value);
-            updateUI();
-            draw(true);
-        });
-
-        launchBtn.addEventListener('click', () => {
-            t = 0;
-            isAnimating = true;
-            lastFrameTime = performance.now();
-            requestAnimationFrame(animate);
-        });
-
-        function animate(now) {
-            if (!isAnimating) return;
-            const dt = (now - lastFrameTime) / 1000;
-            lastFrameTime = now;
-            
-            // Scale time so animation is smooth but doesn't take too long
-            t += dt * 1.5; 
-            
-            const landT = getLandingTime();
-            if (t >= landT) {
-                t = landT;
-                isAnimating = false;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+            if(topicId === 'graphing') {
+                // Re-initialize graph on show to ensure canvas dimensions are correct
+                setTimeout(resize, 50);
             }
-            
-            draw(false);
-            
-            if (isAnimating) {
-                requestAnimationFrame(animate);
+            if(topicId === 'optimization') {
+                updateFence();
+                setTimeout(resizeSystems, 50);
             }
         }
 
-        function draw(staticView) {
-            if (canvas.width === 0) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ==========================================
+        // 1. Graphing Features Logic
+        // ==========================================
+        const idCanvas = document.getElementById('identityCanvas');
+        const idCtx = idCanvas.getContext('2d');
+        
+        let activeGraphForm = 'standard';
+
+        function setGraphForm(form) {
+            activeGraphForm = form;
             
-            const paddingX = 60;
-            const paddingY = 60;
-            const plotWidth = canvas.width - paddingX * 2;
-            const plotHeight = canvas.height - paddingY * 2;
+            // Update card highlighting
+            const cardIds = ['card-standard', 'card-vertex', 'card-factored'];
+            cardIds.forEach(id => document.getElementById(id).classList.remove('ring-4'));
+            document.getElementById(`card-${form}`).classList.add('ring-4');
+
+            // Toggle control panels
+            document.querySelectorAll('.graph-controls').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`controls-${form}`).classList.remove('hidden');
+
+            updateGraph();
+        }
+
+        function updateGraph() {
+            idCtx.clearRect(0, 0, idCanvas.width, idCanvas.height);
+            const cx = idCanvas.width/2, cy = idCanvas.height/2, s = 25;
             
-            const landT = getLandingTime();
-            const hMax = getMaxHeight();
-            
-            const maxT = Math.max(landT * 1.1, 1);
-            const maxH = hMax * 1.2;
-            
-            const scaleX = plotWidth / maxT;
-            const scaleY = plotHeight / maxH;
-            
-            const originX = paddingX;
-            const originY = canvas.height - paddingY;
+            // Grid
+            idCtx.strokeStyle='#e2e8f0'; idCtx.beginPath();
+            for(let i=-10; i<=10; i++){ idCtx.moveTo(cx+i*s,0); idCtx.lineTo(cx+i*s,idCanvas.height); idCtx.moveTo(0,cy+i*s); idCtx.lineTo(idCanvas.width,cy+i*s); }
+            idCtx.stroke();
             
             // Axes
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(originX, originY + 20);
-            ctx.lineTo(originX, originY - plotHeight - 20);
-            ctx.moveTo(originX - 20, originY);
-            ctx.lineTo(originX + plotWidth + 20, originY);
-            ctx.stroke();
+            idCtx.strokeStyle='#94a3b8'; idCtx.beginPath(); idCtx.moveTo(0,cy); idCtx.lineTo(idCanvas.width,cy); idCtx.moveTo(cx,0); idCtx.lineTo(cx,idCanvas.height); idCtx.stroke();
             
-            // Labels
-            ctx.fillStyle = '#64748b';
-            ctx.font = '14px sans-serif';
-            ctx.fillText("Time (s)", originX + plotWidth / 2, originY + 40);
+            let a, yFunc, features = [];
             
-            ctx.save();
-            ctx.translate(originX - 40, originY - plotHeight / 2);
-            ctx.rotate(-Math.PI / 2);
-            ctx.textAlign = 'center';
-            ctx.fillText("Height (ft)", 0, 0);
-            ctx.restore();
-            
-            // Trajectory (dashed)
-            ctx.beginPath();
-            ctx.setLineDash([5, 5]);
-            ctx.strokeStyle = '#cbd5e1';
-            ctx.lineWidth = 2;
-            for (let time = 0; time <= landT; time += 0.05) {
-                const height = a * time * time + b * time + c;
-                const px = originX + time * scaleX;
-                const py = originY - height * scaleY;
-                if (time === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
+            if (activeGraphForm === 'standard') {
+                a = parseFloat(document.getElementById('std-a').value);
+                const b = parseFloat(document.getElementById('std-b').value);
+                const c = parseFloat(document.getElementById('std-c').value);
+                yFunc = (x) => a*x*x + b*x + c;
+                features.push({ x: 0, y: c, label: `y-int: (0, ${c.toFixed(1)})`, color: '#10b981' });
+            } else if (activeGraphForm === 'vertex') {
+                a = parseFloat(document.getElementById('vtx-a').value);
+                const h = parseFloat(document.getElementById('vtx-h').value);
+                const k = parseFloat(document.getElementById('vtx-k').value);
+                yFunc = (x) => a * Math.pow(x - h, 2) + k;
+                features.push({ x: h, y: k, label: `Vertex: (${h.toFixed(1)}, ${k.toFixed(1)})`, color: '#3b82f6' });
+            } else {
+                a = parseFloat(document.getElementById('fac-a').value);
+                const p = parseFloat(document.getElementById('fac-p').value);
+                const q = parseFloat(document.getElementById('fac-q').value);
+                yFunc = (x) => a * (x - p) * (x - q);
+                features.push({ x: p, y: 0, label: `p: (${p.toFixed(1)}, 0)`, color: '#f59e0b' });
+                features.push({ x: q, y: 0, label: `q: (${q.toFixed(1)}, 0)`, color: '#f59e0b' });
             }
-            ctx.stroke();
-            ctx.setLineDash([]);
-            
-            // Actual path traced
-            const currentTime = staticView ? 0 : t;
-            
-            ctx.beginPath();
-            ctx.strokeStyle = '#10b981';
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            for (let time = 0; time <= currentTime; time += 0.05) {
-                const height = a * time * time + b * time + c;
-                const px = originX + time * scaleX;
-                const py = originY - height * scaleY;
-                if (time === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
+
+            // Draw Curve
+            idCtx.strokeStyle = activeGraphForm === 'standard' ? '#10b981' : 
+                               activeGraphForm === 'vertex' ? '#3b82f6' : '#f59e0b';
+            idCtx.lineWidth = 4; idCtx.beginPath();
+            for(let x=-10; x<=10; x+=0.1){ 
+                const py = cy - yFunc(x)*s; 
+                if(x===-10) idCtx.moveTo(cx+x*s,py); 
+                else idCtx.lineTo(cx+x*s,py); 
             }
-            const currHeight = a * currentTime * currentTime + b * currentTime + c;
-            const currPx = originX + currentTime * scaleX;
-            const currPy = originY - currHeight * scaleY;
-            if (currentTime === 0) ctx.moveTo(currPx, currPy);
-            else ctx.lineTo(currPx, currPy);
-            ctx.stroke();
-            
-            // Projectile
-            ctx.beginPath();
-            ctx.fillStyle = '#047857';
-            ctx.arc(currPx, currPy, 8, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Info
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 16px sans-serif';
-            ctx.textAlign = 'left';
-            ctx.fillText(`t = ${currentTime.toFixed(2)} s`, currPx + 15, currPy - 15);
-            ctx.fillText(`h = ${Math.max(0, currHeight).toFixed(1)} ft`, currPx + 15, currPy + 5);
+            idCtx.stroke();
+
+            // Draw Feature Markers
+            features.forEach(pt => {
+                const px = cx + pt.x * s;
+                const py = cy - pt.y * s;
+                idCtx.fillStyle = pt.color;
+                idCtx.beginPath(); idCtx.arc(px, py, 6, 0, Math.PI * 2); idCtx.fill();
+                idCtx.strokeStyle = 'white'; idCtx.lineWidth = 2; idCtx.stroke();
+                idCtx.fillStyle = '#1e293b';
+                idCtx.font = 'bold 12px sans-serif';
+                idCtx.textAlign = pt.x >= 0 ? 'left' : 'right';
+                idCtx.fillText(pt.label, px + (pt.x >= 0 ? 10 : -10), py - 10);
+            });
         }
 
-        updateUI();
-        setTimeout(() => resize(), 100);
+        // ==========================================
+        // 2. Completing the Square Logic
+        // ==========================================
+        const tileField = document.getElementById('tileField');
+        const tileLog = document.getElementById('tileLog');
+        const tileB = document.getElementById('inputTileB');
+        const startAnim = document.getElementById('startTileAnim');
+
+        async function runTiles() {
+            startAnim.disabled = true;
+            tileField.innerHTML = '';
+            const b = parseInt(tileB.value);
+            const halfB = b/2;
+            
+            tileLog.innerHTML = `<span class="text-blue-400">Step 1:</span> Layout x² and ${b}x tiles.`;
+            const x2 = document.createElement('div');
+            x2.className = 'tile-x2 absolute'; x2.style.width='120px'; x2.style.height='120px'; x2.style.left='0'; x2.style.top='0'; x2.innerText='x²';
+            tileField.appendChild(x2);
+            
+            for(let i=0; i<b; i++){
+                const t = document.createElement('div'); t.className='tile-x absolute transition-all duration-700 opacity-0';
+                t.style.width='30px'; t.style.height='120px'; t.style.left=`${130 + i*35}px`; t.style.top='0'; t.innerText='x';
+                t.id=`tile-x-${i}`; tileField.appendChild(t);
+                setTimeout(() => t.classList.remove('opacity-0'), 100);
+            }
+
+            await new Promise(r => setTimeout(r, 1500));
+            tileLog.innerHTML = `<span class="text-emerald-400">Step 2:</span> Split the ${b}x tiles in half (${halfB} each).`;
+            
+            await new Promise(r => setTimeout(r, 1000));
+            tileLog.innerHTML = `<span class="text-emerald-400">Step 3:</span> Move ${halfB} to the right and rotate ${halfB} to the bottom.`;
+            
+            for(let i=0; i<halfB; i++){
+                const tRight = document.getElementById(`tile-x-${i}`);
+                tRight.style.left = `${124 + i*34}px`;
+                
+                const tBottom = document.getElementById(`tile-x-${halfB+i}`);
+                tBottom.style.width = '120px'; tBottom.style.height = '30px';
+                tBottom.style.left = '0'; tBottom.style.top = `${124 + i*34}px`;
+            }
+
+            await new Promise(r => setTimeout(r, 2000));
+            tileLog.innerHTML = `<span class="text-rose-400">Step 4:</span> See the gap? It's a ${halfB} by ${halfB} square.`;
+            
+            for(let r=0; r<halfB; r++){
+                for(let c=0; c<halfB; c++){
+                    const unit = document.createElement('div'); unit.className='tile-1 absolute transition-all duration-300 opacity-0';
+                    unit.style.width='30px'; unit.style.height='30px';
+                    unit.style.left=`${124 + c*34}px`; unit.style.top=`${124 + r*34}px`; unit.innerText='1';
+                    tileField.appendChild(unit);
+                    setTimeout(() => unit.classList.remove('opacity-0'), (r*halfB + c)*100);
+                }
+            }
+
+            await new Promise(r => setTimeout(r, 1500));
+            tileLog.innerHTML = `<span class="text-white font-bold">Complete!</span> We added ${halfB*halfB} unit tiles.<br>New form: (x + ${halfB})²`;
+            startAnim.disabled = false;
+        }
+
+        // ==========================================
+        // 3. Optimization Logic
+        // ==========================================
+        function updateFence() {
+            const slider = document.getElementById('fence-slider');
+            if(!slider) return;
+            const x = parseFloat(slider.value);
+            const length = 100 - (2 * x);
+            const area = x * length;
+
+            const visual = document.getElementById('fence-visual');
+            const dimLabel = document.getElementById('fence-dim-label');
+            const areaDisplay = document.getElementById('fence-area');
+            
+            // Scaling for visual
+            visual.style.width = (length * 2.5) + 'px';
+            visual.style.height = (x * 2.5) + 'px';
+            
+            dimLabel.innerText = `x = ${x}m (Length = ${length}m)`;
+            areaDisplay.innerText = `${area.toFixed(0)} m²`;
+            document.getElementById('visual-area-label').innerText = `${area.toFixed(0)}m²`;
+        }
+        document.getElementById('fence-slider').oninput = updateFence;
+
+        // ==========================================
+        // 4. Systems Visualization
+        // ==========================================
+        function drawSystem() {
+            const sCanvas = document.getElementById('systemCanvas');
+            if(!sCanvas) return;
+            const sCtx = sCanvas.getContext('2d');
+            sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+            const cx = sCanvas.width/2, cy = sCanvas.height/2, s = 22;
+
+            // Grid
+            sCtx.strokeStyle = '#e2e8f0'; sCtx.beginPath();
+            for(let i=-10; i<=10; i++){ sCtx.moveTo(cx+i*s,0); sCtx.lineTo(cx+i*s,sCanvas.height); sCtx.moveTo(0,cy+i*s); sCtx.lineTo(sCanvas.width,cy+i*s); }
+            sCtx.stroke();
+            sCtx.strokeStyle = '#94a3b8'; sCtx.beginPath();
+            sCtx.moveTo(0, cy); sCtx.lineTo(sCanvas.width, cy); sCtx.moveTo(cx, 0); sCtx.lineTo(cx, sCanvas.height); sCtx.stroke();
+
+            // Parabola: y = 0.1x^2 - 3
+            sCtx.strokeStyle = '#3b82f6'; sCtx.lineWidth = 3; sCtx.beginPath();
+            for(let x=-10; x<=10; x+=0.1){ const y = 0.1*x*x - 3; sCtx.lineTo(cx+x*s, cy-y*s); }
+            sCtx.stroke();
+
+            // Line: y = 0.5x + 1
+            sCtx.strokeStyle = '#fb7185'; sCtx.lineWidth = 3; sCtx.beginPath();
+            for(let x=-10; x<=10; x+=0.1){ const y = 0.5*x + 1; sCtx.lineTo(cx+x*s, cy-y*s); }
+            sCtx.stroke();
+
+            // Intersection dots
+            sCtx.fillStyle = '#1e293b';
+            [[8.4, 5.2], [-3.4, -0.7]].forEach(p => { sCtx.beginPath(); sCtx.arc(cx+p[0]*s, cy-p[1]*s, 5, 0, Math.PI*2); sCtx.fill(); });
+        }
+
+        function resizeSystems() {
+            const sCanvas = document.getElementById('systemCanvas');
+            const sCont = document.getElementById('systemContainer');
+            if(sCanvas && sCont) {
+                sCanvas.width = sCont.clientWidth;
+                sCanvas.height = sCont.clientHeight;
+                drawSystem();
+            }
+        }
+
+        function resize(){
+            const gCont = document.getElementById('graphContainer');
+            if(gCont && !document.getElementById('topic-graphing').classList.contains('hidden')) {
+                idCanvas.width = gCont.clientWidth;
+                idCanvas.height = 400;
+                updateGraph();
+            }
+            resizeSystems();
+        }
+        
+        window.addEventListener('resize', resize);
+        
+        const allSliders = ['std-a', 'std-b', 'std-c', 'vtx-a', 'vtx-h', 'vtx-k', 'fac-a', 'fac-p', 'fac-q'];
+        allSliders.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.oninput = updateGraph;
+        });
+        tileB.oninput = () => { document.getElementById('tileBVal').innerText = tileB.value; tileField.innerHTML=''; tileLog.innerText = '// Terminal: Ready'; };
+        startAnim.onclick = runTiles;
+        
+        window.onload = () => {
+            showTopic('roadmap');
+        };
     </script>
 </body>
 </html>

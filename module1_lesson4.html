@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 4: Graphing Sine and Cosine Functions</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            user-select: none;
+        }
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        input[type="range"] {
+            accent-color: #3b82f6;
+        }
+        .control-panel {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .math-font {
+            font-family: "Times New Roman", Times, serif;
+            font-style: italic;
+        }
+        #btnSin.active { background-color: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
+        #btnCos.active { background-color: #ecfdf5; border-color: #10b981; color: #047857; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
     <!-- Navigation Sidebar -->
@@ -29,16 +58,336 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl shadow-xl max-w-lg w-full text-center border-t-8 border-blue-500">
-            <div class="text-6xl mb-4">🚧</div>
-            <h1 class="text-3xl font-bold mb-2">Lesson 4: Graphing Sine and Cosine Functions</h1>
-            <p class="text-slate-600 mb-8">This lesson is currently under construction. Please check back later!</p>
-            <button onclick="window.location.href='module1.html'" class="lg:hidden bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                Back to Module 1
-            </button>
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-6xl mx-auto relative pb-20">
+            
+            <!-- Mobile Navigation Header -->
+            <div class="lg:hidden flex items-center justify-between mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                <button onclick="window.location.href='module1.html'" class="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-bold transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+                    Back to Module 1
+                </button>
+                <span class="font-black text-slate-300 uppercase tracking-widest hidden sm:block">Lesson 4</span>
+            </div>
+
+            <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold text-slate-800">Lesson 4: Graphing Sine and Cosine Functions</h1>
+                <p class="text-slate-600 mt-2">Watch the unit circle unroll to form waves over time.</p>
+                <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl text-left text-sm text-slate-700">
+                    <strong>Purpose:</strong> By mapping the y-coordinate (for sine) or x-coordinate (for cosine) of a point moving around the unit circle onto a linear graph, we can see how periodic motion creates continuous wave functions!
+                </div>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Controls -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="control-panel border border-slate-200">
+                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <span>🌊</span> Wave Controls
+                        </h2>
+                        
+                        <div class="mb-6">
+                            <label class="text-sm font-medium text-slate-700 mb-2 block">Active Function</label>
+                            <div class="flex gap-2">
+                                <button id="btnSin" class="flex-1 py-2 px-3 rounded-lg border-2 active transition-all font-bold">Sine (y)</button>
+                                <button id="btnCos" class="flex-1 py-2 px-3 rounded-lg border-2 border-slate-200 bg-white text-slate-600 transition-all font-bold">Cosine (x)</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-slate-700">Angle / Time (θ)</label>
+                                <span id="angleVal" class="text-blue-600 font-bold">0.00 π</span>
+                            </div>
+                            <input type="range" id="angleSlider" min="0" max="12.56637" step="0.01" value="0" class="w-full">
+                        </div>
+
+                        <div class="pt-2">
+                            <button id="playBtn" class="w-full py-3 px-4 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold transition-all flex items-center justify-center gap-2">
+                                <span id="playIcon">▶️</span>
+                                <span id="playText">Auto Unroll Wave</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="dataPanel" class="bg-blue-900 text-white p-6 rounded-xl shadow-lg transition-colors duration-300">
+                        <h3 class="text-lg font-bold mb-4 text-white/80">Real-Time Data</h3>
+                        <div class="space-y-4 text-lg">
+                            <div class="flex justify-between border-b border-white/20 pb-2">
+                                <span class="math-font">θ (Radians)</span>
+                                <span id="dataRad" class="font-bold">0.00</span>
+                            </div>
+                            <div class="flex justify-between border-b border-white/20 pb-2">
+                                <span class="math-font" id="funcLabel">sin(θ)</span>
+                                <span id="dataFunc" class="font-bold text-blue-200">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <div class="lg:col-span-2 space-y-4">
+                    <div class="canvas-container h-[450px] md:h-[550px] border border-slate-200" id="container">
+                        <canvas id="waveCanvas" width="816" height="548"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script>
+            const canvas = document.getElementById('waveCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            const btnSin = document.getElementById('btnSin');
+            const btnCos = document.getElementById('btnCos');
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const playText = document.getElementById('playText');
+            const angleSlider = document.getElementById('angleSlider');
+            
+            const angleVal = document.getElementById('angleVal');
+            const dataRad = document.getElementById('dataRad');
+            const dataFunc = document.getElementById('dataFunc');
+            const funcLabel = document.getElementById('funcLabel');
+            const dataPanel = document.getElementById('dataPanel');
+
+            let angle = 0;
+            let isPlaying = false;
+            let activeFunc = 'sin';
+            let animationId;
+            let lastTime = 0;
+            const maxAngle = 4 * Math.PI; // Show two full periods
+
+            function resize() {
+                const container = document.getElementById('container');
+                if (container && container.clientWidth > 0) {
+                    canvas.width = container.clientWidth;
+                    canvas.height = container.clientHeight;
+                    draw();
+                }
+            }
+            window.addEventListener('resize', resize);
+
+            function updateUI() {
+                const piMult = angle / Math.PI;
+                angleVal.innerText = `${piMult.toFixed(2)} π`;
+                dataRad.innerText = angle.toFixed(2);
+                
+                const val = activeFunc === 'sin' ? Math.sin(angle) : Math.cos(angle);
+                dataFunc.innerText = val.toFixed(2);
+                
+                if (!isPlaying) {
+                    angleSlider.value = angle;
+                }
+            }
+
+            btnSin.addEventListener('click', () => {
+                activeFunc = 'sin';
+                btnSin.className = 'flex-1 py-2 px-3 rounded-lg border-2 active transition-all font-bold';
+                btnCos.className = 'flex-1 py-2 px-3 rounded-lg border-2 border-slate-200 bg-white text-slate-600 transition-all font-bold';
+                dataPanel.className = 'bg-blue-900 text-white p-6 rounded-xl shadow-lg transition-colors duration-300';
+                funcLabel.innerText = 'sin(θ)';
+                dataFunc.className = 'font-bold text-blue-200';
+                angleSlider.style.accentColor = '#3b82f6';
+                updateUI();
+                draw();
+            });
+
+            btnCos.addEventListener('click', () => {
+                activeFunc = 'cos';
+                btnCos.className = 'flex-1 py-2 px-3 rounded-lg border-2 active transition-all font-bold';
+                btnSin.className = 'flex-1 py-2 px-3 rounded-lg border-2 border-slate-200 bg-white text-slate-600 transition-all font-bold';
+                dataPanel.className = 'bg-emerald-900 text-white p-6 rounded-xl shadow-lg transition-colors duration-300';
+                funcLabel.innerText = 'cos(θ)';
+                dataFunc.className = 'font-bold text-emerald-200';
+                angleSlider.style.accentColor = '#10b981';
+                updateUI();
+                draw();
+            });
+
+            function togglePlay() {
+                isPlaying = !isPlaying;
+                if (isPlaying) {
+                    playIcon.innerText = '⏸️';
+                    playText.innerText = 'Pause Animation';
+                    playBtn.classList.replace('bg-slate-800', 'bg-rose-600');
+                    playBtn.classList.replace('hover:bg-slate-900', 'hover:bg-rose-700');
+                    if(angle >= maxAngle) angle = 0;
+                    lastTime = performance.now();
+                    animationId = requestAnimationFrame(animate);
+                } else {
+                    playIcon.innerText = '▶️';
+                    playText.innerText = 'Auto Unroll Wave';
+                    playBtn.classList.replace('bg-rose-600', 'bg-slate-800');
+                    playBtn.classList.replace('hover:bg-rose-700', 'hover:bg-slate-900');
+                    if (animationId) cancelAnimationFrame(animationId);
+                }
+            }
+
+            playBtn.addEventListener('click', togglePlay);
+            
+            angleSlider.addEventListener('input', (e) => {
+                if (isPlaying) togglePlay();
+                angle = parseFloat(e.target.value);
+                updateUI();
+                draw();
+            });
+
+            function animate(now) {
+                if (!isPlaying) return;
+                const dt = (now - lastTime) / 1000;
+                lastTime = now;
+                
+                angle += 1.5 * dt; // speed
+                if (angle >= maxAngle) {
+                    angle = maxAngle;
+                    togglePlay();
+                }
+                
+                angleSlider.value = angle;
+                updateUI();
+                draw();
+                
+                if (isPlaying) {
+                    animationId = requestAnimationFrame(animate);
+                }
+            }
+
+            function draw() {
+                if (canvas.width === 0) return;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const w = canvas.width;
+                const h = canvas.height;
+                
+                // Layout
+                const cx = w * 0.2;
+                const cy = h / 2;
+                const radius = Math.min(w * 0.12, h * 0.3);
+                
+                const gx = w * 0.4;
+                const gy = h / 2;
+                const gw = w * 0.55;
+                
+                const isSin = activeFunc === 'sin';
+                const mainColor = isSin ? '#3b82f6' : '#10b981';
+                const accentColor = isSin ? '#ef4444' : '#f59e0b';
+
+                // 1. Draw Unit Circle
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx - radius - 20, cy); ctx.lineTo(cx + radius + 20, cy); // x axis
+                ctx.moveTo(cx, cy - radius - 20); ctx.lineTo(cx, cy + radius + 20); // y axis
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Circle Point
+                const px = cx + radius * Math.cos(angle);
+                const py = cy - radius * Math.sin(angle);
+
+                // 2. Draw Graph Grid
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.beginPath();
+                ctx.moveTo(gx, gy); ctx.lineTo(gx + gw, gy); // Centerline
+                ctx.stroke();
+                
+                ctx.strokeStyle = '#f1f5f9';
+                ctx.beginPath();
+                ctx.moveTo(gx, gy - radius); ctx.lineTo(gx + gw, gy - radius); // Top bound
+                ctx.moveTo(gx, gy + radius); ctx.lineTo(gx + gw, gy + radius); // Bottom bound
+                ctx.stroke();
+
+                // Graph Labels
+                ctx.fillStyle = '#64748b';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                for(let i=0; i<=4; i++) {
+                    const lx = gx + (i * Math.PI / maxAngle) * gw;
+                    ctx.fillText(i + "π", lx, gy + 10);
+                    ctx.beginPath(); ctx.moveTo(lx, gy - 5); ctx.lineTo(lx, gy + 5); ctx.stroke();
+                }
+
+                // 3. Draw Wave
+                ctx.beginPath();
+                ctx.strokeStyle = mainColor;
+                ctx.lineWidth = 3;
+                ctx.lineJoin = 'round';
+                for (let a = 0; a <= angle; a += 0.05) {
+                    const wx = gx + (a / maxAngle) * gw;
+                    const val = isSin ? Math.sin(a) : Math.cos(a);
+                    const wy = gy - val * radius;
+                    if (a === 0) ctx.moveTo(wx, wy);
+                    else ctx.lineTo(wx, wy);
+                }
+                ctx.stroke();
+
+                // Graph Point
+                const currentVal = isSin ? Math.sin(angle) : Math.cos(angle);
+                const currGx = gx + (angle / maxAngle) * gw;
+                const currGy = gy - currentVal * radius;
+
+                // 4. Draw Map Connections
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                
+                if (isSin) {
+                    // Emphasize Y-height on circle
+                    ctx.strokeStyle = accentColor;
+                    ctx.setLineDash([]);
+                    ctx.beginPath(); ctx.moveTo(px, cy); ctx.lineTo(px, py); ctx.stroke();
+                    
+                    // Dashed connector across
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(currGx, py); ctx.stroke();
+                } else {
+                    // Emphasize X-distance on circle
+                    ctx.strokeStyle = accentColor;
+                    ctx.setLineDash([]);
+                    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(px, cy); ctx.stroke();
+                    
+                    // Dashed connection is harder for cos, so we highlight the height on the graph
+                    ctx.beginPath(); ctx.moveTo(currGx, gy); ctx.lineTo(currGx, currGy); ctx.stroke();
+                }
+                
+                ctx.setLineDash([]);
+
+                // 5. Draw Points
+                // Circle Dot
+                ctx.beginPath();
+                ctx.fillStyle = mainColor;
+                ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Graph Dot
+                ctx.beginPath();
+                ctx.fillStyle = accentColor;
+                ctx.arc(currGx, currGy, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                
+                // Angle Arc on Circle
+                if (angle > 0) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = mainColor;
+                    ctx.lineWidth = 2;
+                    // Use angle modulo 2PI so the arc doesn't overdraw continuously
+                    ctx.arc(cx, cy, radius * 0.3, 0, -(angle % (Math.PI * 2)), true);
+                    ctx.stroke();
+                }
+            }
+
+            updateUI();
+            setTimeout(() => resize(), 100);
+        </script>
     </main>
 </body>
 </html>

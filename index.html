@@ -53,144 +53,317 @@
         </div>
 
         <!-- Modules Grid -->
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
             
-            <!-- Module 1 (Active Link to module1.html) -->
-            <button onclick="window.location.href='module1.html'" class="module-card text-left bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl p-6 shadow-lg border-b-8 border-blue-900 group">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <span class="text-3xl text-white font-black">1</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Trigonometry</h2>
-                <p class="text-blue-100 font-medium mb-4">Sine waves &amp; Circular Motion</p>
-                <div class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Start Explorer 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-                </div>
+            <!-- Linear -->
+            <button onclick="window.location.href='module7.html'" class="module-card text-left bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-3xl p-6 shadow-lg border-b-8 border-cyan-900 group">
+                <h2 class="text-xl font-bold text-white mb-1">Linear</h2>
+                <p class="text-cyan-100 text-xs font-medium mb-4 italic">y = mx + b</p>
+                <div class="bg-white text-cyan-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 2 (Active Link to module2.html) -->
+            <!-- Quadratic -->
             <button onclick="window.location.href='module2.html'" class="module-card text-left bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-3xl p-6 shadow-lg border-b-8 border-emerald-800 group">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <span class="text-3xl text-white font-black">2</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Algebra</h2>
-                <p class="text-emerald-100 font-medium mb-4">Quadratics &amp; Projectiles</p>
-                <div class="bg-white text-emerald-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Start Explorer 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-                </div>
+                <h2 class="text-xl font-bold text-white mb-1">Quadratic</h2>
+                <p class="text-emerald-100 text-xs font-medium mb-4 italic">ax² + bx + c</p>
+                <div class="bg-white text-emerald-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 3 (Placeholder) -->
-            <button onclick="window.location.href='module3.html'" class="module-card text-left bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl p-6 shadow-lg border-b-8 border-purple-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">3</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Geometry</h2>
-                <p class="text-purple-100 font-medium mb-4">Shapes &amp; Spatial Reasoning</p>
-                <div class="bg-purple-900/30 text-purple-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Polynomial -->
+            <button onclick="window.location.href='module5.html'" class="module-card text-left bg-gradient-to-br from-rose-400 to-rose-600 rounded-3xl p-6 shadow-lg border-b-8 border-rose-800 group">
+                <h2 class="text-xl font-bold text-white mb-1">Polynomial</h2>
+                <p class="text-rose-100 text-xs font-medium mb-4 italic">Higher Degrees</p>
+                <div class="bg-white text-rose-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 4 (Placeholder) -->
-            <button onclick="window.location.href='module4.html'" class="module-card text-left bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl p-6 shadow-lg border-b-8 border-orange-700 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">4</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Calculus</h2>
-                <p class="text-orange-100 font-medium mb-4">Limits &amp; Derivatives</p>
-                <div class="bg-orange-900/30 text-orange-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Radical -->
+            <button onclick="window.location.href='module3.html'" class="module-card text-left bg-gradient-to-br from-purple-500 to-purple-700 rounded-3xl p-6 shadow-lg border-b-8 border-purple-900 group">
+                <h2 class="text-xl font-bold text-white mb-1">Radical</h2>
+                <p class="text-purple-100 text-xs font-medium mb-4 italic">Square Roots</p>
+                <div class="bg-white text-purple-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 5 (Placeholder) -->
-            <button onclick="window.location.href='module5.html'" class="module-card text-left bg-gradient-to-br from-rose-400 to-rose-600 rounded-3xl p-6 shadow-lg border-b-8 border-rose-800 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">5</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Polynomial Equations</h2>
-                <p class="text-rose-100 font-medium mb-4">Roots &amp; Degrees</p>
-                <div class="bg-rose-900/30 text-rose-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Exponential -->
+            <button onclick="window.location.href='module4.html'" class="module-card text-left bg-gradient-to-br from-amber-400 to-orange-500 rounded-3xl p-6 shadow-lg border-b-8 border-orange-700 group">
+                <h2 class="text-xl font-bold text-white mb-1">Exponential</h2>
+                <p class="text-orange-100 text-xs font-medium mb-4 italic">Growth & Decay</p>
+                <div class="bg-white text-orange-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 6 (Placeholder) -->
-            <button onclick="window.location.href='module6.html'" class="module-card text-left bg-gradient-to-br from-indigo-500 to-indigo-700 rounded-3xl p-6 shadow-lg border-b-8 border-indigo-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">6</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Review</h2>
-                <p class="text-indigo-100 font-medium mb-4">Practice Exams &amp; Prep</p>
-                <div class="bg-indigo-900/30 text-indigo-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Logarithmic -->
+            <button onclick="window.location.href='module8.html'" class="module-card text-left bg-gradient-to-br from-violet-500 to-violet-700 rounded-3xl p-6 shadow-lg border-b-8 border-violet-900 group">
+                <h2 class="text-xl font-bold text-white mb-1">Logarithmic</h2>
+                <p class="text-violet-100 text-xs font-medium mb-4 italic">Inverses</p>
+                <div class="bg-white text-violet-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 7 (Placeholder) -->
-            <button onclick="window.location.href='module7.html'" class="module-card text-left bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-3xl p-6 shadow-lg border-b-8 border-cyan-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">7</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Linear Algebra</h2>
-                <p class="text-cyan-100 font-medium mb-4">Matrices &amp; Vectors</p>
-                <div class="bg-cyan-900/30 text-cyan-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Statistics -->
+            <button onclick="window.location.href='module9.html'" class="module-card text-left bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-3xl p-6 shadow-lg border-b-8 border-yellow-800 group">
+                <h2 class="text-xl font-bold text-white mb-1">Statistics</h2>
+                <p class="text-yellow-100 text-xs font-medium mb-4 italic">Data Analysis</p>
+                <div class="bg-white text-yellow-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
 
-            <!-- Module 8 (Placeholder) -->
-            <button onclick="window.location.href='module8.html'" class="module-card text-left bg-gradient-to-br from-violet-500 to-violet-700 rounded-3xl p-6 shadow-lg border-b-8 border-violet-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">8</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Pre-Calculus</h2>
-                <p class="text-violet-100 font-medium mb-4">Functions &amp; Graphs</p>
-                <div class="bg-violet-900/30 text-violet-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
+            <!-- Trigonometric -->
+            <button onclick="window.location.href='module1.html'" class="module-card text-left bg-gradient-to-br from-blue-500 to-blue-700 rounded-3xl p-6 shadow-lg border-b-8 border-blue-900 group">
+                <h2 class="text-xl font-bold text-white mb-1">Trigonometric</h2>
+                <p class="text-blue-100 text-xs font-medium mb-4 italic">Sine & Cosine</p>
+                <div class="bg-white text-blue-700 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2 text-xs">Explore</div>
             </button>
+        </div>
 
-            <!-- Module 9 (Placeholder) -->
-            <button onclick="window.location.href='module9.html'" class="module-card text-left bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-3xl p-6 shadow-lg border-b-8 border-yellow-800 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">9</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Number Theory</h2>
-                <p class="text-yellow-100 font-medium mb-4">Primes &amp; Modulo</p>
-                <div class="bg-yellow-900/30 text-yellow-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
-            </button>
+        <!-- Interactive Continuity Map -->
+        <div class="max-w-5xl mx-auto mt-24 mb-20 w-full px-2">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black text-slate-800 mb-2">The Function Connection Hub</h2>
+                <p class="text-slate-500 font-medium">Select a function to see how the "Big Ideas" evolve.</p>
+            </div>
 
-            <!-- Module 10 (Placeholder) -->
-            <button onclick="window.location.href='module10.html'" class="module-card text-left bg-gradient-to-br from-pink-500 to-pink-700 rounded-3xl p-6 shadow-lg border-b-8 border-pink-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">10</span>
-                </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Combinatorics</h2>
-                <p class="text-pink-100 font-medium mb-4">Counting &amp; Sets</p>
-                <div class="bg-pink-900/30 text-pink-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
-            </button>
+            <!-- Selection Pills -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8" id="function-selector">
+                <button onclick="updateExplorer('linear')" class="explorer-btn active px-6 py-2 rounded-full font-bold text-sm transition-all bg-cyan-100 text-cyan-700 ring-2 ring-cyan-500" data-color="cyan">Linear</button>
+                <button onclick="updateExplorer('quadratic')" class="explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100" data-color="emerald">Quadratic</button>
+                <button onclick="updateExplorer('polynomial')" class="explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100" data-color="rose">Polynomial</button>
+                <button onclick="updateExplorer('radical')" class="explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100" data-color="purple">Radical</button>
+                <button onclick="updateExplorer('exponential')" class="explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100" data-color="orange">Exponential</button>
+                <button onclick="updateExplorer('logarithmic')" class="explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100" data-color="violet">Logarithmic</button>
+            </div>
 
-            <!-- Module 11 (Placeholder) -->
-            <button onclick="window.location.href='module11.html'" class="module-card text-left bg-gradient-to-br from-teal-500 to-teal-700 rounded-3xl p-6 shadow-lg border-b-8 border-teal-900 group opacity-90 hover:opacity-100">
-                <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                    <span class="text-3xl text-white font-black">11</span>
+            <!-- Visual Explorer -->
+            <div class="flex flex-col gap-6">
+                <!-- Graphic Visualization -->
+                <div class="bg-white rounded-[2rem] shadow-xl border-2 border-slate-100 p-6 md:p-10 h-64 md:h-96 relative flex items-center justify-center overflow-hidden">
+                    <canvas id="visualizer-canvas" class="w-full h-full max-w-2xl"></canvas>
+                    <div id="visual-label" class="absolute top-6 right-8 text-4xl md:text-6xl font-black uppercase tracking-tighter opacity-10 pointer-events-none italic">Linear</div>
                 </div>
-                <h2 class="text-2xl font-bold text-white mb-2">Logic &amp; Proofs</h2>
-                <p class="text-teal-100 font-medium mb-4">Reasoning &amp; Sets</p>
-                <div class="bg-teal-900/30 text-teal-50 font-bold py-2 px-4 rounded-xl inline-flex items-center gap-2">
-                    Coming Soon 🔒
-                </div>
-            </button>
 
+                <!-- Display Area -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="explorer-content">
+                    <!-- Big Idea 1 -->
+                    <div class="bg-white p-5 rounded-3xl shadow-lg border-t-4 border-slate-800 transition-all duration-500 transform" id="idea-1">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 block">General Form</span>
+                        <p class="text-slate-800 font-bold text-md leading-tight" id="text-1">Straight Path</p>
+                    </div>
+                    <!-- Big Idea 2 -->
+                    <div class="bg-white p-5 rounded-3xl shadow-lg border-t-4 border-slate-800 transition-all duration-500 transform" id="idea-2">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 block">Landmarks</span>
+                        <p class="text-slate-800 font-bold text-md leading-tight" id="text-2">1 Solution</p>
+                    </div>
+                    <!-- Big Idea 3 -->
+                    <div class="bg-white p-5 rounded-3xl shadow-lg border-t-4 border-slate-800 transition-all duration-500 transform" id="idea-3">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 block">Shift (h, k)</span>
+                        <p class="text-slate-800 font-bold text-md leading-tight" id="text-3">Isolate X</p>
+                    </div>
+                    <!-- Big Idea 4 -->
+                    <div class="bg-white p-5 rounded-3xl shadow-lg border-t-4 border-slate-800 transition-all duration-500 transform" id="idea-4">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 block">How to Solve</span>
+                        <p class="text-slate-800 font-bold text-md leading-tight" id="text-4">Steady Steps</p>
+                    </div>
+                    <!-- Big Idea 5: The Story -->
+                    <div class="bg-white p-5 rounded-3xl shadow-lg border-t-4 border-slate-800 transition-all duration-500 transform" id="idea-5">
+                        <span class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1 block">Story Problem</span>
+                        <div class="flex items-center gap-3">
+                            <span id="story-icon" class="text-2xl"></span>
+                            <p class="text-slate-800 font-bold text-[10px] leading-tight" id="text-5"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
+
+    <script>
+        const explorerData = {
+            linear: {
+                color: 'cyan',
+                func: x => 0.8 * (x - 2) + 1,
+                landmark: { x: 2, y: 1, label: '(h, k)' },
+                ideas: ["y = a(x - h) + k", "Slope & Intercept", "h = Left/Right, k = Up/Down", "Isolate x: 2x + 4 = 10 → 2x = 6 → x = 3"],
+                story: "Taxi Ride: Fixed base fare plus a constant cost per mile.",
+                icon: "🚖"
+            },
+            quadratic: {
+                color: 'emerald',
+                func: x => 0.5 * Math.pow(x - 2, 2) - 2,
+                landmark: { x: 2, y: -2, label: 'Vertex (h, k)' },
+                ideas: ["y = a(x - h)² + k", "The Vertex", "-h = Right, +k = Up", "Factor or Quad Formula: x²-9=0 → x=±3"],
+                story: "Basketball: The curved path of a ball flying through the air.",
+                icon: "🏀"
+            },
+            polynomial: {
+                color: 'rose',
+                func: x => (Math.pow(x - 1, 3) - 3*(x-1)) / 2 + 1,
+                landmark: { x: 1, y: 1, label: 'Inflection (h, k)' },
+                ideas: ["y = a(x - h)ⁿ + k", "Turning Points", "h shifts Inflection Point", "Solve by Factoring: x(x-2)(x+2)=0"],
+                story: "Roller Coaster: Designing the ups and downs of a complex track.",
+                icon: "🎢"
+            },
+            radical: {
+                color: 'purple',
+                func: x => x >= 1 ? Math.sqrt(x - 1) + 2 : null,
+                landmark: { x: 1, y: 2, label: 'Start (h, k)' },
+                ideas: ["y = a√(x - h) + k", "Endpoint/Start", "h = Start X, k = Start Y", "Square both sides: √x = 5 → x = 25"],
+                story: "Horizon: How far you can see as you get higher above the ground.",
+                icon: "🌅"
+            },
+            exponential: {
+                color: 'orange',
+                func: x => Math.pow(2, x - 3) + 1,
+                landmark: { type: 'h-line', y: 1, label: 'Asymptote y = k' },
+                ideas: ["y = a(b)^(x - h) + k", "Horiz. Asymptote", "k = Vertical Shift", "Use Logs: 2ˣ = 8 → x = log₂(8) = 3"],
+                story: "Viral Video: Views doubling every hour on social media.",
+                icon: "📈"
+            },
+            logarithmic: {
+                color: 'violet',
+                func: x => x > 2.1 ? Math.log2(x - 2) + 1 : null,
+                landmark: { type: 'v-line', x: 2, label: 'Asymptote x = h' },
+                ideas: ["y = a log(x - h) + k", "Vert. Asymptote", "h = Horizontal Shift", "Rewrite as base: log₂(x)=3 → x=2³=8"],
+                story: "Sound Intensity: Measuring decibel levels or earthquake strength.",
+                icon: "🔊"
+            }
+        };
+
+        const tailwindHex = {
+            cyan: '#06b6d4', emerald: '#10b981', rose: '#f43f5e',
+            purple: '#a855f7', orange: '#f97316', violet: '#8b5cf6'
+        };
+
+        function updateExplorer(type) {
+            const data = explorerData[type];
+            const hex = tailwindHex[data.color];
+            const buttons = document.querySelectorAll('.explorer-btn');
+            
+            // 1. Update selector buttons
+            buttons.forEach(btn => {
+                const isTarget = btn.innerText.toLowerCase() === type;
+                const bColor = btn.dataset.color;
+                btn.className = isTarget 
+                    ? `explorer-btn active px-6 py-2 rounded-full font-bold text-sm transition-all bg-${bColor}-100 text-${bColor}-700 ring-2 ring-${bColor}-500`
+                    : `explorer-btn px-6 py-2 rounded-full font-bold text-sm transition-all bg-white text-slate-500 hover:bg-slate-100`;
+            });
+
+            // 2. Update Visualizer
+            const label = document.getElementById('visual-label');
+            label.innerText = type;
+            label.style.color = hex;
+            drawCurve(data, hex);
+
+            // 3. Update Fact Cards
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById('idea-' + i);
+                card.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => {
+                    if (i <= 4) {
+                        document.getElementById('text-' + i).innerText = data.ideas[i-1];
+                    } else {
+                        document.getElementById('text-5').innerText = data.story;
+                        document.getElementById('story-icon').innerText = data.icon;
+                    }
+                    card.className = `${i === 5 ? 'lg:col-span-1 md:col-span-3' : ''} bg-white p-5 rounded-3xl shadow-lg border-t-4 transition-all duration-500 transform border-${data.color}-500`;
+                    card.classList.remove('opacity-0', 'translate-y-4');
+                }, 200);
+            }
+        }
+
+        function drawCurve(data, color) {
+            const canvas = document.getElementById('visualizer-canvas');
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+
+            const w = rect.width;
+            const h = rect.height;
+            const cx = w / 2;
+            const cy = h / 2;
+            const scale = 40;
+
+            ctx.clearRect(0, 0, w, h);
+            
+            // Draw Grid
+            ctx.strokeStyle = '#f1f5f9';
+            ctx.lineWidth = 1;
+            for(let i = -10; i <= 10; i++) {
+                ctx.beginPath(); ctx.moveTo(cx + i*scale, 0); ctx.lineTo(cx + i*scale, h); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, cy + i*scale); ctx.lineTo(w, cy + i*scale); ctx.stroke();
+            }
+
+            // Draw Axes
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, h); ctx.stroke();
+
+            // Draw Landmark
+            if (data.landmark) {
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 1;
+                if (data.landmark.type === 'h-line') {
+                    const ly = cy - data.landmark.y * scale;
+                    ctx.beginPath(); ctx.moveTo(0, ly); ctx.lineTo(w, ly); ctx.stroke();
+                } else if (data.landmark.type === 'v-line') {
+                    const lx = cx + data.landmark.x * scale;
+                    ctx.beginPath(); ctx.moveTo(lx, 0); ctx.lineTo(lx, h); ctx.stroke();
+                }
+                ctx.setLineDash([]);
+
+                if (data.landmark.x !== undefined && data.landmark.y !== undefined) {
+                    const lx = cx + data.landmark.x * scale;
+                    const ly = cy - data.landmark.y * scale;
+                    ctx.fillStyle = color;
+                    ctx.beginPath(); ctx.arc(lx, ly, 5, 0, Math.PI * 2); ctx.fill();
+                    ctx.font = 'bold 10px sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(' ' + data.landmark.label, lx + 8, ly + 4);
+                } else if (data.landmark.label) {
+                    ctx.fillStyle = '#64748b';
+                    ctx.font = 'bold 10px sans-serif';
+                    const ty = data.landmark.type === 'h-line' ? cy - data.landmark.y * scale - 5 : 20;
+                    const tx = data.landmark.type === 'v-line' ? cx + data.landmark.x * scale + 5 : 10;
+                    ctx.fillText(data.landmark.label, tx, ty);
+                }
+            }
+
+            // Draw Function Path
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            let first = true;
+            for(let x = -6; x <= 6; x += 0.05) {
+                const y = data.func(x);
+                if (y === null || isNaN(y)) {
+                    first = true;
+                    continue;
+                }
+                const px = cx + x * scale;
+                const py = cy - y * scale;
+                
+                if (py < -20 || py > h + 20) {
+                    first = true;
+                    continue;
+                }
+
+                if (first) {
+                    ctx.moveTo(px, py);
+                    first = false;
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            ctx.stroke();
+        }
+
+        window.onload = () => updateExplorer('linear');
+        window.onresize = () => {
+            const activeBtn = document.querySelector('.explorer-btn.active');
+            if(activeBtn) updateExplorer(activeBtn.innerText.toLowerCase());
+        };
+    </script>
 
 </body></html>
