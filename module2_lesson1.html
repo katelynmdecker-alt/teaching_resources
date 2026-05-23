@@ -3,34 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 1: Graphing Quadratics</title>
+    <title>Lesson 1: Graphing & Forms</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
         .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
         input[type="range"] { accent-color: #10b981; }
-        .control-panel { background: #ffffff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
         .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
-        .vertex-marker { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.7; }
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
     <!-- Sidebar -->
     <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
-        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
+        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight text-emerald-600">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
         <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold underline">1. Graphing &amp; Conversion</a>
-            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">2. Standard vs Vertex</a>
-            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">3. Power of Symmetry</a>
-            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">4. Zeros & Synonyms</a>
-            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">5. Sign-Change Principle</a>
-            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">6. Forms as Lenses</a>
-            <a href="module2_lesson7.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">7. Projectile Explorer</a>
-            <a href="module2_lesson8.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">8. Unit Review</a>
+            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">1. Graphing &amp; Forms</a>
+            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Solving by Factoring</a>
+            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Complex Numbers</a>
+            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">4. Completing the Square</a>
+            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">5. Quadratic Formula</a>
+            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">6. Modeling Dashboard</a>
         </nav>
         <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Module 2 Menu</a></div>
     </aside>
@@ -38,113 +32,109 @@
     <main class="flex-1 p-4 md:p-8 overflow-y-auto">
         <div class="max-w-6xl mx-auto relative pb-20">
             <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h1 class="text-3xl font-bold text-slate-800">Lesson 1: Graphing Quadratics</h1>
-                <p class="text-slate-600 mt-2">Adjust the parameters to see how they shape the parabola.</p>
+                <h1 class="text-3xl font-bold text-slate-800">Lesson 1: Graphing & Forms</h1>
+                <p class="text-slate-600 mt-2">Different perspectives for the same curve.</p>
             </header>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-1 space-y-6">
-                    <div class="control-panel border border-slate-200">
-                        <h2 class="text-lg font-semibold mb-4 flex items-center gap-2"><span>⚙️</span> Parameters</h2>
-                        <div class="mb-6"><div class="flex justify-between mb-2"><label class="text-sm font-medium">a (Stretch/Flip)</label><span id="aVal" class="text-emerald-600 font-bold">1.0</span></div><input type="range" id="aSlider" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
-                        <div class="mb-6"><div class="flex justify-between mb-2"><label class="text-sm font-medium">h (Horizontal Shift)</label><span id="hVal" class="text-emerald-600 font-bold">0.0</span></div><input type="range" id="hSlider" min="-10" max="10" step="0.1" value="0" class="w-full"></div>
-                        <div class="mb-6"><div class="flex justify-between mb-2"><label class="text-sm font-medium">k (Vertical Shift)</label><span id="kVal" class="text-emerald-600 font-bold">0.0</span></div><input type="range" id="kSlider" min="-10" max="10" step="0.1" value="0" class="w-full"></div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-12">
+                <button onclick="setGraphForm('factored')" id="card-factored" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-orange-500 transition-all hover:bg-orange-50 ring-orange-200">
+                    <h4 class="font-bold text-orange-800 text-sm">Factored Form</h4>
+                    <div class="math-font text-base my-1">y = a(x-p)(x-q)</div>
+                    <p class="text-[11px] text-slate-500">Find <b>x-intercepts</b>.</p>
+                </button>
+                <button onclick="setGraphForm('standard')" id="card-standard" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-emerald-500 transition-all hover:bg-emerald-50 ring-emerald-200 ring-4">
+                    <h4 class="font-bold text-emerald-800 text-sm">Standard Form</h4>
+                    <div class="math-font text-base my-1">y = ax² + bx + c</div>
+                    <p class="text-[11px] text-slate-500">Find <b>y-intercept</b>.</p>
+                </button>
+                <button onclick="setGraphForm('vertex')" id="card-vertex" class="w-full md:flex-1 text-left bg-white p-4 rounded-2xl shadow border-l-4 border-blue-500 transition-all hover:bg-blue-50 ring-blue-200">
+                    <h4 class="font-bold text-blue-800 text-sm">Vertex Form</h4>
+                    <div class="math-font text-base my-1">y = a(x-h)² + k</div>
+                    <p class="text-[11px] text-slate-500">Find <b>vertex</b>.</p>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 bg-white p-8 rounded-3xl border border-slate-200">
+                <div class="space-y-6 flex flex-col justify-center">
+                    <div id="controls-standard" class="graph-controls space-y-4">
+                        <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="std-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">b</label><input type="range" id="std-b" min="-10" max="10" value="-4" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">c</label><input type="range" id="std-c" min="-10" max="10" value="3" class="w-full"></div>
                     </div>
-                    <div class="bg-emerald-900 text-white p-6 rounded-xl shadow-lg">
-                        <h3 class="text-lg font-bold mb-2">The Vertex Form Formula</h3>
-                        <div class="text-xl math-font bg-emerald-800 p-4 rounded-lg text-center border border-emerald-700 mb-4">y = a(x - h)² + k</div>
-                        <div class="text-sm space-y-2 opacity-90">
-                            <p>• <b>a</b>: Determines the width and direction.</p>
-                            <p>• <b>(h, k)</b>: The coordinates of the Vertex.</p>
-                        </div>
+                    <div id="controls-vertex" class="graph-controls space-y-4 hidden">
+                        <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="vtx-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">h</label><input type="range" id="vtx-h" min="-10" max="10" value="2" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">k</label><input type="range" id="vtx-k" min="-10" max="10" value="-1" class="w-full"></div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                        <h4 class="font-bold text-emerald-600 text-xs uppercase mb-1">Current Equation</h4>
-                        <div class="text-lg math-font text-center">y = <span id="eqA">1</span>(x - <span id="eqH">0</span>)² + <span id="eqK">0</span></div>
+                    <div id="controls-factored" class="graph-controls space-y-4 hidden">
+                        <div><label class="text-xs font-bold text-slate-400">a</label><input type="range" id="fac-a" min="-3" max="3" step="0.1" value="1" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">p</label><input type="range" id="fac-p" min="-10" max="10" value="1" class="w-full"></div>
+                        <div><label class="text-xs font-bold text-slate-400">q</label><input type="range" id="fac-q" min="-10" max="10" value="3" class="w-full"></div>
                     </div>
                 </div>
-                <div class="lg:col-span-2"><div class="canvas-container h-[550px] border border-slate-200" id="container"><canvas id="plotCanvas"></canvas></div></div>
+                <div class="lg:col-span-2"><div class="canvas-container h-[400px]" id="graphContainer"><canvas id="identityCanvas"></canvas></div></div>
             </div>
         </div>
     </main>
-
     <script>
-        const canvas = document.getElementById('plotCanvas');
-        const ctx = canvas.getContext('2d');
-        const aS = document.getElementById('aSlider');
-        const hS = document.getElementById('hSlider');
-        const kS = document.getElementById('kSlider');
+        const idCanvas = document.getElementById('identityCanvas');
+        const idCtx = idCanvas.getContext('2d');
+        let activeGraphForm = 'standard';
 
-        let a = 1, h = 0, k = 0;
-
-        function resize() {
-            const cont = document.getElementById('container');
-            canvas.width = cont.clientWidth;
-            canvas.height = cont.clientHeight;
-            draw();
-        }
-        window.addEventListener('resize', resize);
-
-        function update() {
-            a = parseFloat(aS.value);
-            h = parseFloat(hS.value);
-            k = parseFloat(kS.value);
-            document.getElementById('aVal').innerText = a.toFixed(1);
-            document.getElementById('hVal').innerText = h.toFixed(1);
-            document.getElementById('kVal').innerText = k.toFixed(1);
-            document.getElementById('eqA').innerText = a.toFixed(1);
-            document.getElementById('eqH').innerText = h.toFixed(1);
-            document.getElementById('eqK').innerText = k.toFixed(1);
-            draw();
+        function setGraphForm(form) {
+            activeGraphForm = form;
+            ['card-standard', 'card-vertex', 'card-factored'].forEach(id => document.getElementById(id).classList.remove('ring-4'));
+            document.getElementById(`card-${form}`).classList.add('ring-4');
+            document.querySelectorAll('.graph-controls').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`controls-${form}`).classList.remove('hidden');
+            updateGraph();
         }
 
-        aS.addEventListener('input', update);
-        hS.addEventListener('input', update);
-        kS.addEventListener('input', update);
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const scale = 25;
-
-            // Grid
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 1;
-            for(let x = -20; x <= 20; x++) {
-                ctx.beginPath(); ctx.moveTo(centerX + x*scale, 0); ctx.lineTo(centerX + x*scale, canvas.height); ctx.stroke();
-                ctx.beginPath(); ctx.moveTo(0, centerY - x*scale); ctx.lineTo(canvas.width, centerY - x*scale); ctx.stroke();
-            }
-
-            // Axes
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(canvas.width, centerY); ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, canvas.height); ctx.stroke();
-
-            // Parabola
-            ctx.strokeStyle = '#10b981';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            for(let x = -15; x <= 15; x += 0.1) {
-                const y = a * Math.pow(x - h, 2) + k;
-                const px = centerX + x * scale;
-                const py = centerY - y * scale;
-                if(x === -15) ctx.moveTo(px, py); else ctx.lineTo(px, py);
-            }
-            ctx.stroke();
-
-            // Vertex
-            const vx = centerX + h*scale;
-            const vy = centerY - k*scale;
-            ctx.fillStyle = '#ef4444';
-            ctx.beginPath(); ctx.arc(vx, vy, 6, 0, Math.PI*2); ctx.fill();
+        function updateGraph() {
+            idCtx.clearRect(0, 0, idCanvas.width, idCanvas.height);
+            const cx = idCanvas.width/2, cy = idCanvas.height/2, s = 25;
+            idCtx.strokeStyle='#e2e8f0'; idCtx.beginPath();
+            for(let i=-10; i<=10; i++){ idCtx.moveTo(cx+i*s,0); idCtx.lineTo(cx+i*s,idCanvas.height); idCtx.moveTo(0,cy+i*s); idCtx.lineTo(idCanvas.width,cy+i*s); }
+            idCtx.stroke();
+            idCtx.strokeStyle='#94a3b8'; idCtx.beginPath(); idCtx.moveTo(0,cy); idCtx.lineTo(idCanvas.width,cy); idCtx.moveTo(cx,0); idCtx.lineTo(cx,idCanvas.height); idCtx.stroke();
             
-            ctx.fillStyle = '#1e293b';
-            ctx.font = 'bold 14px sans-serif';
-            ctx.fillText(`Vertex (h, k): (${h.toFixed(1)}, ${k.toFixed(1)})`, vx + 12, vy - 12);
+            let yFunc, features = [];
+            if (activeGraphForm === 'standard') {
+                const a = parseFloat(document.getElementById('std-a').value), b = parseFloat(document.getElementById('std-b').value), c = parseFloat(document.getElementById('std-c').value);
+                yFunc = x => a*x*x + b*x + c;
+                features.push({x: 0, y: c, color: '#10b981', label: `y-int: (0, ${c.toFixed(1)})`});
+            } else if (activeGraphForm === 'vertex') {
+                const a = parseFloat(document.getElementById('vtx-a').value), h = parseFloat(document.getElementById('vtx-h').value), k = parseFloat(document.getElementById('vtx-k').value);
+                yFunc = x => a * Math.pow(x-h, 2) + k;
+                features.push({x: h, y: k, color: '#3b82f6', label: `Vertex: (${h.toFixed(1)}, ${k.toFixed(1)})`});
+            } else {
+                const a = parseFloat(document.getElementById('fac-a').value), p = parseFloat(document.getElementById('fac-p').value), q = parseFloat(document.getElementById('fac-q').value);
+                yFunc = x => a * (x-p) * (x-q);
+                features.push({x: p, y: 0, color: '#f59e0b', label: `p: (${p.toFixed(1)}, 0)`}, {x: q, y: 0, color: '#f59e0b', label: `q: (${q.toFixed(1)}, 0)`});
+            }
+
+            idCtx.strokeStyle = activeGraphForm === 'standard' ? '#10b981' : activeGraphForm === 'vertex' ? '#3b82f6' : '#f59e0b';
+            idCtx.lineWidth = 4; idCtx.beginPath();
+            for(let x=-10; x<=10; x+=0.1){ const py = cy - yFunc(x)*s; if(x===-10) idCtx.moveTo(cx+x*s,py); else idCtx.lineTo(cx+x*s,py); }
+            idCtx.stroke();
+
+            features.forEach(pt => {
+                const px = cx + pt.x*s, py = cy - pt.y*s;
+                idCtx.fillStyle = pt.color; idCtx.beginPath(); idCtx.arc(px, py, 6, 0, Math.PI*2); idCtx.fill();
+                idCtx.fillStyle = '#1e293b'; idCtx.font = 'bold 12px sans-serif';
+                idCtx.textAlign = pt.x >= 0 ? 'left' : 'right';
+                idCtx.fillText(pt.label, px + (pt.x >= 0 ? 10 : -10), py - 10);
+            });
         }
-        resize(); update();
+        window.addEventListener('resize', () => { idCanvas.width = document.getElementById('graphContainer').clientWidth; updateGraph(); });
+        document.querySelectorAll('input').forEach(i => i.oninput = updateGraph);
+        
+        window.onload = () => { 
+            const container = document.getElementById('graphContainer');
+            idCanvas.width = container.clientWidth || 600; 
+            idCanvas.height = 400; 
+            updateGraph(); 
+        };
     </script>
 </body>
 </html>

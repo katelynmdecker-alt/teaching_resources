@@ -5,16 +5,413 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 5: Polynomial Equations</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; scroll-behavior: smooth; }
+        .hero-bg { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%); }
+        .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
+        input[type="range"] { accent-color: #f43f5e; }
+        .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+        .hidden { display: none; }
+        .nav-btn { transition: all 0.2s ease; }
+        .root-badge { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="bg-white p-8 rounded-3xl shadow-xl max-w-lg w-full text-center border-t-8 border-rose-500">
-        <div class="text-6xl mb-4">🚧</div>
-        <h1 class="text-3xl font-bold mb-2">Module 5: Polynomial Equations</h1>
-        <p class="text-slate-600 mb-8">This module is currently under construction. Please check back later!</p>
-        <button onclick="window.location.href='index.html'" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-xl transition-colors inline-flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Class Portal
-        </button>
-    </div>
+<body class="bg-slate-50 text-slate-800 flex min-h-screen overflow-x-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
+        <div class="p-6 border-b border-slate-200">
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight text-rose-600">Module 5</h2>
+            <p class="text-sm text-slate-500 font-medium mt-1">Polynomials</p>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="sidebar-nav">
+            <button onclick="showTopic('roadmap')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-bold text-rose-700 bg-rose-50">Unit Roadmap</button>
+            <button onclick="showTopic('endbehavior')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">End Behavior</button>
+            <button onclick="showTopic('zeros')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Zeros & Multiplicity</button>
+            <button onclick="showTopic('sketching')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">The Sketching Process</button>
+            <button onclick="showTopic('solving')" class="nav-btn w-full text-left p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-slate-50">Solving Equations</button>
+        </nav>
+        <div class="p-4 border-t border-slate-200 bg-slate-50">
+            <a href="index.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-rose-600 font-bold transition-all shadow-sm text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Class Portal
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-5xl mx-auto">
+            
+            <!-- Roadmap / Anchor Chart -->
+            <section id="topic-roadmap" class="topic-view space-y-12">
+                <div class="hero-bg text-white rounded-3xl p-8 md:p-12 shadow-xl relative overflow-hidden">
+                    <div class="relative z-10 text-center md:text-left">
+                        <h1 class="text-4xl md:text-5xl font-black mb-4 text-white">Polynomial Roadmap 🗺️</h1>
+                        <p class="text-lg md:text-xl font-medium text-rose-50 max-w-2xl mx-auto md:mx-0">Predicting behavior by investigating function structure.</p>
+                    </div>
+                    <div class="absolute -right-10 -top-10 text-white/10 text-9xl font-black rotate-12 select-none">xⁿ</div>
+                </div>
+
+                <div class="flex flex-col items-center gap-4 py-8">
+                    <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-rose-500 flex items-center gap-4">
+                        <div class="bg-rose-100 p-3 rounded-full text-rose-600 font-bold">1</div>
+                        <div class="text-left"><h3 class="font-bold">Identify Leading Term</h3><p class="text-xs text-slate-500">Degree and Coefficient define the tails.</p></div>
+                    </div>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7-7 7-7"/></svg>
+                    
+                    <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-rose-500 flex items-center gap-4">
+                        <div class="bg-rose-100 p-3 rounded-full text-rose-600 font-bold">2</div>
+                        <div class="text-left"><h3 class="font-bold">Find Zeros & Multiplicity</h3><p class="text-xs text-slate-500">Determine how the graph touches the x-axis.</p></div>
+                    </div>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7-7 7-7"/></svg>
+
+                    <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-rose-500 flex items-center gap-4">
+                        <div class="bg-rose-100 p-3 rounded-full text-rose-600 font-bold">3</div>
+                        <div class="text-left"><h3 class="font-bold">Plot Intercepts</h3><p class="text-xs text-slate-500">Calculate the y-intercept (f(0)).</p></div>
+                    </div>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7-7 7-7"/></svg>
+
+                    <div class="w-full max-w-sm p-6 bg-slate-900 text-white rounded-2xl shadow-xl flex items-center gap-4">
+                        <div class="bg-white/10 p-3 rounded-full text-rose-400">✨</div>
+                        <div class="text-left"><h3 class="font-bold">The Synthesis</h3><p class="text-xs text-white/50">Sketch the continuous, smooth curve.</p></div>
+                    </div>
+                    <svg class="h-8 text-slate-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M19 12l-7-7 7-7"/></svg>
+                    
+                    <!-- New step in roadmap -->
+                    <div class="w-full max-w-sm p-6 bg-white rounded-2xl shadow-md border-b-4 border-indigo-500 flex items-center gap-4">
+                        <div class="bg-indigo-50 p-3 rounded-full text-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </div>
+                        <div class="text-left"><h3 class="font-bold">Solving Equations</h3><p class="text-xs text-slate-500">Apply factoring to find solutions.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- End Behavior Section -->
+            <section id="topic-endbehavior" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">End Behavior Explorer</h1>
+                    <p class="text-slate-600">The "tails" of a polynomial are governed by its leading term.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-8">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Leading Coefficient (a)</label>
+                            <input type="range" id="behavior-a" min="-2" max="2" step="0.5" value="1" class="w-full">
+                            <div class="flex justify-between text-xs mt-1 font-mono"><span>Negative</span><span id="label-behavior-a">Positive</span></div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Degree (n)</label>
+                            <input type="range" id="behavior-n" min="1" max="6" step="1" value="3" class="w-full">
+                            <div class="flex justify-between text-xs mt-1 font-mono"><span>Linear (1)</span><span id="label-behavior-n">Degree: 3 (Odd)</span></div>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl text-center border border-slate-200">
+                            <div class="text-xs text-slate-400 uppercase font-bold mb-1">Leading Term</div>
+                            <div class="text-3xl math-font text-rose-600" id="formula-behavior">y = 1.0x³</div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="canvas-container h-[450px] border border-slate-200" id="behaviorContainer">
+                            <canvas id="behaviorCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Zeros & Multiplicity Section -->
+            <section id="topic-zeros" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Multiplicity: Behavior at the Zero</h1>
+                    <p class="text-slate-600">Factors determine where and how we touch the x-axis.</p>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button onclick="setMultiplicity(1)" class="text-left p-6 bg-white rounded-2xl border-2 border-slate-100 hover:border-rose-500 transition-all shadow-sm group">
+                        <h4 class="font-bold text-rose-800">Odd (n=1)</h4>
+                        <p class="text-xs text-slate-500 mb-2">The "Crosser"</p>
+                        <div class="math-font text-xl group-hover:text-rose-600">y = (x - r)¹</div>
+                    </button>
+                    <button onclick="setMultiplicity(2)" class="text-left p-6 bg-white rounded-2xl border-2 border-slate-100 hover:border-rose-500 transition-all shadow-sm group">
+                        <h4 class="font-bold text-rose-800">Even (n=2)</h4>
+                        <p class="text-xs text-slate-500 mb-2">The "Bouncer"</p>
+                        <div class="math-font text-xl group-hover:text-rose-600">y = (x - r)²</div>
+                    </button>
+                    <button onclick="setMultiplicity(3)" class="text-left p-6 bg-white rounded-2xl border-2 border-slate-100 hover:border-rose-500 transition-all shadow-sm group">
+                        <h4 class="font-bold text-rose-800">Odd (n=3)</h4>
+                        <p class="text-xs text-slate-500 mb-2">The "Slider"</p>
+                        <div class="math-font text-xl group-hover:text-rose-600">y = (x - r)³</div>
+                    </button>
+                </div>
+
+                <div class="canvas-container h-[400px] border border-slate-200 bg-white" id="multiplicityContainer">
+                    <canvas id="multiplicityCanvas"></canvas>
+                </div>
+            </section>
+
+            <!-- Sketching Section -->
+            <section id="topic-sketching" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">The Sketching Lab</h1>
+                    <p class="text-slate-600">Enter roots and multiplicity to synthesize your own polynomial.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                        <div id="roots-manager" class="space-y-3">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Manage Roots</h3>
+                                <button onclick="addRoot()" id="add-root-btn" class="bg-rose-500 text-white text-[10px] px-3 py-1 rounded-full font-bold hover:bg-rose-600">+ Add Root</button>
+                            </div>
+                            <div id="roots-list" class="space-y-3">
+                                <!-- Root items injected here -->
+                            </div>
+                        </div>
+                        
+                        <div class="bg-slate-900 text-white p-6 rounded-xl shadow-lg border-t-4 border-rose-500">
+                            <div class="text-[10px] opacity-50 uppercase font-black mb-2 tracking-widest">Synthesized Structure</div>
+                            <div id="sketch-equation" class="math-font text-lg text-rose-200 min-h-[1.5rem] break-all">f(x) = ...</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2">
+                        <div class="canvas-container h-[500px] border border-slate-200" id="sketchContainer">
+                            <canvas id="sketchCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Solving Equations Section -->
+            <section id="topic-solving" class="topic-view hidden space-y-8">
+                <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                    <h1 class="text-3xl font-bold">Solving Polynomial Equations</h1>
+                    <p class="text-slate-600">Finding the exact locations where \( f(x) = 0 \).</p>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Graphical View -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="text-xl font-bold flex items-center gap-2">
+                            <span class="p-2 bg-indigo-100 text-indigo-600 rounded-lg">🔍</span>
+                            Graphical Approach
+                        </h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Solving graphically means looking for the <b>x-intercepts</b>. For any polynomial \( f(x) \), the solutions to \( f(x) = 0 \) are the points where the graph crosses or touches the horizontal axis.</p>
+                        
+                        <div class="canvas-container h-[300px] border border-slate-100 bg-slate-50" id="solvingGraphContainer">
+                            <canvas id="solvingCanvas"></canvas>
+                        </div>
+                        <div class="text-center font-mono text-xs text-indigo-600 font-bold p-3 bg-indigo-50 rounded-xl">
+                            Equation: x³ - 4x = 0
+                        </div>
+                    </div>
+
+                    <!-- Algebraic View -->
+                    <div class="bg-indigo-900 text-white p-8 rounded-3xl shadow-xl space-y-6 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold flex items-center gap-2 mb-4">
+                                <span class="p-2 bg-white/10 text-indigo-200 rounded-lg">✏️</span>
+                                Algebraic Approach
+                            </h3>
+                            <p class="text-indigo-100 text-sm mb-6">We use the <b>Zero Product Property</b> by breaking the polynomial into its factor structure.</p>
+                            
+                            <div class="space-y-4 font-mono">
+                                <div class="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700">
+                                    <div class="text-xs text-indigo-400 mb-1">Step 1: GCF</div>
+                                    <div>x(x² - 4) = 0</div>
+                                </div>
+                                <div class="bg-indigo-800/50 p-4 rounded-xl border border-indigo-700">
+                                    <div class="text-xs text-indigo-400 mb-1">Step 2: Difference of Squares</div>
+                                    <div>x(x - 2)(x + 2) = 0</div>
+                                </div>
+                                <div class="bg-white/10 p-4 rounded-xl border border-white/10">
+                                    <div class="text-xs text-emerald-400 mb-1">Step 3: Solve for x</div>
+                                    <div class="text-lg text-emerald-300 font-bold tracking-widest">x = 0, 2, -2</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-indigo-950 rounded-2xl border-l-4 border-indigo-400 italic text-xs text-indigo-300">
+                            "Algebra confirms what the graph shows—three distinct points of intersection with the ground."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Factoring by Grouping Scaffolding -->
+                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Pro Tip: Factoring by Grouping</h3>
+                    <p class="text-sm text-slate-500 mb-6">When you have 4 terms, try splitting the polynomial in half to find a common binomial factor.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <div class="text-[10px] font-bold text-slate-400 mb-1">ORIGINAL</div>
+                            <div class="text-sm font-mono">x³ - 2x² + 3x - 6</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <div class="text-[10px] font-bold text-slate-400 mb-1">GROUPED</div>
+                            <div class="text-sm font-mono">x²(x-2) + 3(x-2)</div>
+                        </div>
+                        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                            <div class="text-[10px] font-bold text-emerald-600 mb-1">FINAL</div>
+                            <div class="text-sm font-mono font-bold">(x² + 3)(x - 2)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        function showTopic(topicId) {
+            document.querySelectorAll('.topic-view').forEach(v => v.classList.add('hidden'));
+            const target = topicId === 'roadmap' ? 'topic-roadmap' : 'topic-' + topicId;
+            document.getElementById(target).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('font-bold', 'text-rose-700', 'bg-rose-50');
+                btn.classList.add('font-medium', 'text-slate-600');
+            });
+            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick')?.includes(`'${topicId}'`));
+            if(activeBtn) {
+                activeBtn.classList.add('font-bold', 'text-rose-700', 'bg-rose-50');
+                activeBtn.classList.remove('font-medium', 'text-slate-600');
+            }
+            if(topicId === 'endbehavior') { updateBehavior(); }
+            if(topicId === 'zeros') { updateMultiplicity(); }
+            if(topicId === 'sketching') { renderRootsUI(); }
+            if(topicId === 'solving') { drawSolvingExample(); }
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function drawPlot(canvas, ctx, func, color) {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width/2, cy = canvas.height/2, s = 45;
+            ctx.strokeStyle = '#f1f5f9'; ctx.beginPath();
+            for(let i=-10; i<=10; i++){ ctx.moveTo(cx+i*s,0); ctx.lineTo(cx+i*s,canvas.height); ctx.moveTo(0,cy+i*s); ctx.lineTo(canvas.width,cy+i*s); }
+            ctx.stroke();
+            ctx.strokeStyle = '#94a3b8'; ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(canvas.width,cy); ctx.moveTo(cx,0); ctx.lineTo(cx,canvas.height); ctx.stroke();
+            ctx.strokeStyle = color; ctx.lineWidth = 4; ctx.beginPath();
+            for(let x=-10; x<=10; x+=0.05){
+                const y = func(x);
+                const py = cy - y*s;
+                if(x===-10) ctx.moveTo(cx+x*s,py);
+                else if(py >= -100 && py <= canvas.height + 100) ctx.lineTo(cx+x*s,py);
+            }
+            ctx.stroke();
+        }
+
+        const bCanvas = document.getElementById('behaviorCanvas');
+        const bCtx = bCanvas.getContext('2d');
+        const bA = document.getElementById('behavior-a');
+        const bN = document.getElementById('behavior-n');
+
+        function updateBehavior() {
+            const a = parseFloat(bA.value);
+            const n = parseInt(bN.value);
+            document.getElementById('label-behavior-a').innerText = a >= 0 ? 'Positive' : 'Negative';
+            document.getElementById('label-behavior-n').innerText = `Degree: ${n} (${n % 2 === 0 ? 'Even' : 'Odd'})`;
+            document.getElementById('formula-behavior').innerText = `y = ${a.toFixed(1)}x${n === 1 ? '' : n === 2 ? '²' : n === 3 ? '³' : '^' + n}`;
+            drawPlot(bCanvas, bCtx, (x) => a * Math.pow(x, n), '#f43f5e');
+        }
+
+        let currentM = 1;
+        const mCanvas = document.getElementById('multiplicityCanvas');
+        const mCtx = mCanvas.getContext('2d');
+        function setMultiplicity(m) { currentM = m; updateMultiplicity(); }
+        function updateMultiplicity() { drawPlot(mCanvas, mCtx, (x) => Math.pow(x, currentM), '#f43f5e'); }
+
+        // ==========================================
+        // Sketching Lab Logic
+        // ==========================================
+        let roots = [{val: 2, mult: 1}, {val: -1, mult: 2}];
+        const sCanvas = document.getElementById('sketchCanvas');
+        const sCtx = sCanvas.getContext('2d');
+
+        function addRoot() {
+            if(roots.length < 4) { roots.push({val: 0, mult: 1}); renderRootsUI(); }
+        }
+        function removeRoot(idx) { roots.splice(idx, 1); renderRootsUI(); }
+        function updateRoot(idx, field, value) { 
+            roots[idx][field] = parseFloat(value); 
+            updateSketch();
+            document.getElementById(`root-val-label-${idx}`).innerText = roots[idx].val;
+        }
+
+        function renderRootsUI() {
+            const list = document.getElementById('roots-list');
+            list.innerHTML = roots.map((r, i) => `
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 root-badge space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-rose-500 tracking-tighter uppercase">Root at x = <span id="root-val-label-${i}">${r.val}</span></span>
+                        <button onclick="removeRoot(${i})" class="text-slate-300 hover:text-rose-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <input type="range" min="-5" max="5" step="0.5" value="${r.val}" oninput="updateRoot(${i}, 'val', this.value)" class="w-full h-1">
+                    <div class="flex gap-2">
+                        ${[1, 2, 3].map(m => `
+                            <button onclick="roots[${i}].mult = ${m}; renderRootsUI();" class="flex-1 py-1 text-[10px] font-bold rounded-lg border-2 transition-all ${r.mult === m ? 'bg-rose-500 border-rose-500 text-white' : 'bg-white border-slate-100 text-slate-400 hover:border-rose-200'}">m=${m}</button>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('add-root-btn').style.display = roots.length >= 4 ? 'none' : 'block';
+            updateSketch();
+        }
+
+        function updateSketch() {
+            const func = (x) => roots.reduce((acc, r) => acc * Math.pow(x - r.val, r.mult), 0.1);
+            drawPlot(sCanvas, sCtx, func, '#f43f5e');
+            
+            // Draw dots on roots
+            const cx = sCanvas.width/2, cy = sCanvas.height/2, s = 45;
+            roots.forEach(r => {
+                sCtx.fillStyle = '#f43f5e';
+                sCtx.beginPath(); sCtx.arc(cx + r.val * s, cy, 5, 0, Math.PI * 2); sCtx.fill();
+            });
+
+            // Build equation string
+            let eq = roots.length === 0 ? 'f(x) = 0' : 'f(x) = 0.1' + roots.map(r => `(x ${r.val < 0 ? '+' : '-'} ${Math.abs(r.val)})${r.mult > 1 ? `<sup>${r.mult}</sup>` : ''}`).join('');
+            document.getElementById('sketch-equation').innerHTML = eq;
+        }
+
+        // ==========================================
+        // Solving Example Logic
+        // ==========================================
+        function drawSolvingExample() {
+            const solCanvas = document.getElementById('solvingCanvas');
+            const solCtx = solCanvas.getContext('2d');
+            const container = document.getElementById('solvingGraphContainer');
+            solCanvas.width = container.clientWidth;
+            solCanvas.height = container.clientHeight;
+            
+            const cx = solCanvas.width/2, cy = solCanvas.height/2, s = 35;
+            solCtx.clearRect(0, 0, solCanvas.width, solCanvas.height);
+            
+            // Axis
+            solCtx.strokeStyle = '#e2e8f0'; solCtx.lineWidth = 1; solCtx.beginPath();
+            solCtx.moveTo(0, cy); solCtx.lineTo(solCanvas.width, cy); solCtx.moveTo(cx, 0); solCtx.lineTo(cx, solCanvas.height); solCtx.stroke();
+            
+            // Function x^3 - 4x
+            solCtx.strokeStyle = '#6366f1'; solCtx.lineWidth = 4; solCtx.beginPath();
+            for(let x=-5; x<=5; x+=0.05) { const y = (x*x*x - 4*x); const py = cy - y*s; if(x===-5) solCtx.moveTo(cx+x*s, py); else solCtx.lineTo(cx+x*s, py); }
+            solCtx.stroke();
+
+            // Intercept Markers
+            solCtx.fillStyle = '#10b981';
+            [0, 2, -2].forEach(v => { solCtx.beginPath(); solCtx.arc(cx + v*s, cy, 6, 0, Math.PI*2); solCtx.fill(); });
+        }
+
+        bA.oninput = updateBehavior; bN.oninput = updateBehavior;
+        window.addEventListener('resize', () => { if(!bCanvas.closest('.hidden')) updateBehavior(); if(!mCanvas.closest('.hidden')) updateMultiplicity(); });
+        window.onload = () => showTopic('roadmap');
+    </script>
 </body>
 </html>

@@ -3,38 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 4: Zeros, Roots, & Synonyms</title>
+    <title>Lesson 4: Completing the Square</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
+        .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
+        input[type="range"] { accent-color: #10b981; }
+        .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+        .tile-x2 { background: #3b82f6; border: 2px solid #1d4ed8; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-x { background: #10b981; border: 2px solid #047857; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-1 { background: #fb7185; border: 2px solid #e11d48; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 2px; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
+    <!-- Sidebar -->
     <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
-        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
+        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight text-emerald-600">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
         <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">1. Graphing Quadratics</a>
-            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">2. Standard vs Vertex</a>
-            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">3. Power of Symmetry</a>
-            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">4. Zeros & Synonyms</a>
-            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">5. Sign-Change Principle</a>
-            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">6. Forms as Lenses</a>
-            <a href="module2_lesson7.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">7. Projectile Explorer</a>
-            <a href="module2_lesson8.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50 hover:text-emerald-700">8. Unit Review</a>
+            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">1. Graphing &amp; Forms</a>
+            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Solving by Factoring</a>
+            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Complex Numbers</a>
+            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">4. Completing the Square</a>
+            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">5. Quadratic Formula</a>
+            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">6. Modeling Dashboard</a>
         </nav>
         <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Module 2 Menu</a></div>
     </aside>
-    <main class="flex-1 p-8 flex items-center justify-center">
-        <div class="max-w-3xl w-full bg-white p-12 rounded-3xl shadow-xl border-t-8 border-blue-500">
-            <h1 class="text-4xl font-bold mb-6">Big Idea 2: The "Four Synonyms"</h1>
-            <p class="text-xl text-slate-600 mb-8 leading-relaxed">In Algebra, we use different names for the same thing. Students must treat these terms as interchangeable:</p>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-100 text-center font-bold text-blue-700 text-2xl">Zeros</div>
-                <div class="bg-emerald-50 p-6 rounded-2xl border-2 border-emerald-100 text-center font-bold text-emerald-700 text-2xl">Roots</div>
-                <div class="bg-purple-50 p-6 rounded-2xl border-2 border-purple-100 text-center font-bold text-purple-700 text-2xl">X-Intercepts</div>
-                <div class="bg-rose-50 p-6 rounded-2xl border-2 border-rose-100 text-center font-bold text-rose-700 text-2xl">Solutions</div>
-            </div>
-            <div class="mt-8 p-6 bg-slate-900 text-white rounded-2xl">
-                <p class="italic">"Physical meaning: These terms all describe the exact same feature — where the graph crosses the horizontal axis (y = 0)."</p>
+
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold">Lesson 4: Completing the Square</h1>
+                <p class="text-slate-600">Visualize the geometry of adding <span class="math-font">(b/2)²</span>.</p>
+            </header>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                        <h3 class="font-bold mb-4 uppercase text-xs tracking-widest">Problem: x² + <span id="tileBVal">6</span>x</h3>
+                        <input type="range" id="inputTileB" min="2" max="8" step="2" value="6" class="w-full mb-8">
+                        <button id="startTileAnim" class="w-full py-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all shadow-lg active:scale-95">
+                            Start Construction ✨
+                        </button>
+                    </div>
+                    <div id="tileLog" class="bg-slate-900 text-white p-6 rounded-2xl font-mono text-sm leading-relaxed min-h-[140px] shadow-inner">
+                        <span class="text-slate-500">// Status:</span> Waiting to start...
+                    </div>
+                </div>
+                <div class="lg:col-span-2">
+                    <div class="canvas-container h-[450px] border border-slate-200 flex items-center justify-center bg-slate-50 overflow-visible" id="tileStage">
+                        <div id="tileField" class="relative w-[300px] h-[300px]"></div>
+                    </div>
+                    <!-- CTS Scaffolding -->
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-emerald-500 mt-6">
+                        <h4 class="font-bold text-slate-800 mb-4">Algebraic Scaffolding</h4>
+                        <p class="text-sm text-slate-600 mb-2">The goal of "Completing the Square" is to find the missing constant that makes a perfect square trinomial.</p>
+                        <div class="bg-slate-50 p-4 rounded-xl text-center font-mono text-emerald-700">
+                            $$ \text{Target Constant} = \left( \frac{b}{2} \right)^2 $$
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
+    <script>
+        const tileField = document.getElementById('tileField');
+        const tileLog = document.getElementById('tileLog');
+        const tileB = document.getElementById('inputTileB');
+        const startAnim = document.getElementById('startTileAnim');
+
+        async function runTiles() {
+            startAnim.disabled = true;
+            tileField.innerHTML = '';
+            const b = parseInt(tileB.value);
+            const halfB = b/2;
+            
+            tileLog.innerHTML = `<span class="text-blue-400">Step 1:</span> Layout x² and ${b}x tiles.`;
+            const x2 = document.createElement('div');
+            x2.className = 'tile-x2 absolute'; x2.style.width='120px'; x2.style.height='120px'; x2.style.left='0'; x2.style.top='0'; x2.innerText='x²';
+            tileField.appendChild(x2);
+            
+            for(let i=0; i<b; i++){
+                const t = document.createElement('div'); t.className='tile-x absolute transition-all duration-700 opacity-0';
+                t.style.width='30px'; t.style.height='120px'; t.style.left=`${130 + i*35}px`; t.style.top='0'; t.innerText='x';
+                t.id=`tile-x-${i}`; tileField.appendChild(t);
+                setTimeout(() => t.classList.remove('opacity-0'), 100);
+            }
+
+            await new Promise(r => setTimeout(r, 1500));
+            tileLog.innerHTML = `<span class="text-emerald-400">Step 2:</span> Split the ${b}x tiles in half (${halfB} each).`;
+            
+            await new Promise(r => setTimeout(r, 1000));
+            tileLog.innerHTML = `<span class="text-emerald-400">Step 3:</span> Move ${halfB} to the right and rotate ${halfB} to the bottom.`;
+            
+            for(let i=0; i<halfB; i++){
+                const tRight = document.getElementById(`tile-x-${i}`);
+                tRight.style.left = `${124 + i*34}px`;
+                
+                const tBottom = document.getElementById(`tile-x-${halfB+i}`);
+                tBottom.style.width = '120px'; tBottom.style.height = '30px';
+                tBottom.style.left = '0'; tBottom.style.top = `${124 + i*34}px`;
+            }
+
+            await new Promise(r => setTimeout(r, 2000));
+            tileLog.innerHTML = `<span class="text-rose-400">Step 4:</span> See the gap? It's a ${halfB} by ${halfB} square.`;
+            
+            for(let r=0; r<halfB; r++){
+                for(let c=0; c<halfB; c++){
+                    const unit = document.createElement('div'); unit.className='tile-1 absolute transition-all duration-300 opacity-0';
+                    unit.style.width='30px'; unit.style.height='30px';
+                    unit.style.left=`${124 + c*34}px`; unit.style.top=`${124 + r*34}px`; unit.innerText='1';
+                    tileField.appendChild(unit);
+                    setTimeout(() => unit.classList.remove('opacity-0'), (r*halfB + c)*100);
+                }
+            }
+
+            await new Promise(r => setTimeout(r, 1500));
+            tileLog.innerHTML = `<span class="text-white font-bold">Complete!</span> We added ${halfB*halfB} unit tiles.<br>New form: (x + ${halfB})²`;
+            startAnim.disabled = false;
+        }
+
+        tileB.oninput = () => { document.getElementById('tileBVal').innerText = tileB.value; tileField.innerHTML=''; tileLog.innerText = '// Terminal: Ready'; };
+        startAnim.onclick = runTiles;
+
+        // Initial Setup to prevent a blank container on load
+        window.onload = () => {
+            tileField.innerHTML = '<div class="tile-x2 absolute" style="width:120px;height:120px;left:0;top:0;">x²</div>';
+            tileLog.innerText = '// Terminal: Ready. Click "Start Construction" to see the process.';
+        };
+    </script>
 </body>
 </html>

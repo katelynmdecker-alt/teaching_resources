@@ -3,48 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 6: Forms as Lenses</title>
+    <title>Lesson 6: Modeling Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
+        .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
+        input[type="range"] { accent-color: #10b981; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
+    <!-- Sidebar -->
     <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
-        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
+        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight text-emerald-600">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
         <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">1. Graphing &amp; Conversion</a>
-            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Standard vs Vertex</a>
-            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Power of Symmetry</a>
-            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">4. Zeros &amp; Synonyms</a>
-            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">5. Sign-Change Principle</a>
-            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">6. Forms as Lenses</a>
-            <a href="module2_lesson7.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">7. Projectile Explorer</a>
-            <a href="module2_lesson8.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">8. Unit Review</a>
+            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">1. Graphing &amp; Forms</a>
+            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Solving by Factoring</a>
+            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Complex Numbers</a>
+            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">4. Completing the Square</a>
+            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">5. Quadratic Formula</a>
+            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">6. Modeling Dashboard</a>
         </nav>
-        <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm">Module 2 Menu</a></div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Module 2 Menu</a></div>
     </aside>
-    <main class="flex-1 p-8 flex items-center justify-center">
-        <div class="max-w-4xl w-full bg-white p-12 rounded-3xl shadow-xl border-t-8 border-emerald-500">
-            <h1 class="text-4xl font-bold mb-6">Big Idea 4: Different Lenses for the Same Graph</h1>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100">
-                    <h4 class="font-bold text-blue-800 mb-2 underline">Standard Form</h4>
-                    <code class="block bg-white p-2 rounded mb-4">ax² + bx + c</code>
-                    <p class="text-sm">Exposes the <b>y-intercept (c)</b>, or the "starting value".</p>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <div class="max-w-4xl mx-auto space-y-12">
+            <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold text-slate-800">Quadratic Modeling Dashboard</h1>
+                <p class="text-slate-600 mt-2">Explore how parameters and critical points define real-world outcomes.</p>
+            </header>
+            
+            <!-- Model 1: Projectile -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex justify-between items-start">
+                    <h2 class="text-2xl font-bold text-slate-800">1. Projectile Motion (Basketball)</h2>
+                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">PHYSICS</span>
                 </div>
-                <div class="p-6 bg-purple-50 rounded-2xl border border-purple-100">
-                    <h4 class="font-bold text-purple-800 mb-2 underline">Vertex Form</h4>
-                    <code class="block bg-white p-2 rounded mb-4">a(x-h)² + k</code>
-                    <p class="text-sm">Exposes the <b>turning point (h,k)</b>, or the max/min.</p>
+                <p class="text-sm text-slate-600 italic border-l-4 border-slate-300 pl-3">"You launch a buzzer-beater. Gravity pulls the ball down while your release gives it upward momentum."</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Gravity (a)</label>
+                        <input type="range" id="a1" min="-0.5" max="-0.05" step="0.01" value="-0.1" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Vertical Velocity (b)</label>
+                        <input type="range" id="b1" min="0.1" max="2" step="0.1" value="0.8" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Release Height (c)</label>
+                        <input type="range" id="c1" min="0" max="5" step="0.2" value="2" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
                 </div>
-                <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100">
-                    <h4 class="font-bold text-emerald-800 mb-2 underline">Factored Form</h4>
-                    <code class="block bg-white p-2 rounded mb-4">a(x-p)(x-q)</code>
-                    <p class="text-sm">Exposes the <b>boundary points (p,q)</b>, or the zeros.</p>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p id="eq1" class="font-mono text-emerald-700 font-bold text-lg bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100"></p>
+                    <button id="btn1" onclick="stepGraph('chart1', 1)" class="bg-slate-800 text-white px-6 py-3 rounded-xl hover:bg-slate-900 shadow-lg flex items-center gap-2 w-full md:w-64 justify-center transition-all active:scale-95 font-bold">
+                        ▶ Trace Key Points
+                    </button>
+                </div>
+                
+                <div class="canvas-container h-[250px] border border-slate-100">
+                    <canvas id="chart1"></canvas>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="box1-y" class="bg-blue-50 p-4 rounded-2xl border-l-4 border-blue-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-blue-800 tracking-widest mb-1">Y-Intercept (t=0)</div>
+                        <div id="pt1-y" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Release Height:</strong> The exact height of the ball the moment it leaves your hands.</div>
+                    </div>
+                    <div id="box1-v" class="bg-purple-50 p-4 rounded-2xl border-l-4 border-purple-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-purple-800 tracking-widest mb-1">Vertex (Maximum)</div>
+                        <div id="pt1-v" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Peak Height:</strong> The highest point the ball reaches before gravity pulls it back down.</div>
+                    </div>
+                    <div id="box1-x" class="bg-rose-50 p-4 rounded-2xl border-l-4 border-rose-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-rose-800 tracking-widest mb-1">X-Intercept (h=0)</div>
+                        <div id="pt1-x" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Ground Impact:</strong> The exact time (in seconds) when the ball hits the floor.</div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-12 text-center text-slate-400 font-medium">
-                "One curve, three perspectives."
+
+            <!-- Model 2: Business Revenue -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex justify-between items-start">
+                    <h2 class="text-2xl font-bold text-slate-800">2. Business Revenue (Maximum)</h2>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full">ECONOMICS</span>
+                </div>
+                <p class="text-sm text-slate-600 italic border-l-4 border-slate-300 pl-3">"You're pricing a new sneaker. If you price too low, you don't make enough per sale. If you price too high, demand drops."</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Price Sensitivity (a)</label>
+                        <input type="range" id="a2" min="-100" max="-10" step="5" value="-50" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Base Demand (b)</label>
+                        <input type="range" id="b2" min="500" max="1500" step="50" value="1000" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p id="eq2" class="font-mono text-emerald-700 font-bold text-lg bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100"></p>
+                    <button id="btn2" onclick="stepGraph('chart2', 2)" class="bg-slate-800 text-white px-6 py-3 rounded-xl hover:bg-slate-900 shadow-lg flex items-center gap-2 w-full md:w-64 justify-center transition-all active:scale-95 font-bold">
+                        ▶ Trace Key Points
+                    </button>
+                </div>
+
+                <div class="canvas-container h-[250px] border border-slate-100">
+                    <canvas id="chart2"></canvas>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="box2-y" class="bg-blue-50 p-4 rounded-2xl border-l-4 border-blue-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-blue-800 tracking-widest mb-1">Y-Intercept (p=0)</div>
+                        <div id="pt2-y" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Free Giveaway:</strong> If you set the price to $0, your total revenue is naturally $0.</div>
+                    </div>
+                    <div id="box2-v" class="bg-purple-50 p-4 rounded-2xl border-l-4 border-purple-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-purple-800 tracking-widest mb-1">Vertex (Maximum)</div>
+                        <div id="pt2-v" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>The Sweet Spot:</strong> The optimal price that generates the absolute highest total revenue.</div>
+                    </div>
+                    <div id="box2-x" class="bg-rose-50 p-4 rounded-2xl border-l-4 border-rose-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-rose-800 tracking-widest mb-1">X-Intercept (R=0)</div>
+                        <div id="pt2-x" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Price Ceiling:</strong> The price is so high that nobody will buy. Revenue drops back to $0.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model 3: Operating Cost -->
+            <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 space-y-6">
+                <div class="flex justify-between items-start">
+                    <h2 class="text-2xl font-bold text-slate-800">3. Operating Cost (Minimum)</h2>
+                    <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">EFFICIENCY</span>
+                </div>
+                <p class="text-sm text-slate-600 italic border-l-4 border-slate-300 pl-3">"Your factory has a 'goldilocks' zone. Producing too little means you're wasting baseline rent money. Producing too much causes expensive machinery wear and overtime."</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Inefficiency Scale (a)</label>
+                        <input type="range" id="a3" min="10" max="100" step="5" value="50" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Economy of Scale (b)</label>
+                        <input type="range" id="b3" min="-1000" max="-100" step="50" value="-500" oninput="updateModelingDashboard()" class="w-full accent-emerald-500">
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p id="eq3" class="font-mono text-emerald-700 font-bold text-lg bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100"></p>
+                    <button id="btn3" onclick="stepGraph('chart3', 3)" class="bg-slate-800 text-white px-6 py-3 rounded-xl hover:bg-slate-900 shadow-lg flex items-center gap-2 w-full md:w-64 justify-center transition-all active:scale-95 font-bold">
+                        ▶ Trace Key Points
+                    </button>
+                </div>
+
+                <div class="canvas-container h-[250px] border border-slate-100">
+                    <canvas id="chart3"></canvas>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div id="box3-y" class="bg-blue-50 p-4 rounded-2xl border-l-4 border-blue-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-blue-800 tracking-widest mb-1">Y-Intercept (p=0)</div>
+                        <div id="pt3-y" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Fixed Costs:</strong> Even if you produce 0 units, the factory rent/insurance still costs you $2,000.</div>
+                    </div>
+                    <div id="box3-v" class="bg-purple-50 p-4 rounded-2xl border-l-4 border-purple-500 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-purple-800 tracking-widest mb-1">Vertex (Minimum)</div>
+                        <div id="pt3-v" class="font-mono font-bold mb-2"></div>
+                        <div class="text-[11px] text-slate-700 leading-tight"><strong>Optimal Efficiency:</strong> The exact number of units to produce to keep overall costs at their lowest.</div>
+                    </div>
+                    <div id="box3-x" class="bg-slate-100 p-4 rounded-2xl border-l-4 border-slate-400 transition-all duration-300">
+                        <div class="text-[10px] font-bold uppercase text-slate-800 tracking-widest mb-1">X-Intercept (C=0)</div>
+                        <div id="pt3-x" class="font-mono font-bold mb-2 text-slate-500">None (Imaginary Roots)</div>
+                        <div class="text-[11px] text-slate-600 leading-tight"><strong>Why None?:</strong> A business will never have $0 operating costs. The math proves this by having no real x-intercepts.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
+    <script>
+        let charts = {};
+        let fns = {};
+        let limits = {};
+        let animationStates = {1: 0, 2: 0, 3: 0};
+
+        function updateModelingDashboard() {
+            animationStates = {1: 0, 2: 0, 3: 0};
+            [1, 2, 3].forEach(num => {
+                const btn = document.getElementById('btn' + num);
+                if(btn) btn.innerText = "▶ Trace Key Points";
+                ['y', 'v', 'x'].forEach(type => {
+                    const box = document.getElementById(`box${num}-${type}`);
+                    if(box) box.classList.remove('ring-4', 'ring-blue-400', 'ring-purple-400', 'ring-rose-400', 'ring-slate-400', 'opacity-40');
+                });
+            });
+
+            const a1 = parseFloat(document.getElementById('a1').value);
+            const b1 = parseFloat(document.getElementById('b1').value);
+            const c1 = parseFloat(document.getElementById('c1').value);
+            
+            const a2 = parseFloat(document.getElementById('a2').value);
+            const b2 = parseFloat(document.getElementById('b2').value);
+            
+            const a3 = parseFloat(document.getElementById('a3').value);
+            const b3 = parseFloat(document.getElementById('b3').value);
+            const c3 = 2000;
+            
+            fns[1] = x => a1*x*x + b1*x + c1;
+            fns[2] = x => a2*x*x + b2*x;
+            fns[3] = x => a3*x*x + b3*x + c3;
+            
+            // Graph 1 Critical Points
+            const vX1 = -b1 / (2 * a1);
+            const vY1 = fns[1](vX1);
+            const discriminant1 = b1*b1 - 4*a1*c1;
+            const xInt1 = discriminant1 >= 0 ? (-b1 - Math.sqrt(discriminant1)) / (2*a1) : NaN;
+            limits[1] = !isNaN(xInt1) ? Math.ceil(xInt1) + 1 : 10; // Default limit if no real root
+            
+            document.getElementById('eq1').innerText = `h(t) = ${a1}t² + ${b1}t + ${c1}`;
+            document.getElementById('pt1-y').innerText = `(0, ${c1.toFixed(1)})`;
+            document.getElementById('pt1-v').innerText = `(${vX1.toFixed(1)}, ${vY1.toFixed(1)})`;
+            document.getElementById('pt1-x').innerText = !isNaN(xInt1) ? `(${xInt1.toFixed(1)}, 0)` : 'No Real Root';
+
+            // Graph 2 Critical Points
+            const vX2 = -b2 / (2 * a2);
+            const vY2 = fns[2](vX2);
+            const xInt2 = -b2 / a2; 
+            limits[2] = xInt2 * 1.1;
+
+            document.getElementById('eq2').innerText = `R(p) = ${a2}p² + ${b2}p`;
+            document.getElementById('pt2-y').innerText = `(0, 0)`;
+            document.getElementById('pt2-v').innerText = `($${vX2.toFixed(2)}, $${vY2.toFixed(0)})`;
+            document.getElementById('pt2-x').innerText = `($${xInt2.toFixed(2)}, $0)`;
+
+            // Graph 3 Critical Points
+            const vX3 = -b3 / (2 * a3);
+            const vY3 = fns[3](vX3);
+            limits[3] = vX3 * 2;
+
+            document.getElementById('eq3').innerText = `C(p) = ${a3}p² + ${b3}p + 2000`;
+            document.getElementById('pt3-y').innerText = `(0, $2000)`;
+            document.getElementById('pt3-v').innerText = `(${vX3.toFixed(1)} units, $${vY3.toFixed(0)})`;
+            // pt3-x is hardcoded as 'None' in the HTML
+
+            // Render Charts with Critical Points highlighted
+            renderChart('chart1', fns[1], 0, limits[1], 0.2, 'Time (s)', 'Height (m)', false, 
+                [{x: 0, y: c1}, {x: vX1, y: vY1}, {x: xInt1, y: 0}]);
+            
+            renderChart('chart2', fns[2], 0, limits[2], 1, 'Price ($)', 'Revenue ($)', true, 
+                [{x: 0, y: 0}, {x: vX2, y: vY2}, {x: xInt2, y: 0}]);
+                
+            renderChart('chart3', fns[3], 0, limits[3], 0.5, 'Production Units', 'Cost ($)', false, 
+                [{x: 0, y: c3}, {x: vX3, y: vY3}]);
+        }
+
+        function renderChart(id, fn, min, max, step, xLabel, yLabel, yZero, criticalPoints) {
+            const data = [];
+            for (let i = min; i <= max; i += step) data.push({x: i, y: fn(i)});
+            
+            // Filter out NaN critical points for rendering
+            const validCriticalPoints = criticalPoints.filter(p => !isNaN(p.x) && !isNaN(p.y));
+
+            if (charts[id]) { 
+                charts[id].data.datasets[0].data = data; 
+                charts[id].data.datasets[1].data = validCriticalPoints;
+                charts[id].data.datasets[2].data = []; // Clear highlight on slider change
+                charts[id].update(); 
+            } else {
+                charts[id] = new Chart(document.getElementById(id).getContext('2d'), {
+                    type: 'scatter', 
+                    data: { 
+                        datasets: [
+                            { 
+                                type: 'line',
+                                label: 'Model Curve', 
+                                data: data, 
+                                borderColor: '#94a3b8', // gray line
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                type: 'scatter',
+                                label: 'Critical Points',
+                                data: validCriticalPoints,
+                                backgroundColor: ['#3b82f6', '#a855f7', '#ef4444'], // Blue (y-int), Purple (vertex), Red (x-int)
+                                pointRadius: 8,
+                                pointHoverRadius: 10
+                            },
+                            {
+                                type: 'scatter',
+                                label: 'Highlight',
+                                data: [], // Initially empty
+                                pointRadius: 14,
+                                backgroundColor: '#3b82f6',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 3,
+                                order: 0 // Ensure it stays on top
+                            }
+                        ] 
+                    },
+                    options: { 
+                        responsive: true,
+                        animation: { duration: 600 },
+                        plugins: { legend: { display: false } },
+                        scales: { 
+                            x: { 
+                                type: 'linear', 
+                                title: { display: true, text: xLabel },
+                                border: { color: '#000000', width: 2 }
+                            },
+                            y: { 
+                                beginAtZero: yZero, 
+                                title: { display: true, text: yLabel },
+                                border: { color: '#000000', width: 2 },
+                                grid: {
+                                    color: (context) => context.tick.value === 0 ? '#000000' : '#e5e7eb',
+                                    lineWidth: (context) => context.tick.value === 0 ? 3 : 1
+                                }
+                            }
+                        } 
+                    }
+                });
+            }
+        }
+
+        // Stepping animation functionality
+        function stepGraph(chartId, graphNum) {
+            let state = animationStates[graphNum];
+            state = (state + 1) % 4;
+            animationStates[graphNum] = state;
+
+            const chart = charts[chartId];
+            const btn = document.getElementById('btn' + graphNum);
+            
+            const boxY = document.getElementById(`box${graphNum}-y`);
+            const boxV = document.getElementById(`box${graphNum}-v`);
+            const boxX = document.getElementById(`box${graphNum}-x`);
+            
+            const focusDataset = chart.data.datasets[2];
+            const criticalPoints = chart.data.datasets[1].data;
+
+            boxY.classList.remove('ring-4', 'ring-blue-400', 'opacity-40');
+            boxV.classList.remove('ring-4', 'ring-purple-400', 'opacity-40');
+            boxX.classList.remove('ring-4', 'ring-rose-400', 'ring-slate-400', 'opacity-40');
+            
+            if (state === 0) {
+                btn.innerText = "▶ Trace Key Points";
+                focusDataset.data = [];
+                chart.update();
+                return;
+            }
+
+            boxY.classList.add('opacity-40');
+            boxV.classList.add('opacity-40');
+            boxX.classList.add('opacity-40');
+
+            let pointToHighlight = null;
+            let color = '';
+
+            if (state === 1) {
+                btn.innerText = "Next: Highlight Vertex";
+                boxY.classList.remove('opacity-40');
+                boxY.classList.add('ring-4', 'ring-blue-400');
+                pointToHighlight = criticalPoints[0];
+                color = '#3b82f6';
+            } else if (state === 2) {
+                btn.innerText = "Next: Highlight X-Intercept";
+                boxV.classList.remove('opacity-40');
+                boxV.classList.add('ring-4', 'ring-purple-400');
+                pointToHighlight = criticalPoints[1];
+                color = '#a855f7';
+            } else if (state === 3) {
+                btn.innerText = "Reset Highlights";
+                boxX.classList.remove('opacity-40');
+                if (graphNum === 3) { // Special case for Cost model which has no real x-intercept
+                    boxX.classList.add('ring-4', 'ring-slate-400');
+                } else {
+                    boxX.classList.add('ring-4', 'ring-rose-400');
+                    pointToHighlight = criticalPoints[2];
+                    color = '#ef4444';
+                }
+            }
+
+            if (pointToHighlight) {
+                focusDataset.data = [pointToHighlight];
+                focusDataset.backgroundColor = color;
+            } else {
+                focusDataset.data = [];
+            }
+
+            chart.update();
+        }
+
+        window.onload = updateModelingDashboard;
+    </script>
 </body>
 </html>

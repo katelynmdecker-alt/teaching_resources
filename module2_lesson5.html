@@ -3,47 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 5: Sign-Change Principle</title>
+    <title>Lesson 5: The Quadratic Formula</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
+        .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+    </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
+    <!-- Sidebar -->
     <aside class="w-64 md:w-72 bg-white border-r border-slate-200 flex-shrink-0 hidden lg:flex flex-col shadow-sm sticky top-0 h-screen z-10">
-        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
+        <div class="p-6 border-b border-slate-200"><h2 class="text-2xl font-black text-slate-800 tracking-tight text-emerald-600">Module 2</h2><p class="text-sm text-slate-500 font-medium mt-1">Quadratics</p></div>
         <nav class="flex-1 overflow-y-auto p-4 space-y-2">
-            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">1. Graphing &amp; Conversion</a>
-            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Standard vs Vertex</a>
-            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Power of Symmetry</a>
-            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">4. Zeros &amp; Synonyms</a>
-            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">5. Sign-Change Principle</a>
-            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">6. Forms as Lenses</a>
-            <a href="module2_lesson7.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">7. Projectile Explorer</a>
-            <a href="module2_lesson8.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">8. Unit Review</a>
+            <a href="module2_lesson1.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">1. Graphing &amp; Forms</a>
+            <a href="module2_lesson2.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">2. Solving by Factoring</a>
+            <a href="module2_lesson3.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">3. Complex Numbers</a>
+            <a href="module2_lesson4.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">4. Completing the Square</a>
+            <a href="module2_lesson5.html" class="block p-3 rounded-xl transition-colors text-sm bg-emerald-100 text-emerald-800 font-bold">5. Quadratic Formula</a>
+            <a href="module2_lesson6.html" class="block p-3 rounded-xl transition-colors text-sm font-medium text-slate-600 hover:bg-emerald-50">6. Modeling Dashboard</a>
         </nav>
-        <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm">Module 2 Menu</a></div>
+        <div class="p-4 border-t border-slate-200 bg-slate-50"><a href="module2.html" class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-emerald-600 font-bold transition-all shadow-sm text-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Module 2 Menu</a></div>
     </aside>
-    <main class="flex-1 p-8 flex items-center justify-center">
-        <div class="max-w-3xl w-full bg-white p-12 rounded-3xl shadow-xl border-t-8 border-orange-500">
-            <h1 class="text-4xl font-bold mb-6">Big Idea 3: The Sign-Change Principle</h1>
-            <p class="text-xl text-slate-600 mb-8 leading-relaxed">If evaluating sequential integers yields a <b>negative</b> y-value and then a <b>positive</b> y-value, the graph must cross the x-axis between those two points.</p>
-            
-            <div class="bg-slate-900 rounded-2xl p-8 text-white font-mono">
-                <div class="grid grid-cols-2 gap-8 text-center">
-                    <div class="p-4 border border-white/20 rounded-lg">
-                        <div class="text-slate-400 mb-2 text-xs">At x = 1</div>
-                        <div class="text-rose-400 text-3xl font-bold">f(x) = -4</div>
-                    </div>
-                    <div class="p-4 border border-white/20 rounded-lg">
-                        <div class="text-slate-400 mb-2 text-xs">At x = 2</div>
-                        <div class="text-emerald-400 text-3xl font-bold">f(x) = +2</div>
-                    </div>
-                </div>
-                <div class="mt-8 text-center text-lg italic text-blue-300">
-                    "Since the sign flipped, a root exists between 1 and 2!"
-                </div>
-            </div>
 
-            <div class="mt-8 p-6 bg-orange-50 rounded-xl border-l-4 border-orange-400 text-orange-800 italic">
-                This is the primary method for finding irrational roots without a graphing utility.
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+        <div class="max-w-5xl mx-auto">
+            <header class="text-center bg-white p-8 rounded-3xl shadow-sm border border-slate-200">
+                <h1 class="text-3xl font-bold">Lesson 5: The Quadratic Formula</h1>
+                <p class="text-slate-600">The universal solution for any quadratic equation.</p>
+            </header>
+            <div class="bg-emerald-900 text-white p-12 rounded-3xl shadow-2xl text-center relative overflow-hidden mt-8">
+                <div class="relative z-10">
+                    <div class="text-4xl md:text-6xl font-black mb-12 text-white">$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                        <div class="bg-white/10 p-6 rounded-2xl">
+                            <h5 class="font-bold text-emerald-300 text-xs uppercase mb-2 tracking-widest">The Discriminant</h5>
+                            <p class="text-sm text-slate-200 leading-relaxed">The part under the vincullum of the square root \( (b^2 - 4ac) \) tells us if the solutions are real, repeated, or complex.</p>
+                        </div>
+                        <div class="bg-white/10 p-6 rounded-2xl">
+                            <h5 class="font-bold text-emerald-300 text-xs uppercase mb-2 tracking-widest">Calculator Scaffolding</h5>
+                            <p class="text-sm text-slate-200 leading-relaxed">Always evaluate the discriminant first. When typing the full formula, put the entire numerator in parentheses to maintain the vinculum's grouping.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -left-10 -bottom-10 text-white/5 text-9xl font-black select-none">±</div>
             </div>
         </div>
     </main>
