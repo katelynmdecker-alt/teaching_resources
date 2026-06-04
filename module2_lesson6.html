@@ -68,6 +68,22 @@
                     <canvas id="chart1"></canvas>
                 </div>
 
+                <!-- Behavior Intervals -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-emerald-50 p-3 rounded-2xl border-l-4 border-emerald-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-emerald-800 tracking-widest">Increasing ↗️</div>
+                            <div id="val1-inc" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-2xl border-l-4 border-rose-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-rose-800 tracking-widest">Decreasing ↘️</div>
+                            <div id="val1-dec" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div id="box1-y" class="bg-blue-50 p-4 rounded-2xl border-l-4 border-blue-500 transition-all duration-300">
                         <div class="text-[10px] font-bold uppercase text-blue-800 tracking-widest mb-1">Y-Intercept (t=0)</div>
@@ -116,6 +132,22 @@
                     <canvas id="chart2"></canvas>
                 </div>
 
+                <!-- Behavior Intervals -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-emerald-50 p-3 rounded-2xl border-l-4 border-emerald-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-emerald-800 tracking-widest">Increasing ↗️</div>
+                            <div id="val2-inc" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-2xl border-l-4 border-rose-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-rose-800 tracking-widest">Decreasing ↘️</div>
+                            <div id="val2-dec" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div id="box2-y" class="bg-blue-50 p-4 rounded-2xl border-l-4 border-blue-500 transition-all duration-300">
                         <div class="text-[10px] font-bold uppercase text-blue-800 tracking-widest mb-1">Y-Intercept (p=0)</div>
@@ -162,6 +194,22 @@
 
                 <div class="canvas-container h-[250px] border border-slate-100">
                     <canvas id="chart3"></canvas>
+                </div>
+
+                <!-- Behavior Intervals -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-emerald-50 p-3 rounded-2xl border-l-4 border-emerald-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-emerald-800 tracking-widest">Increasing ↗️</div>
+                            <div id="val3-inc" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-2xl border-l-4 border-rose-500 flex items-center justify-between">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase text-rose-800 tracking-widest">Decreasing ↘️</div>
+                            <div id="val3-dec" class="font-mono font-bold text-xs text-slate-700"></div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -228,6 +276,11 @@
             document.getElementById('pt1-v').innerText = `(${vX1.toFixed(1)}, ${vY1.toFixed(1)})`;
             document.getElementById('pt1-x').innerText = !isNaN(xInt1) ? `(${xInt1.toFixed(1)}, 0)` : 'No Real Root';
 
+            const inc1 = `0 to ${vX1.toFixed(1)}`;
+            const dec1 = `${vX1.toFixed(1)} to ${limits[1].toFixed(1)}`;
+            document.getElementById('val1-inc').innerText = inc1;
+            document.getElementById('val1-dec').innerText = dec1;
+
             // Graph 2 Critical Points
             const vX2 = -b2 / (2 * a2);
             const vY2 = fns[2](vX2);
@@ -239,6 +292,11 @@
             document.getElementById('pt2-v').innerText = `($${vX2.toFixed(2)}, $${vY2.toFixed(0)})`;
             document.getElementById('pt2-x').innerText = `($${xInt2.toFixed(2)}, $0)`;
 
+            const inc2 = `0 to ${vX2.toFixed(2)}`;
+            const dec2 = `${vX2.toFixed(2)} to ${limits[2].toFixed(2)}`;
+            document.getElementById('val2-inc').innerText = inc2;
+            document.getElementById('val2-dec').innerText = dec2;
+
             // Graph 3 Critical Points
             const vX3 = -b3 / (2 * a3);
             const vY3 = fns[3](vX3);
@@ -247,20 +305,51 @@
             document.getElementById('eq3').innerText = `C(p) = ${a3}p² + ${b3}p + 2000`;
             document.getElementById('pt3-y').innerText = `(0, $2000)`;
             document.getElementById('pt3-v').innerText = `(${vX3.toFixed(1)} units, $${vY3.toFixed(0)})`;
-            // pt3-x is hardcoded as 'None' in the HTML
+
+            const inc3 = `${vX3.toFixed(1)} to ${limits[3].toFixed(1)}`;
+            const dec3 = `0 to ${vX3.toFixed(1)}`;
+            document.getElementById('val3-inc').innerText = inc3;
+            document.getElementById('val3-dec').innerText = dec3;
+
+            // Behavior Datasets Helper
+            const getSegments = (id, vX, limit, isMax) => {
+                const incData = [], decData = [];
+                const step = id === 2 ? 1 : 0.2;
+                for(let i=0; i<=limit; i+=step) {
+                    const pt = {x: i, y: fns[id](i)};
+                    if (isMax) {
+                        if (i <= vX) incData.push(pt);
+                        if (i >= vX) decData.push(pt);
+                    } else {
+                        if (i >= vX) incData.push(pt);
+                        if (i <= vX) decData.push(pt);
+                    }
+                }
+                const midInc = isMax ? vX/2 : (vX + limit)/2;
+                const midDec = isMax ? (vX + limit)/2 : vX/2;
+                return { 
+                    incData, 
+                    decData, 
+                    arrows: [{x: midInc, y: fns[id](midInc)}, {x: midDec, y: fns[id](midDec)}] 
+                };
+            };
+
+            const seg1 = getSegments(1, vX1, limits[1], true);
+            const seg2 = getSegments(2, vX2, limits[2], true);
+            const seg3 = getSegments(3, vX3, limits[3], false);
 
             // Render Charts with Critical Points highlighted
             renderChart('chart1', fns[1], 0, limits[1], 0.2, 'Time (s)', 'Height (m)', false, 
-                [{x: 0, y: c1}, {x: vX1, y: vY1}, {x: xInt1, y: 0}]);
+                [{x: 0, y: c1}, {x: vX1, y: vY1}, {x: xInt1, y: 0}], seg1.incData, seg1.decData, seg1.arrows);
             
             renderChart('chart2', fns[2], 0, limits[2], 1, 'Price ($)', 'Revenue ($)', true, 
-                [{x: 0, y: 0}, {x: vX2, y: vY2}, {x: xInt2, y: 0}]);
+                [{x: 0, y: 0}, {x: vX2, y: vY2}, {x: xInt2, y: 0}], seg2.incData, seg2.decData, seg2.arrows);
                 
             renderChart('chart3', fns[3], 0, limits[3], 0.5, 'Production Units', 'Cost ($)', false, 
-                [{x: 0, y: c3}, {x: vX3, y: vY3}]);
+                [{x: 0, y: c3}, {x: vX3, y: vY3}], seg3.incData, seg3.decData, seg3.arrows);
         }
 
-        function renderChart(id, fn, min, max, step, xLabel, yLabel, yZero, criticalPoints) {
+        function renderChart(id, fn, min, max, step, xLabel, yLabel, yZero, criticalPoints, incData, decData, arrows) {
             const data = [];
             for (let i = min; i <= max; i += step) data.push({x: i, y: fn(i)});
             
@@ -271,6 +360,10 @@
                 charts[id].data.datasets[0].data = data; 
                 charts[id].data.datasets[1].data = validCriticalPoints;
                 charts[id].data.datasets[2].data = []; // Clear highlight on slider change
+                charts[id].data.datasets[3].data = incData;
+                charts[id].data.datasets[4].data = decData;
+                charts[id].data.datasets[5].data = [arrows[0]];
+                charts[id].data.datasets[6].data = [arrows[1]];
                 charts[id].update(); 
             } else {
                 charts[id] = new Chart(document.getElementById(id).getContext('2d'), {
@@ -303,6 +396,46 @@
                                 backgroundColor: '#3b82f6',
                                 pointBorderColor: '#fff',
                                 pointBorderWidth: 3,
+                                order: 0 // Ensure it stays on top
+                            },
+                            {
+                                type: 'line',
+                                label: 'Inc Segment',
+                                data: incData,
+                                borderColor: '#10b981',
+                                borderWidth: 4,
+                                pointRadius: 0,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                type: 'line',
+                                label: 'Dec Segment',
+                                data: decData,
+                                borderColor: '#f43f5e',
+                                borderWidth: 4,
+                                pointRadius: 0,
+                                fill: false,
+                                tension: 0.4
+                            },
+                            {
+                                type: 'scatter',
+                                label: 'Inc Arrow',
+                                data: [arrows[0]],
+                                pointStyle: 'triangle',
+                                rotation: 45,
+                                backgroundColor: '#047857',
+                                pointRadius: 10,
+                                order: 0 // Ensure it stays on top
+                            },
+                            {
+                                type: 'scatter',
+                                label: 'Dec Arrow',
+                                data: [arrows[1]],
+                                pointStyle: 'triangle',
+                                rotation: 135,
+                                backgroundColor: '#be123c',
+                                pointRadius: 10,
                                 order: 0 // Ensure it stays on top
                             }
                         ] 
