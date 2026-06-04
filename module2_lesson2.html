@@ -10,6 +10,12 @@
     <style>
         body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
         .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+        .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
+        .tile-x2 { background: #3b82f6; border: 2px solid #1d4ed8; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-x { background: #10b981; border: 2px solid #047857; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-x-neg { background: #ef4444; border: 2px solid #b91c1c; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px; }
+        .tile-1 { background: #eab308; border: 2px solid #ca8a04; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 2px; }
+        .tile-1-neg { background: #ef4444; border: 2px solid #b91c1c; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 2px; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
@@ -66,6 +72,35 @@
                     <li><b>Binomial Write-up:</b> If \( a = 1 \), the factors are simply \( (x + p)(x + q) \).</li>
                     <li><b>The ZPP:</b> Set each factor equal to zero and solve for the roots.</li>
                 </ol>
+            </div>
+
+            <!-- Algebra Tiles Factoring Explorer -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mt-8">
+                <h3 class="text-xl font-bold text-slate-800 mb-2 text-center">Factoring with Algebra Tiles</h3>
+                <p class="text-sm text-slate-600 mb-8 text-center">Factoring means finding the side lengths of a rectangle built by the area tiles. Arrange the terms of \( x^2 + bx + c \) into a perfect rectangle to reveal the factors!</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 space-y-6 flex flex-col justify-center">
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                            <div class="mb-4">
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Width: (x <span id="tile-p-sign">+</span> <span id="tile-p-val">2</span>)</label>
+                                <input type="range" id="tile-p" min="-5" max="5" value="2" class="w-full accent-emerald-500">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-2">Height: (x <span id="tile-q-sign">+</span> <span id="tile-q-val">3</span>)</label>
+                                <input type="range" id="tile-q" min="-5" max="5" value="3" class="w-full accent-emerald-500">
+                            </div>
+                            <div id="tile-equation" class="mt-6 text-center font-mono text-lg font-bold text-slate-700 bg-white p-3 rounded-xl border border-slate-200">
+                                x² + 5x + 6
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <div class="canvas-container h-[350px] border border-slate-200 flex items-center justify-center bg-slate-50 overflow-auto">
+                            <div id="factoring-tile-field" class="relative"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Interactive Visualization -->
@@ -216,6 +251,101 @@
 
         // Initial render
         updateVisualization();
+
+        // --- Algebra Tiles Logic ---
+        const tileP = document.getElementById('tile-p');
+        const tileQ = document.getElementById('tile-q');
+        const tilePSign = document.getElementById('tile-p-sign');
+        const tileQSign = document.getElementById('tile-q-sign');
+        const tilePVal = document.getElementById('tile-p-val');
+        const tileQVal = document.getElementById('tile-q-val');
+        const tileEquation = document.getElementById('tile-equation');
+        const factoringTileField = document.getElementById('factoring-tile-field');
+
+        function updateFactoringTiles() {
+            const p = parseInt(tileP.value);
+            const q = parseInt(tileQ.value);
+            
+            tilePSign.innerText = p < 0 ? '-' : '+';
+            tileQSign.innerText = q < 0 ? '-' : '+';
+            tilePVal.innerText = Math.abs(p);
+            tileQVal.innerText = Math.abs(q);
+            
+            const b = p + q;
+            const c = p * q;
+            
+            let eqStr = "x²";
+            if (b > 0) eqStr += ` + ${b}x`;
+            else if (b < 0) eqStr += ` - ${Math.abs(b)}x`;
+            
+            if (c > 0) eqStr += ` + ${c}`;
+            else if (c < 0) eqStr += ` - ${Math.abs(c)}`;
+            
+            tileEquation.innerText = eqStr;
+
+            factoringTileField.innerHTML = '';
+            
+            const xSize = 110;
+            const unitSize = 30;
+            const gap = 2;
+            
+            const absP = Math.abs(p);
+            const absQ = Math.abs(q);
+            
+            const totalWidth = xSize + absP * unitSize + (absP + 1) * gap;
+            const totalHeight = xSize + absQ * unitSize + (absQ + 1) * gap;
+            
+            factoringTileField.style.width = `${totalWidth}px`;
+            factoringTileField.style.height = `${totalHeight}px`;
+
+            // Draw x^2
+            const x2 = document.createElement('div');
+            x2.className = 'tile-x2 absolute';
+            x2.style.width = `${xSize}px`; x2.style.height = `${xSize}px`;
+            x2.style.left = '0px'; x2.style.top = '0px';
+            x2.innerText = 'x²';
+            factoringTileField.appendChild(x2);
+
+            // Draw copies of x (horizontal top)
+            for(let i=0; i<absP; i++){
+                const t = document.createElement('div');
+                t.className = p < 0 ? 'tile-x-neg absolute' : 'tile-x absolute';
+                t.style.width = `${unitSize}px`; t.style.height = `${xSize}px`;
+                t.style.left = `${xSize + gap + i*(unitSize+gap)}px`; t.style.top = '0px';
+                t.innerText = p < 0 ? '-x' : 'x';
+                factoringTileField.appendChild(t);
+            }
+
+            // Draw copies of x (vertical left)
+            for(let i=0; i<absQ; i++){
+                const t = document.createElement('div');
+                t.className = q < 0 ? 'tile-x-neg absolute' : 'tile-x absolute';
+                t.style.width = `${xSize}px`; t.style.height = `${unitSize}px`;
+                t.style.left = '0px'; t.style.top = `${xSize + gap + i*(unitSize+gap)}px`;
+                t.innerText = q < 0 ? '-x' : 'x';
+                factoringTileField.appendChild(t);
+            }
+
+            // Draw copies of 1
+            for(let r=0; r<absQ; r++){
+                for(let c=0; c<absP; c++){
+                    const unit = document.createElement('div');
+                    const isPositive1 = (p * q) > 0;
+                    unit.className = isPositive1 ? 'tile-1 absolute' : 'tile-1-neg absolute';
+                    unit.style.width = `${unitSize}px`; unit.style.height = `${unitSize}px`;
+                    unit.style.left = `${xSize + gap + c*(unitSize+gap)}px`;
+                    unit.style.top = `${xSize + gap + r*(unitSize+gap)}px`;
+                    unit.innerText = isPositive1 ? '1' : '-1';
+                    factoringTileField.appendChild(unit);
+                }
+            }
+        }
+
+        tileP.addEventListener('input', updateFactoringTiles);
+        tileQ.addEventListener('input', updateFactoringTiles);
+        
+        // Initial render for Algebra Tiles
+        updateFactoringTiles();
     </script>
 </body>
 </html>
