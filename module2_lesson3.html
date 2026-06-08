@@ -9,6 +9,7 @@
     <style>
         body { background-color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
         .math-font { font-family: "Times New Roman", Times, serif; font-style: italic; }
+        .canvas-container { position: relative; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); overflow: hidden; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex min-h-screen">
@@ -43,7 +44,238 @@
                     <p class="text-sm text-slate-500 leading-relaxed">This rule allows us to turn imaginary expressions back into real values. Whenever you see <b>i²</b>, swap it for <b>-1</b>.</p>
                 </div>
             </div>
+
+            <!-- Khan Academy Expanded Concepts -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Standard Form -->
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">The Anatomy of a Complex Number</h2>
+                        <p class="text-slate-600 mb-6">A complex number combines a real number and an imaginary number, written in standard form:</p>
+                        <div class="bg-purple-50 py-6 rounded-2xl font-mono text-4xl text-center font-bold text-purple-800 mb-6 border border-purple-200">
+                            a + bi
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 text-center text-sm font-medium">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <span class="block text-2xl font-bold text-rose-500 mb-1">a</span>
+                                The <strong class="text-slate-700">Real</strong> Part
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                <span class="block text-2xl font-bold text-blue-500 mb-1">bi</span>
+                                The <strong class="text-slate-700">Imaginary</strong> Part
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Operations -->
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4">Working with Complex Numbers</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Addition / Subtraction -->
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                                <h3 class="font-bold text-purple-700 mb-2 uppercase text-xs tracking-widest">Add &amp; Subtract</h3>
+                                <p class="text-sm text-slate-600 mb-4">Combine like terms. Add the real parts together, and the imaginary parts together.</p>
+                                <div class="font-mono text-sm bg-white p-3 rounded-lg border border-slate-200 text-center text-slate-700">
+                                    (3 + 2i) + (4 - 5i)<br>
+                                    = (3 + 4) + (2i - 5i)<br>
+                                    = <span class="font-bold text-purple-600">7 - 3i</span>
+                                </div>
+                            </div>
+                            <!-- Multiplication -->
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                                <h3 class="font-bold text-purple-700 mb-2 uppercase text-xs tracking-widest">Multiply</h3>
+                                <p class="text-sm text-slate-600 mb-4">Use distribution (FOIL). Crucial step: whenever you get an <b>i²</b>, swap it for <b>-1</b>!</p>
+                                <div class="font-mono text-sm bg-white p-3 rounded-lg border border-slate-200 text-center text-slate-700">
+                                    2i(4 + 3i)<br>
+                                    = 8i + 6i²<br>
+                                    = 8i + 6(-1) = <span class="font-bold text-purple-600">-6 + 8i</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Powers of i and Complex Plane -->
+                <div class="space-y-8">
+                    <div class="bg-blue-900 text-white p-8 rounded-3xl shadow-lg">
+                        <h3 class="font-bold text-blue-200 mb-4 uppercase text-xs tracking-widest">Powers of i Cycle</h3>
+                        <p class="text-sm text-blue-100 mb-6">The powers of i repeat in a predictable cycle of four!</p>
+                        <div class="space-y-3 font-mono text-center text-lg bg-blue-800 p-4 rounded-xl border border-blue-700">
+                            <div>i¹ = i</div>
+                            <div class="text-amber-300 font-bold">i² = -1</div>
+                            <div>i³ = -i</div>
+                            <div>i⁴ = 1</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                        <h3 class="font-bold text-slate-800 mb-3">Real-World: AC Circuits</h3>
+                        <p class="text-sm text-slate-600 mb-4">Electrical engineers use complex numbers to measure <b>impedance</b> (resistance to alternating current). The real part is standard resistance, and the imaginary part is reactance!</p>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-sm">
+                            <p class="font-bold text-slate-700 mb-2">Guided Example:</p>
+                            <p class="text-slate-600 mb-3">Find the total impedance of two components connected in a series: <b>Z₁ = 4 + 3i</b> Ω and <b>Z₂ = 2 - i</b> Ω. <em>(Hint: add them together)</em></p>
+                            <div class="font-mono text-xs bg-white p-3 rounded-lg border border-slate-200 text-slate-700 leading-relaxed">
+                                Z_total = (4 + 3i) + (2 - i)<br>
+                                Z_total = (4 + 2) + (3i - i)<br>
+                                <span class="font-bold text-emerald-600 text-sm">Z_total = 6 + 2i Ω</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visualizing Rotation Interactive -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mt-8 mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4 text-center">Visualizing Multiplication by \( i \)</h2>
+                <p class="text-slate-600 text-center mb-8 max-w-2xl mx-auto">In the complex plane, multiplying a number by \( i \) is exactly the same as <b>rotating it by 90° counter-clockwise</b>! Try it yourself below.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+                    <div class="flex flex-col items-center justify-center space-y-6 bg-purple-50 p-8 rounded-3xl border border-purple-100 h-full">
+                        <div class="text-sm font-bold text-purple-400 uppercase tracking-widest">Current Value</div>
+                        <div class="text-6xl font-mono font-black h-20 flex items-center justify-center transition-colors text-emerald-500" id="current-i-val">1</div>
+                        <div class="flex flex-col gap-3 w-full max-w-xs">
+                            <button id="btn-mult-i" class="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white text-lg font-bold rounded-2xl shadow-lg transition-all active:scale-95 flex justify-center items-center gap-3">
+                                <span>Multiply by i (90°)</span>
+                                <span class="text-2xl leading-none">↺</span>
+                            </button>
+                            <button id="btn-mult-neg1" class="w-full py-3 bg-slate-700 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-md transition-all active:scale-95 flex justify-center items-center gap-3">
+                                <span>Multiply by -1 (180°)</span>
+                                <span class="text-xl leading-none">↻</span>
+                            </button>
+                        </div>
+                        <p class="text-sm text-purple-800/70 max-w-xs text-center mt-4">Notice how four 90° rotations (or two 180° rotations) bring you right back to where you started. This forms the repeating cycle of 4!</p>
+                    </div>
+                    
+                    <div class="canvas-container h-[350px] border border-slate-200 flex items-center justify-center bg-slate-50 w-full" id="cpContainer">
+                        <canvas id="complexPlaneCanvas" width="400" height="350"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+    <script>
+        const cpCanvas = document.getElementById('complexPlaneCanvas');
+        const cpCtx = cpCanvas.getContext('2d');
+        const btnMultI = document.getElementById('btn-mult-i');
+        const btnMultNeg1 = document.getElementById('btn-mult-neg1');
+        const currentIVal = document.getElementById('current-i-val');
+
+        const iValues = ['1', 'i', '-1', '-i'];
+        const iColors = ['#10b981', '#3b82f6', '#f43f5e', '#f59e0b']; // emerald, blue, rose, amber
+        const tailwindColors = ['text-emerald-500', 'text-blue-500', 'text-rose-500', 'text-amber-500'];
+        
+        let valIndex = 0;
+        let currentAngle = 0;
+        let targetAngle = 0;
+
+        function drawComplexPlane() {
+            const container = cpCanvas.parentElement;
+            if(container.clientWidth > 0 && cpCanvas.width !== container.clientWidth) {
+                cpCanvas.width = container.clientWidth;
+            }
+
+            cpCtx.clearRect(0, 0, cpCanvas.width, cpCanvas.height);
+            const cx = cpCanvas.width / 2;
+            const cy = cpCanvas.height / 2;
+            const radius = Math.min(cx, cy) * 0.65;
+
+            // Draw Axes
+            cpCtx.strokeStyle = '#cbd5e1';
+            cpCtx.lineWidth = 2;
+            cpCtx.beginPath();
+            cpCtx.moveTo(0, cy); cpCtx.lineTo(cpCanvas.width, cy); // Real Axis
+            cpCtx.moveTo(cx, 0); cpCtx.lineTo(cx, cpCanvas.height); // Imaginary Axis
+            cpCtx.stroke();
+
+            // Labels
+            cpCtx.fillStyle = '#64748b';
+            cpCtx.font = 'bold 14px sans-serif';
+            cpCtx.fillText('Re', cpCanvas.width - 25, cy - 10);
+            cpCtx.fillText('Im', cx + 10, 20);
+            
+            // Axis ticks
+            cpCtx.fillStyle = '#94a3b8';
+            cpCtx.font = 'bold 12px monospace';
+            cpCtx.fillText('1', cx + radius - 4, cy + 15);
+            cpCtx.fillText('i', cx - 15, cy - radius + 4);
+            cpCtx.fillText('-1', cx - radius - 15, cy + 15);
+            cpCtx.fillText('-i', cx - 20, cy + radius + 4);
+
+            // Draw Unit Circle
+            cpCtx.beginPath();
+            cpCtx.strokeStyle = '#e2e8f0';
+            cpCtx.setLineDash([5, 5]);
+            cpCtx.arc(cx, cy, radius, 0, Math.PI * 2);
+            cpCtx.stroke();
+            cpCtx.setLineDash([]);
+
+            // Smooth angle animation
+            currentAngle += (targetAngle - currentAngle) * 0.1;
+
+            // Calculate current vector position
+            const px = cx + radius * Math.cos(currentAngle);
+            const py = cy - radius * Math.sin(currentAngle);
+
+            // Wedge Fill for rotation trail
+            if (currentAngle > 0.01) {
+                cpCtx.beginPath();
+                cpCtx.fillStyle = 'rgba(147, 51, 234, 0.1)';
+                cpCtx.moveTo(cx, cy);
+                cpCtx.arc(cx, cy, radius, 0, -currentAngle, true);
+                cpCtx.closePath();
+                cpCtx.fill();
+            }
+
+            const currentColor = iColors[valIndex];
+
+            // Draw Vector Line
+            cpCtx.beginPath();
+            cpCtx.strokeStyle = currentColor;
+            cpCtx.lineWidth = 4;
+            cpCtx.lineCap = 'round';
+            cpCtx.moveTo(cx, cy);
+            cpCtx.lineTo(px, py);
+            cpCtx.stroke();
+
+            // Vector Arrow Head
+            const headlen = 12;
+            const angle = Math.atan2(cy - py, cx - px);
+            cpCtx.beginPath();
+            cpCtx.moveTo(px, py);
+            cpCtx.lineTo(px + headlen * Math.cos(angle - Math.PI / 6), py + headlen * Math.sin(angle - Math.PI / 6));
+            cpCtx.moveTo(px, py);
+            cpCtx.lineTo(px + headlen * Math.cos(angle + Math.PI / 6), py + headlen * Math.sin(angle + Math.PI / 6));
+            cpCtx.stroke();
+
+            // Endpoint Dot
+            cpCtx.beginPath();
+            cpCtx.fillStyle = currentColor;
+            cpCtx.arc(px, py, 6, 0, Math.PI*2);
+            cpCtx.fill();
+
+            requestAnimationFrame(drawComplexPlane);
+        }
+
+        function updateDisplay() {
+            currentIVal.innerText = iValues[valIndex];
+            currentIVal.className = `text-6xl font-mono font-black h-20 flex items-center justify-center transition-colors ${tailwindColors[valIndex]}`;
+        }
+
+        btnMultI.addEventListener('click', () => {
+            targetAngle += Math.PI / 2;
+            valIndex = (valIndex + 1) % 4;
+            updateDisplay();
+        });
+
+        btnMultNeg1.addEventListener('click', () => {
+            targetAngle += Math.PI;
+            valIndex = (valIndex + 2) % 4;
+            updateDisplay();
+        });
+
+        // Start Animation Loop
+        updateDisplay();
+        drawComplexPlane();
+    </script>
 </body>
 </html>

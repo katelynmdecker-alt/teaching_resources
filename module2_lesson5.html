@@ -48,7 +48,141 @@
                 </div>
                 <div class="absolute -left-10 -bottom-10 text-white/5 text-9xl font-black select-none">±</div>
             </div>
+
+            <!-- Interactive Discriminant Explorer -->
+            <div class="mt-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Discriminant Explorer</h2>
+                        <p class="text-sm text-slate-500">Step through the process to discover the nature of the roots.</p>
+                    </div>
+                    <select id="example-select" class="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-medium text-slate-700 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all shadow-sm">
+                        <option value="0">Example 1: x² - 5x + 6 = 0</option>
+                        <option value="1">Example 2: x² - 4x + 4 = 0</option>
+                        <option value="2">Example 3: 2x² + 3x + 5 = 0</option>
+                    </select>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Problem Area -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 text-center flex flex-col justify-center min-h-[160px]">
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Standard Form Equation</div>
+                            <div id="active-equation" class="text-3xl font-mono font-bold text-slate-800 tracking-tight"></div>
+                        </div>
+                        <button id="step-btn" class="w-full py-4 bg-emerald-600 text-white font-bold rounded-2xl hover:bg-emerald-700 transition-all shadow-lg active:scale-95">
+                            Step 1: Find a, b, c ▶
+                        </button>
+                    </div>
+                    
+                    <!-- Step-by-Step Terminal -->
+                    <div class="bg-slate-900 text-white p-6 rounded-2xl font-mono text-sm leading-relaxed shadow-inner flex flex-col h-[260px] md:h-[300px]">
+                        <div class="text-emerald-400 mb-4 uppercase tracking-widest text-xs font-bold border-b border-slate-700 pb-2">Analysis Terminal</div>
+                        <div id="terminal-output" class="space-y-3 overflow-y-auto flex-1 pr-2">
+                            <!-- Steps get injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discriminant Flowchart -->
+            <div class="mt-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6 text-center">Discriminant Summary</h2>
+                
+                <div class="flex justify-center mb-6">
+                    <div class="bg-slate-800 text-white font-bold py-3 px-8 rounded-full shadow-md">
+                        Calculate Δ = b² - 4ac
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-6 justify-center relative">
+                    <div class="flex-1 bg-emerald-50 p-6 rounded-2xl border-t-4 border-emerald-500 text-center shadow-sm">
+                        <div class="text-xl font-bold text-emerald-700 mb-2">Δ &gt; 0</div>
+                        <div class="text-sm text-slate-600 mb-4">Positive</div>
+                        <div class="font-black text-slate-800 text-lg">2 Real Solutions</div>
+                        <p class="text-xs text-slate-500 mt-2">Crosses x-axis twice</p>
+                    </div>
+                    <div class="flex-1 bg-blue-50 p-6 rounded-2xl border-t-4 border-blue-500 text-center shadow-sm">
+                        <div class="text-xl font-bold text-blue-700 mb-2">Δ = 0</div>
+                        <div class="text-sm text-slate-600 mb-4">Zero</div>
+                        <div class="font-black text-slate-800 text-lg">1 Real Solution</div>
+                        <p class="text-xs text-slate-500 mt-2">Touches x-axis once</p>
+                    </div>
+                    <div class="flex-1 bg-rose-50 p-6 rounded-2xl border-t-4 border-rose-500 text-center shadow-sm">
+                        <div class="text-xl font-bold text-rose-700 mb-2">Δ &lt; 0</div>
+                        <div class="text-sm text-slate-600 mb-4">Negative</div>
+                        <div class="font-black text-slate-800 text-lg">2 Complex Solutions</div>
+                        <p class="text-xs text-slate-500 mt-2">Never touches x-axis</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
+    <script>
+        const examples = [
+            { a: 1, b: -5, c: 6 },  // 2 Real Roots (25 - 24 = 1)
+            { a: 1, b: -4, c: 4 },  // 1 Real Root (16 - 16 = 0)
+            { a: 2, b: 3, c: 5 }    // 2 Complex Roots (9 - 40 = -31)
+        ];
+
+        let currentStep = 0;
+        let currentExIdx = 0;
+
+        const selectEl = document.getElementById('example-select');
+        const eqEl = document.getElementById('active-equation');
+        const btnEl = document.getElementById('step-btn');
+        const termEl = document.getElementById('terminal-output');
+
+        function formatEq(ex) {
+            const signB = ex.b < 0 ? '-' : '+';
+            const signC = ex.c < 0 ? '-' : '+';
+            return `<span id="term-a" class="px-1 rounded transition-colors">${ex.a}</span>x² <span id="term-b" class="px-1 rounded transition-colors">${signB} ${Math.abs(ex.b)}</span>x <span id="term-c" class="px-1 rounded transition-colors">${signC} ${Math.abs(ex.c)}</span> = 0`;
+        }
+
+        function initExample() {
+            currentStep = 0;
+            currentExIdx = parseInt(selectEl.value);
+            eqEl.innerHTML = formatEq(examples[currentExIdx]);
+            termEl.innerHTML = '<div class="text-slate-500">// Ready to analyze equation...</div>';
+            btnEl.innerText = "Step 1: Find a, b, c ▶";
+            btnEl.disabled = false;
+            btnEl.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-slate-600', 'hover:bg-slate-700');
+            btnEl.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+        }
+
+        selectEl.addEventListener('change', initExample);
+
+        btnEl.addEventListener('click', () => {
+            const ex = examples[currentExIdx];
+            if (currentStep === 0) {
+                document.getElementById('term-a').classList.add('bg-rose-200', 'text-rose-900');
+                document.getElementById('term-b').classList.add('bg-blue-200', 'text-blue-900');
+                document.getElementById('term-c').classList.add('bg-emerald-200', 'text-emerald-900');
+                termEl.innerHTML += `<div class="mt-2"><span class="text-rose-400">a = ${ex.a}</span>, <span class="text-blue-400">b = ${ex.b}</span>, <span class="text-emerald-400">c = ${ex.c}</span></div>`;
+                btnEl.innerText = "Step 2: Discriminant Setup (b² - 4ac) ▶";
+            } else if (currentStep === 1) {
+                termEl.innerHTML += `<div class="mt-3 text-slate-400">Setup: Δ = (${ex.b})² - 4(${ex.a})(${ex.c})</div>`;
+                btnEl.innerText = "Step 3: Calculate Value ▶";
+            } else if (currentStep === 2) {
+                const b2 = ex.b * ex.b, ac4 = 4 * ex.a * ex.c;
+                termEl.innerHTML += `<div>Calc:  Δ = ${b2} - ${ac4}</div>`;
+                termEl.innerHTML += `<div class="text-white font-bold">Result: Δ = ${b2 - ac4}</div>`;
+                btnEl.innerText = "Step 4: Analyze Solutions ▶";
+            } else if (currentStep === 3) {
+                const disc = (ex.b * ex.b) - (4 * ex.a * ex.c);
+                const analysis = disc > 0 ? "Δ > 0 ➔ 2 Real Solutions" : disc === 0 ? "Δ = 0 ➔ 1 Real Solution" : "Δ < 0 ➔ 2 Non-Real (Complex) Solutions";
+                const color = disc > 0 ? "text-emerald-400" : disc === 0 ? "text-blue-400" : "text-rose-400";
+                termEl.innerHTML += `<div class="mt-4 ${color} font-bold text-base bg-white/10 p-3 rounded-lg border-l-4 ${disc > 0 ? 'border-emerald-400' : disc === 0 ? 'border-blue-400' : 'border-rose-400'}">${analysis}</div>`;
+                btnEl.innerText = "Analysis Complete ✓";
+                btnEl.disabled = true;
+                btnEl.classList.add('opacity-50', 'cursor-not-allowed', 'bg-slate-600');
+                btnEl.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+            }
+            currentStep++;
+            termEl.scrollTop = termEl.scrollHeight;
+        });
+
+        window.onload = initExample;
+    </script>
 </body>
 </html>

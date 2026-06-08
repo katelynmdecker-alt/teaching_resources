@@ -49,17 +49,60 @@
                     <div id="tileLog" class="bg-slate-900 text-white p-6 rounded-2xl font-mono text-sm leading-relaxed min-h-[140px] shadow-inner">
                         <span class="text-slate-500">// Status:</span> Waiting to start...
                     </div>
-                </div>
-                <div class="lg:col-span-2">
-                    <div class="canvas-container h-[450px] border border-slate-200 flex items-center justify-center bg-slate-50 overflow-visible" id="tileStage">
-                        <div id="tileField" class="relative w-[300px] h-[300px]"></div>
-                    </div>
+
                     <!-- CTS Scaffolding -->
-                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-emerald-500 mt-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-emerald-500">
                         <h4 class="font-bold text-slate-800 mb-4">Algebraic Scaffolding</h4>
                         <p class="text-sm text-slate-600 mb-2">The goal of "Completing the Square" is to find the missing constant that makes a perfect square trinomial.</p>
                         <div class="bg-slate-50 p-4 rounded-xl text-center font-mono text-emerald-700">
                             $$ \text{Target Constant} = \left( \frac{b}{2} \right)^2 $$
+                        </div>
+                    </div>
+                    
+                    <!-- Fun Fact -->
+                    <div class="bg-purple-900 text-white p-6 rounded-2xl shadow-lg border-t-4 border-purple-400 relative overflow-hidden">
+                        <div class="relative z-10">
+                            <h4 class="font-bold text-purple-200 mb-2 uppercase text-xs tracking-widest">🧠 Ancient Math Hack</h4>
+                            <p class="text-sm text-purple-50 leading-relaxed mb-3">
+                                Babylonian mathematicians used <b>Completing the Square</b> over 4,000 years ago to calculate land areas and farming taxes!
+                            </p>
+                            <p class="text-sm text-purple-50 leading-relaxed">
+                                Al-Khwarizmi later literally named his 9th-century book on algebra after this exact "completion" method.
+                            </p>
+                        </div>
+                        <div class="absolute -right-4 -bottom-4 text-purple-800/80 text-7xl font-black -rotate-12 select-none">📜</div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="canvas-container h-[450px] border border-slate-200 flex items-center justify-center bg-slate-50 overflow-visible" id="tileStage">
+                        <div id="tileField" class="relative w-[300px] h-[300px]"></div>
+                    </div>
+
+                    <!-- Solving Example -->
+                    <div class="bg-white p-6 rounded-2xl shadow-md border-t-4 border-blue-500 flex flex-col">
+                        <h4 class="font-bold text-slate-800 mb-4">Solving an Equation</h4>
+                        <p class="text-sm text-slate-600 mb-4">Let's solve <span class="font-mono text-slate-800 bg-slate-100 px-2 py-1 rounded">x² + <span id="solve-b1">6</span>x <span id="solve-c1">- 7</span> = 0</span> using Completing the Square.</p>
+                        <div class="space-y-3 font-mono text-sm flex-1">
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-xs text-blue-600 font-bold uppercase tracking-wider md:w-40 shrink-0">Step 1: Move Constant</span>
+                                <span class="text-slate-700">x² + <span id="solve-b2">6</span>x = <span id="solve-step1-rhs">7</span></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-xs text-blue-600 font-bold uppercase tracking-wider md:w-40 shrink-0">Step 2: Add (b/2)²</span>
+                                <span class="text-slate-700">x² + <span id="solve-b3">6</span>x <span class="text-emerald-500 font-bold">+ <span id="solve-target1">9</span></span> = <span id="solve-step1-rhs2">7</span> <span class="text-emerald-500 font-bold">+ <span id="solve-target2">9</span></span></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-xs text-blue-600 font-bold uppercase tracking-wider md:w-40 shrink-0">Step 3: Perfect Square</span>
+                                <span class="text-slate-700">(x + <span id="solve-halfB">3</span>)² = <span id="solve-rhsSq">16</span></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-xs text-blue-600 font-bold uppercase tracking-wider md:w-40 shrink-0">Step 4: Square Root</span>
+                                <span class="text-slate-700">x + <span id="solve-halfB2">3</span> = ±<span id="solve-rhsRoot">4</span></span>
+                            </div>
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 p-3 bg-slate-50 rounded-lg border border-slate-100">
+                                <span class="text-xs text-blue-600 font-bold uppercase tracking-wider md:w-40 shrink-0">Step 5: Solve</span>
+                                <span class="text-slate-700">x = -<span id="solve-halfB3">3</span> ± <span id="solve-rhsRoot2">4</span> &nbsp; ➔ &nbsp; <strong class="text-rose-600">x = <span id="solve-ans1">1</span>, x = <span id="solve-ans2">-7</span></strong></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -123,13 +166,52 @@
             startAnim.disabled = false;
         }
 
-        tileB.oninput = () => { document.getElementById('tileBVal').innerText = tileB.value; tileField.innerHTML=''; tileLog.innerText = '// Terminal: Ready'; };
+        function updateSolvingExample(b) {
+            const halfB = b / 2;
+            const target = halfB * halfB;
+            let c = target - 16;
+            let rhsPerfectSquare = 16;
+            let rhsRoot = 4;
+            
+            if (c === 0) {
+                c = target - 25;
+                rhsPerfectSquare = 25;
+                rhsRoot = 5;
+            }
+
+            document.getElementById('solve-b1').innerText = b;
+            document.getElementById('solve-b2').innerText = b;
+            document.getElementById('solve-b3').innerText = b;
+            
+            document.getElementById('solve-c1').innerText = c < 0 ? `- ${Math.abs(c)}` : `+ ${c}`;
+            
+            const step1Rhs = -c;
+            document.getElementById('solve-step1-rhs').innerText = step1Rhs;
+            document.getElementById('solve-step1-rhs2').innerText = step1Rhs;
+            
+            document.getElementById('solve-target1').innerText = target;
+            document.getElementById('solve-target2').innerText = target;
+            
+            document.getElementById('solve-halfB').innerText = halfB;
+            document.getElementById('solve-halfB2').innerText = halfB;
+            document.getElementById('solve-halfB3').innerText = halfB;
+            
+            document.getElementById('solve-rhsSq').innerText = rhsPerfectSquare;
+            document.getElementById('solve-rhsRoot').innerText = rhsRoot;
+            document.getElementById('solve-rhsRoot2').innerText = rhsRoot;
+            
+            document.getElementById('solve-ans1').innerText = -halfB + rhsRoot;
+            document.getElementById('solve-ans2').innerText = -halfB - rhsRoot;
+        }
+
+        tileB.oninput = () => { const val = parseInt(tileB.value); document.getElementById('tileBVal').innerText = val; tileField.innerHTML=''; tileLog.innerText = '// Terminal: Ready'; updateSolvingExample(val); };
         startAnim.onclick = runTiles;
 
         // Initial Setup to prevent a blank container on load
         window.onload = () => {
             tileField.innerHTML = '<div class="tile-x2 absolute" style="width:120px;height:120px;left:0;top:0;">x²</div>';
             tileLog.innerText = '// Terminal: Ready. Click "Start Construction" to see the process.';
+            updateSolvingExample(parseInt(tileB.value));
         };
     </script>
 </body>
